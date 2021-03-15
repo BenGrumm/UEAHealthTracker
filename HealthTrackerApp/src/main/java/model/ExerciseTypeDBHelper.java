@@ -38,6 +38,9 @@ public class ExerciseTypeDBHelper {
 
     private static final String addExercise = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_TYPE + ", " + COLUMN_CALORIES_PER_KG_PER_HOUR + ") VALUES(\"%s\", %s)";
 
+    /**
+     * Function to scan through csv and convert relevant info to database
+     */
     public void initialiseExerciseTypeDBFromCSV(){
         File file = new File("src/main/resources/exercise_dataset.csv");
         try {
@@ -55,6 +58,7 @@ public class ExerciseTypeDBHelper {
                 String[] splitLine = fileScanner.nextLine().split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 try {
+                    // Input data into query removing any quotes in the description of exercise
                     String sql = String.format(addExercise, splitLine[0].replaceAll("\"", ""), splitLine[5]);
                     System.out.println(sql);
                     db.insertData(sql);
