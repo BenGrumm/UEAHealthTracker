@@ -2,6 +2,8 @@ package model;
 
 import java.sql.*;
 
+// 1 sec
+
 public class Database {
 
     private static final int iTimeout = 30;
