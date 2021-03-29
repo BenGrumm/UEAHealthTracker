@@ -10,23 +10,9 @@ import javafx.scene.control.Menu;
 import javafx.stage.Stage;
 
 public class Controller {
-
     @FXML
-    private Menu logIn;
-
-    @FXML
-    private Button wadbutton;
-
-    @FXML
-    void changeScene(ActionEvent event) {
-
-        /*Stage stage = (Stage) wadbutton.getScene().getWindow();
-        try{
-            Parent root = FXMLLoader.load(getClass().getResource("/testing2.fxml"));
-            stage.setScene(new Scene(root, 400,400));
-        }catch (Exception e){
-
-        }*/
+    public void changeScene(ActionEvent event) {
+        System.out.println("wad");
     }
 
 }

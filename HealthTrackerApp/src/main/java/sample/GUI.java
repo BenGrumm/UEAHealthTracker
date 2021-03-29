@@ -4,24 +4,19 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-<<<<<<< Updated upstream
-        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-=======
-        Parent root = FXMLLoader.load(getClass().getResource("/testing.fxml"));
-        Parent root2 = FXMLLoader.load(getClass().getResource("/testing2.fxml"));
-        primaryStage.setTitle("Hello World 5");
->>>>>>> Stashed changes
-        primaryStage.setScene(new Scene(root, 300, 275));
 
+        Parent root = FXMLLoader.load(getClass().getResource("/main_menu.fxml"));
+        primaryStage.setTitle("UEA Health Tracker");
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.getIcons().add(new Image("/icon.png"));
         primaryStage.show();
-
     }
 
 }
