@@ -1,4 +1,4 @@
-package sample;
+package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +10,14 @@ import javafx.scene.control.Menu;
 import javafx.stage.Stage;
 
 public class Controller {
+
+    //Global
     @FXML
-    public void changeScene(ActionEvent event) {
-        System.out.println("wad");
+    public void gotoLogIn(ActionEvent event)
+    {
+
     }
+
 
 }
 
