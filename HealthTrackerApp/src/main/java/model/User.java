@@ -11,13 +11,28 @@ import java.util.Base64;
 
 public class User {
 
-    private String firstName, surname,email,password;
+    private String firstName, surname,email,password,username;
     private float height;
+    private int weightStone, weightPounds;
+    private Gender gender;
 
-    public User(String firstName, String lastName, String email, String password, float height) {
+    public enum Gender {MALE, FEMALE, UNDEFINED}
+
+    public User(String firstName, String lastName, String email, String password, float height, String gender) {
         this.firstName = encodeString(firstName);
         this.surname = encodeString(lastName);
         this.password = encodeString(password);
+
+        switch(gender.toLowerCase()){
+            case "male":
+                this.gender = Gender.MALE;
+                break;
+            case "female":
+                this.gender = Gender.FEMALE;
+                break;
+            default:
+                this.gender = Gender.UNDEFINED;
+        }
 
         this.email = email;
         this.height = height;
@@ -82,4 +97,11 @@ public class User {
         return height;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 }
