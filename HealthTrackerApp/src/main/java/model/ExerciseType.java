@@ -2,4 +2,21 @@ package model;
 
 public class ExerciseType {
 
+    private int dbID;
+    private String exerciseDescription;
+    private float caloriesBurnedPerKGPerHour;
+
+    public float getCaloriesBurned(){
+        return 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return dbID;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ExerciseType && dbID == ((ExerciseType) obj).dbID;
+    }
 }
