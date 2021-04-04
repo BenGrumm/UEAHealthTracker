@@ -94,8 +94,8 @@ public class Group {
     /** Test Harness **/
 
     public static void main(String[] args) {
-        Group group1 = new Group(1,1,"Test1","");
-        Group group2 = new Group(1,"Test2","Desc");
+        Group group1 = new Group(1,1,"Test1","","Admin");
+        Group group2 = new Group(1,"Test2","Desc","Member");
 
         System.out.println(group1.getiD());
         System.out.println(group1.getName());
