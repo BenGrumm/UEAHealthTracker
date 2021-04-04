@@ -9,9 +9,13 @@ package model;
 public class Group {
 
     private int iD, size;
-    private String name, description;
+    private String name, description, role;
 
     /** Getters **/
+
+    public String getRole() {
+        return role;
+    }
     public int getiD() {
         return iD;
     }
@@ -47,6 +51,10 @@ public class Group {
         this.description = description;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     /** Additional Methods **/
     public void generateiD(){
         int generatedID = 0;
@@ -66,19 +74,21 @@ public class Group {
     /**Constructors**/
 
     //Without ID. (Preferred)
-    public Group(int size, String name, String description) {
+    public Group(int size, String name, String description, String role) {
         generateiD();
         this.size = size;
         this.name = name;
         this.description = description;
+        this.role = role;
     }
 
     //With ID
-    public Group(int iD, int size, String name, String description) {
+    public Group(int iD, int size, String name, String description,String role) {
         setiD(iD);
         this.size = size;
         this.name = name;
         this.description = description;
+        this.role = role;
     }
 
     /** Test Harness **/
