@@ -7,9 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import model.User;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * This class is the controller for the registration from the main_menu UI. It works by setting storing all the
@@ -85,6 +88,11 @@ public class registerController extends Controller implements Initializable {
             boolean validPassword = checkValidPassword(password);
             boolean verifyPasswords = verifyPasswords(password, passwordVerification);
 
+            if (validEmail && validPassword && verifyPasswords){
+                User newUser = new User(firstname,surname,username,email,password,height,stone,pounds, gender);
+                System.out.println(newUser.getPassword());
+            }
+
         }
         else{
             changeErrorNotificationLabel("Error: Please fill in all the required information");
@@ -93,16 +101,47 @@ public class registerController extends Controller implements Initializable {
     }
 
     private boolean verifyPasswords(String password, String passwordVerification) {
-        return false;
+        return password.equals(passwordVerification);
     }
 
     private boolean checkValidPassword(String password) {
-        passwordText.setTooltip(new Tooltip("Contain a number peasant"));
-        return false;
+        int minPasswordLength = 6;
+        int maxPasswordLength = 16;
+        if (password.length() > maxPasswordLength || password.length() < minPasswordLength){
+            return false;
+        }
+
+        boolean containsInteger = false;
+        boolean containsLowercaseCharacter = false;
+        boolean containsUppercaseCharacter = false;
+
+        List<Character> intList = Arrays.asList('0','1','2','3','4','5','6','7','8','9');
+        List<Character> lowercaseCharList = Arrays.asList('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',
+                                            'p','q','r','s','t','u','v','w','x','y','z');
+
+        List<Character> uppercaseCharList = new ArrayList<>(Collections.emptyList());
+        for (char c : lowercaseCharList){
+            uppercaseCharList.add(Character.toUpperCase(c));
+        }
+
+        for (char c : password.toCharArray()){
+            if (intList.contains(c)){
+                containsInteger = true;
+            }
+            else if (lowercaseCharList.contains(c)){
+                containsLowercaseCharacter = true;
+            }
+            else if (uppercaseCharList.contains(c)){
+                containsUppercaseCharacter = true;
+            }
+        }
+        return containsInteger && containsLowercaseCharacter && containsUppercaseCharacter;
     }
 
     private boolean checkValidEmail(String email) {
-        return false;
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(email).matches();
     }
 
     /**
@@ -201,6 +240,16 @@ public class registerController extends Controller implements Initializable {
         heightSpinner.setValueFactory(heightSpinnerSVF);
         ObservableList<String> genders = FXCollections.observableArrayList("Male", "Female");
         genderBox.setItems(genders);
+
+        Tooltip passwordTooltip = new Tooltip("Password must contain number, lowercase \n" +
+                "and an uppercase character. Length must \n" +
+                "be between 6 and 16 characters.");
+        passwordTooltip.setGraphic(new ImageView("/warning_icon.png"));
+        passwordText.setTooltip(passwordTooltip);
+
+        Tooltip passwordVerificationTooltip = new Tooltip("Passwords must match!");
+        passwordVerificationTooltip.setGraphic(new ImageView("/warning_icon.png"));
+        passwordVerificationText.setTooltip(passwordVerificationTooltip);
     }
 
 }

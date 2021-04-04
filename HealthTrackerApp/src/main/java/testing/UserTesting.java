@@ -6,8 +6,8 @@ public class UserTesting {
 
     public static void main(String[] args) {
 
-        User user = new User("John","Smith","J.Smith@uea.ac.uk","jsmith1!",
-                178,10,1,"male");
+        User user = new User("John","Smith","jsmith1","J.Smith@uea.ac.uk",
+                "jsmith1!",172.5, 10,1,"male");
 
         System.out.println(user.getGender());
 

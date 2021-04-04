@@ -12,16 +12,17 @@ import java.util.Base64;
 public class User {
 
     private String firstName, surname,email,password,username;
-    private float height;
+    private double height;
     private int weightStone, weightPounds;
     private Gender gender;
 
     public enum Gender {MALE, FEMALE, UNDEFINED}
 
-    public User(String firstName, String lastName, String email, String password, float height,
+    public User(String firstName, String lastName, String username, String email, String password, double height,
                 int weightStone, int weightPounds, String gender) {
         this.firstName = encodeString(firstName);
         this.surname = encodeString(lastName);
+        this.username = username;
         this.password = encodeString(password);
         this.email = email;
         this.height = height;
@@ -38,8 +39,6 @@ public class User {
             default:
                 this.gender = Gender.UNDEFINED;
         }
-
-
     }
 
     /**
@@ -69,7 +68,7 @@ public class User {
     }
 
 
-    public void setHeight(float height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -93,11 +92,35 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public int getWeightStone() {
+        return weightStone;
+    }
+
+    public int getWeightPounds() {
+        return weightPounds;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setWeightStone(int weightStone) {
+        this.weightStone = weightStone;
+    }
+
+    public void setWeightPounds(int weightPounds) {
+        this.weightPounds = weightPounds;
+    }
+
     public void setPassword(String password) {
         this.password = encodeString(password);
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 
