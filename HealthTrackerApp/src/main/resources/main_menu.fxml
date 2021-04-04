@@ -34,9 +34,9 @@
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Firstname:" />
-            <TextField fx:id="firstnameText" />
+            <TextField fx:id="firstnameText" onKeyTyped="#changeColour" />
             <Label text="Surname:" />
-            <TextField fx:id="surnameText" />
+            <TextField fx:id="surnameText" onKeyTyped="#changeColour" />
          </children>
          <padding>
             <Insets left="10.0" />
@@ -45,20 +45,20 @@
       <HBox alignment="CENTER" layoutX="10.0" layoutY="100.0" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Username:" />
-            <TextField fx:id="usernameText" />
+            <TextField fx:id="usernameText" onKeyTyped="#changeColour" />
             <Label layoutX="128.0" layoutY="22.0" text="Email:" />
-            <TextField fx:id="emailText" />
+            <TextField fx:id="emailText" onKeyTyped="#changeColour" />
          </children>
          <padding>
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="140.0" prefHeight="47.0" prefWidth="597.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="140.0" prefHeight="51.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Password:" />
-            <PasswordField fx:id="passwordText" />
+            <PasswordField fx:id="passwordText" onKeyTyped="#changeColour" />
             <Label text="Password Verification:" />
-            <PasswordField fx:id="passwordVerificationText" layoutX="130.0" layoutY="21.0" />
+            <PasswordField fx:id="passwordVerificationText" layoutX="130.0" layoutY="21.0" onKeyTyped="#changeColour" />
          </children>
          <padding>
             <Insets left="10.0" />
@@ -67,13 +67,13 @@
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Weight (Stone):" />
-            <Spinner fx:id="weightStoneSpinner" editable="true">
+            <Spinner fx:id="weightStoneSpinner" editable="true" onKeyTyped="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </Spinner>
             <Label text="Weight (Pounds):" />
-            <Spinner fx:id="weightPoundsSpinner" editable="true">
+            <Spinner fx:id="weightPoundsSpinner" editable="true" onMouseClicked="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></Spinner>
@@ -82,12 +82,12 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="167.0" prefHeight="75.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="167.0" prefHeight="60.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Gender:" />
-            <ChoiceBox fx:id="genderBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="genderBox" onMouseExited="#changeColour" prefWidth="150.0" />
             <Label layoutX="253.0" layoutY="39.0" text="Height (cm):" />
-            <Spinner fx:id="heightSpinner" editable="true">
+            <Spinner fx:id="heightSpinner" editable="true" onMouseClicked="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
@@ -97,9 +97,17 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="75.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="321.0" prefHeight="24.0" prefWidth="600.0" spacing="10.0">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerAccount" prefHeight="25.0" prefWidth="176.0" text="Register" />
+            <Label fx:id="emptyFieldLabel" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="53.0" prefWidth="600.0" spacing="10.0">
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerAccount" prefHeight="32.0" prefWidth="176.0" text="Register" />
          </children>
          <padding>
             <Insets left="10.0" />

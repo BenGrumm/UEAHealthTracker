@@ -18,10 +18,15 @@ public class User {
 
     public enum Gender {MALE, FEMALE, UNDEFINED}
 
-    public User(String firstName, String lastName, String email, String password, float height, String gender) {
+    public User(String firstName, String lastName, String email, String password, float height,
+                int weightStone, int weightPounds, String gender) {
         this.firstName = encodeString(firstName);
         this.surname = encodeString(lastName);
         this.password = encodeString(password);
+        this.email = email;
+        this.height = height;
+        this.weightStone = weightStone;
+        this.weightPounds = weightPounds;
 
         switch(gender.toLowerCase()){
             case "male":
@@ -34,8 +39,7 @@ public class User {
                 this.gender = Gender.UNDEFINED;
         }
 
-        this.email = email;
-        this.height = height;
+
     }
 
     /**
