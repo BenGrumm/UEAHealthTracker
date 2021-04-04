@@ -80,12 +80,36 @@ public class registerController extends Controller implements Initializable {
                     "Gender: " + gender + "\n" +
                     "Weight: " + stone + " stone and " + pounds + " pounds" + "\n" +
                     "Height: " + height + "cm\n");
+
+            boolean validEmail = checkValidEmail(email);
+            boolean validPassword = checkValidPassword(password);
+            boolean verifyPasswords = verifyPasswords(password, passwordVerification);
+
         }
         else{
             changeErrorNotificationLabel("Error: Please fill in all the required information");
         }
 
     }
+
+    private boolean verifyPasswords(String password, String passwordVerification) {
+        return false;
+    }
+
+    private boolean checkValidPassword(String password) {
+        passwordText.setTooltip(new Tooltip("Contain a number peasant"));
+        return false;
+    }
+
+    private boolean checkValidEmail(String email) {
+        return false;
+    }
+
+    /**
+     * This section will check that all the required fields has data entered into them. This method will also change
+     * the colour of the field to red if the field is empty to indicate to the user that it is required to enter data.
+     * @return True if all fields have information or false if one or more field is empty.
+     */
 
     private boolean checkRequiredDataEntered(){
         boolean result = true;
