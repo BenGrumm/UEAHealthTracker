@@ -6,6 +6,16 @@ public class ExerciseType {
     private String exerciseDescription;
     private float caloriesBurnedPerKGPerHour;
 
+    public ExerciseType(int id, String description, float calsPerKGPerHour){
+        dbID = id;
+        exerciseDescription = description;
+        caloriesBurnedPerKGPerHour = calsPerKGPerHour;
+    }
+
+    public String getExerciseDescription(){
+        return exerciseDescription;
+    }
+
     public float getCaloriesBurned(){
         return 0;
     }

@@ -14,6 +14,7 @@ import model.ExerciseDBHelper;
 import model.ExerciseType;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class ViewActivitiesController extends Controller{
 
@@ -36,26 +37,14 @@ public class ViewActivitiesController extends Controller{
 
         // Exercise[] allExercises = new ExerciseDBHelper().getAllExercises();
         // TODO switch to getting db exercises
-        Exercise[] allExercises = {new Exercise(0, 12, 150, new ExerciseType(), LocalDate.now()),
-        new Exercise(1, 15, 120, new ExerciseType(), LocalDate.now().minusDays(13)),
-        new Exercise(2, 15, 120, new ExerciseType(), LocalDate.now()),
-        new Exercise(3, 20, 250, new ExerciseType(), LocalDate.now().plusDays(5))};
+        // in ascending order from smallest date to largest
+        ExerciseType et = new ExerciseType(2, "Running Fast", 12);
+        Exercise[] allExercises = {new Exercise(1, 15, 120, et, LocalDate.now().minusDays(13)),
+                new Exercise(0, 12, 150, et, LocalDate.now()),
+                new Exercise(2, 15, 120, et, LocalDate.now()),
+                new Exercise(3, 20, 250, et, LocalDate.now().plusDays(5))};
 
-        XYChart.Series<String, Double> series1 = new XYChart.Series<>();
-        XYChart.Series<String, Double> series2 = new XYChart.Series<>();
-
-        series1.setName("Mins Exercised");
-        series2.setName("Calories Burned");
-
-        if(allExercises != null){
-            for(Exercise e : allExercises){
-                series1.getData().add(new XYChart.Data<>(e.getDate().toString(), e.getMinutesExercised()));
-                series2.getData().add(new XYChart.Data<>(e.getDate().toString(), e.getCaloriesBurned()));
-            }
-        }
-
-        exerciseLineChart.getData().add(series1);
-        exerciseLineChart.getData().add(series2);
+        populateGraphWithRange(allExercises, allExercises[0].getDate(), allExercises[allExercises.length - 1].getDate());
 
     }
 
@@ -67,6 +56,52 @@ public class ViewActivitiesController extends Controller{
             System.out.println(java.sql.Date.valueOf(dateTo.getValue()));
         }
         graphLabel.setText("Label Set");
+    }
+
+    public void populateGraphWithRange(Exercise[] exercises, LocalDate xStart, LocalDate xEnd){
+        exerciseLineChart.getData().clear();
+
+        XYChart.Series<String, Double> minsExercise = new XYChart.Series<>();
+        XYChart.Series<String, Double> calsBurned = new XYChart.Series<>();
+
+        minsExercise.setName("Exercise Time (m)");
+        calsBurned.setName("Calories Burned");
+
+        int daysBetweenDates = (int) ChronoUnit.DAYS.between(xStart, xEnd);
+
+        if(daysBetweenDates > 0) {
+            int arrPosition = 0;
+            LocalDate date;
+            double minutesExercised;
+            double caloriesBurned;
+            // For every date in range, set number of mins exercised and calories burned for date
+            for (int i = 0; i <= daysBetweenDates; i++) {
+                System.out.println(arrPosition);
+                if(exercises != null && arrPosition < exercises.length && xStart.plusDays(i).equals(exercises[arrPosition].getDate())){
+                    date = exercises[arrPosition].getDate();
+                    caloriesBurned = exercises[arrPosition].getCaloriesBurned();
+                    minutesExercised = exercises[arrPosition].getMinutesExercised();
+
+                    // Only want one data point for every day so check if multiple entries for current day
+                    while((arrPosition + 1) < exercises.length && date.equals(exercises[arrPosition + 1].getDate())){
+                        System.out.println("In while = " + arrPosition);
+                        arrPosition++;
+                        caloriesBurned += exercises[arrPosition].getCaloriesBurned();
+                        minutesExercised += exercises[arrPosition].getMinutesExercised();
+                    }
+
+                    minsExercise.getData().add(new XYChart.Data<>(date.toString(), minutesExercised));
+                    calsBurned.getData().add(new XYChart.Data<>(date.toString(), caloriesBurned));
+                    arrPosition++;
+                }else{
+                    minsExercise.getData().add(new XYChart.Data<>(xStart.plusDays(i).toString(), 0.0));
+                    calsBurned.getData().add(new XYChart.Data<>(xStart.plusDays(i).toString(), 0.0));
+                }
+            }
+        }
+
+        exerciseLineChart.getData().add(minsExercise);
+        exerciseLineChart.getData().add(calsBurned);
     }
 
 }

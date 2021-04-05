@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox fx:id="hBox" alignment="CENTER" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER" prefWidth="250.0">
+      <children>
+          <ImageView>
+            <image>
+               <Image url="@icons/baseline_directions_run_black_24dp.png" />
+            </image>
+         </ImageView>
+          <Text fx:id="typeText" text="Exercise Type" />
+      </children>
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
+   </HBox>
+   <HBox alignment="CENTER" prefWidth="100.0">
+       <children>
+           <ImageView>
+               <image>
+                   <Image url="@icons/baseline_schedule_black_24dp.png" />
+               </image>
+           </ImageView>
+           <Text fx:id="minsText" text="Mins Exercised" />
+       </children>
+       <padding>
+           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+       </padding>
+   </HBox>
+    <HBox alignment="CENTER" prefWidth="100.0">
+        <children>
+            <ImageView>
+                <image>
+                    <Image url="@icons/baseline_local_dining_black_24dp.png" />
+                </image>
+            </ImageView>
+            <Text fx:id="calsText" text="Calories Burned" />
+        </children>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+    </HBox>
+    <HBox alignment="CENTER" prefWidth="100.0">
+        <children>
+            <ImageView>
+                <image>
+                    <Image url="@icons/baseline_today_black_24dp.png" />
+                </image>
+            </ImageView>
+            <Text fx:id="dateText" text="Date" />
+        </children>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+    </HBox>
+</HBox>
