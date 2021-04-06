@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.goalController">
    <children>
@@ -12,8 +14,6 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="248.0" GridPane.columnIndex="1">
@@ -22,14 +22,64 @@
                   <Button mnemonicParsing="false" text="Goals" />
                   <Button mnemonicParsing="false" text="Groups" />
                </items>
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
               <items>
                 <Button mnemonicParsing="false" text="Register" />
                   <Button mnemonicParsing="false" text="Log in" />
               </items>
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
             </ToolBar>
          </children>
       </GridPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <left>
+            <VBox alignment="TOP_CENTER" prefHeight="363.0" prefWidth="135.0" spacing="10.0" style="-fx-border-width: 1; -fx-border-color: Black; -fx-border-style: dotted;">
+               <children>
+                  <Label text="Goals">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" text="Personal goals" />
+                  <Button mnemonicParsing="false" text="Group goals" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Current weight:" />
+                        <Label text="0kg">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="11.0" layoutY="130.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Current height:" />
+                        <Label text="0m">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </left>
+         <VBox.margin>
+            <Insets top="7.0" />
+         </VBox.margin>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Goal objects WIP" />
+               </children>
+            </AnchorPane>
+         </center></BorderPane>
    </children>
 </VBox>
