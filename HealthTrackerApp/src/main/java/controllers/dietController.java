@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import model.Food;
 
 public class dietController extends Controller implements Initializable {
 
@@ -39,6 +40,7 @@ public class dietController extends Controller implements Initializable {
                 "Calories consumed: " + caloriesConsumed + "\n" +
                 "Meal: " + mealChoice + "\n" +
                 "Date consumed: " + foodDate);
+        Food foodEntry = new Food(foodName, Integer.parseInt(caloriesConsumed), mealChoice, foodDate);
     }
 
     public void createExerciseEntry(javafx.event.ActionEvent actionEvent) {
@@ -55,7 +57,12 @@ public class dietController extends Controller implements Initializable {
 
     /*
     to do:
+    create food type class and food database helper and food type database helper class
+    create predefined database of food and exercise types
     validate
+    - check when entering food or exercise that an exercise of the same name doesnt already exist in the database
+        if it does, suggest the user pick from the list instead (same for food) to stop lots of duplicates
+        - also, if food or exercise name not already exist in the database then add it for next time
     save to database when save button pressed
     allow for selection from predefined list of exercises
      */
