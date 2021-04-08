@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -73,7 +71,7 @@
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <TextField fx:id="caloriesText">
+                  <TextField fx:id="caloriesConsumedText">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
@@ -85,19 +83,7 @@
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <ComboBox fx:id="mealComboBox" prefWidth="150.0">
-                       <items>
-                           <FXCollections fx:factory="observableArrayList">
-                               <String fx:value="Breakfast" />
-                               <String fx:value="Lunch" />
-                               <String fx:value="Dinner" />
-                               <String fx:value="Snack" />
-                           </FXCollections>
-                       </items>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </ComboBox>
+                  <ChoiceBox fx:id="mealChoiceBox" prefWidth="150.0" />
                </children>
             </HBox>
             <Label text="Or search our list..." GridPane.rowIndex="8">
@@ -119,6 +105,7 @@
                <children>
                   <Label text="Duration: " />
                   <TextField fx:id="durationText" />
+                  <Label text="minutes" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
@@ -137,15 +124,21 @@
                   </Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Save exercise entry" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+            <Button mnemonicParsing="false" onAction="#createExerciseEntry" text="Save exercise entry" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="11">
                <children>
-                  <Button mnemonicParsing="false" text="Save diet entry " />
+                  <Button mnemonicParsing="false" onAction="#createDietEntry" text="Save diet entry ">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="12">
                <children>
-                  <Button mnemonicParsing="false" text="View diet entries" />
+                  <Button mnemonicParsing="false" text="View diet entries">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
@@ -155,7 +148,10 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
                <children>
-                  <Label text="Date: " />
+                  <Label text="Date: ">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></Label>
                   <DatePicker fx:id="foodDatePicker" />
                </children>
             </HBox>
