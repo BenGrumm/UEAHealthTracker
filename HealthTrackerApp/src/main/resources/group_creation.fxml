@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.groupController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -16,6 +16,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -36,17 +37,17 @@
                   <Button mnemonicParsing="false" text="Log in" />
               </items>
             </ToolBar>
-            <Label text="Group Name:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Label text="Group Name*:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <padding>
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <TextField promptText="Group Name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <TextField fx:id="groupNameInput" promptText="Group Name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="5.0" left="20.0" right="50.0" top="5.0" />
                </GridPane.margin>
             </TextField>
-            <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextArea fx:id="groupDescriptionInput" prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="5.0" left="20.0" right="50.0" top="5.0" />
                </GridPane.margin>
@@ -64,7 +65,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label text="Invite Members:" GridPane.rowIndex="5">
+            <Label fx:id="isTitle" text="Invite Members:" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -72,7 +73,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Invite Code:" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+            <Label fx:id="isInvCodeLabel" text="Invite Code:" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                <font>
                   <Font size="14.0" />
                </font>
@@ -80,7 +81,7 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <Label text="XO98OY" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <Label fx:id="isInviteCodeLabel" text="XO98OY" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -91,7 +92,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Label text="Add By Email:" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <Label fx:id="isAddEmailLabel" text="Add By Email:" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
                <font>
                   <Font size="14.0" />
                </font>
@@ -99,20 +100,26 @@
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <children>
-                  <TextField promptText="Email">
+                  <TextField fx:id="isEmailTextField" promptText="Email">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Invite">
+                  <Button fx:id="isInviteButton" mnemonicParsing="false" text="Invite">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
+            <Button fx:id="createGroupButton" mnemonicParsing="false" onAction="#CreateGroup" text="Create Group" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Label fx:id="errorLabel" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>
