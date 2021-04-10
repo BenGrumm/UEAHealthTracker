@@ -37,8 +37,8 @@ public class ExerciseDBHelper {
                                          COLUMN_EXERCISE_ID + " INTEGER , " +
                                          COLUMN_CALORIES_BURNED + " REAL , " +
                                          COLUMN_DATE + " TEXT , " +
-                                         " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " + ExerciseTypeDBHelper.TABLE_NAME + "(__id))";
-
+                                         " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " +
+                                         ExerciseTypeDBHelper.TABLE_NAME + "(__id))";
             db.createTable(createDBIfNotExists);
 
         }catch (SQLException sql){
@@ -101,7 +101,21 @@ public class ExerciseDBHelper {
         return exercises.toArray(new Exercise[exercises.size()]);
     }
 
-    public boolean addExerciseToDB(Exercise ex){
-        return false;
+
+    private static final String addExercise = "INSERT INTO " + TABLE_NAME + " ("
+            + COLUMN_MINUTES_EXERCISE + ", "
+            + COLUMN_CALORIES_BURNED + ", "
+            + COLUMN_DATE + ", "
+            + COLUMN_EXERCISE_ID + ") VALUES(%s, %s, %s, %s)";
+
+    public void addExerciseToDB(Exercise ex){
+        try {
+            String sql = String.format(addExercise, ex.getMinutesExercised(), ex.getCaloriesBurned(), ex.getDate(),
+                    ex.getExerciseT().getDbID());
+            System.out.println(sql);
+            db.insertData(sql);
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+        }
     }
 }
