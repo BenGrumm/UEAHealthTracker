@@ -161,6 +161,18 @@
                   <DatePicker fx:id="exerciseDatePicker" />
                </children>
             </HBox>
+            <ComboBox fx:id="exerciseSearchCombo" prefHeight="25.0" prefWidth="193.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <children>
+                  <TextField fx:id="exerciseSearchDurationText" prefHeight="25.0" prefWidth="50.0" />
+                  <Label prefHeight="30.0" prefWidth="133.0" text="Duration in minutes" wrapText="true">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#fillInSearchEntry" text="Confirm search" />
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>

@@ -17,8 +17,10 @@ public class ExerciseType {
     }
 
     public float getCaloriesBurned(){
-        return 0;
+        return caloriesBurnedPerKGPerHour;
     }
+
+    public int getDbID() { return dbID; }
 
     @Override
     public int hashCode() {
@@ -28,5 +30,14 @@ public class ExerciseType {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof ExerciseType && dbID == ((ExerciseType) obj).dbID;
+    }
+
+    @Override
+    public String toString() {
+        return "ExerciseType{" +
+                "dbID=" + dbID +
+                ", exerciseDescription='" + exerciseDescription + '\'' +
+                ", caloriesBurnedPerKGPerHour=" + caloriesBurnedPerKGPerHour +
+                '}';
     }
 }

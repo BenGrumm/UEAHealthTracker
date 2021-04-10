@@ -3,6 +3,9 @@ package model;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ExerciseTypeDBHelper {
@@ -19,6 +22,9 @@ public class ExerciseTypeDBHelper {
     public static void main(String[] args) {
         ExerciseTypeDBHelper e = new ExerciseTypeDBHelper();
         // e.initialiseExerciseTypeDBFromCSV();
+        for(ExerciseType ex : e.getAllExercises()){
+            System.out.println(ex);
+        }
     }
 
     public ExerciseTypeDBHelper(){
@@ -37,6 +43,31 @@ public class ExerciseTypeDBHelper {
 
         }
     }
+
+    public ExerciseType[] convertResultSetToExerciseType(ResultSet rs) throws SQLException{
+        ArrayList<ExerciseType> exercises = new ArrayList<>();
+
+        while(rs.next()){
+            int id = rs.getInt(ID_COLUMN);
+            String name = rs.getString(COLUMN_TYPE);
+            Float caloriesBurnedPerKGH = rs.getFloat(COLUMN_CALORIES_PER_KG_PER_HOUR);
+
+            exercises.add(new ExerciseType(id, name, caloriesBurnedPerKGH));
+        }
+        return exercises.toArray(new ExerciseType[exercises.size()]);
+    }
+
+    private static final String getAllExercises = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + ID_COLUMN + " ASC";
+    public ExerciseType[] getAllExercises(){
+        try {
+            ResultSet rs = db.selectQuery(getAllExercises);
+
+            return convertResultSetToExerciseType(rs);
+        }catch (SQLException error){
+            return null;
+        }
+    }
+
 
     private static final String queryWithID = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID_COLUMN + " = %d";
 
