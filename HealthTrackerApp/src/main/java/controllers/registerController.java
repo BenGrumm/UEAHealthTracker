@@ -89,8 +89,19 @@ public class registerController extends Controller implements Initializable {
             boolean verifyPasswords = verifyPasswords(password, passwordVerification);
 
             if (validEmail && validPassword && verifyPasswords){
-                User newUser = new User(firstname,surname,username,email,password,height,stone,pounds, gender);
+                int id = 1;
+                User newUser = new User(id,firstname,surname,username,email,password,height,stone,pounds, gender);
                 System.out.println(newUser.getPassword());
+            }
+            else if (!validEmail){
+                changeErrorNotificationLabel("Error: Please enter valid email address (example@example.com)");
+            }
+            else if (!validPassword){
+                changeErrorNotificationLabel("Error: Please enter a valid password " +
+                        "(Hover over field for more info)");
+            }
+            else{
+                changeErrorNotificationLabel("Error: Please ensure that the passords match");
             }
 
         }
