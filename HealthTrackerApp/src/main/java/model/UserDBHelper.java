@@ -40,13 +40,13 @@ public class UserDBHelper {
                     COLUMN_SURNAME + " TEXT , " +
                     COLUMN_USERNAME + " TEXT , " +
                     COLUMN_PASSWORD + " TEXT , " +
-                    COLUMN_EMAIL + "TEXT , " +
-                    COLUMN_HEIGHT + "INTEGER , " +
-                    COLUMN_WEIGHT_STONE + "INTEGER , " +
-                    COLUMN_WEIGHT_POUNDS + "INTEGER , " +
-                    COLUMN_GENDER + "INTEGER";
+                    COLUMN_EMAIL + " TEXT , " +
+                    COLUMN_HEIGHT + " FLOAT , " +
+                    COLUMN_WEIGHT_STONE + " INTEGER , " +
+                    COLUMN_WEIGHT_POUNDS + " INTEGER , " +
+                    COLUMN_GENDER + " TEXT)";
 
-            //db.createTable(createDBIfNotExists);
+            db.createTable(createDBIfNotExists);
 
         }catch (SQLException sql){
             System.out.println("Error Accessing DB");
