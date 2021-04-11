@@ -22,7 +22,7 @@ public class Group {
     }
 
     public String getName() {
-        return GDBH.getGroupName(getiD());
+        return GDBH.getGroupName(this.iD);
     }
 
     public String getDescription() {
@@ -50,24 +50,28 @@ public class Group {
 
     /** Additional Methods **/
     public void saveGroup(){
-       boolean noDuplicateName = false;
-
-        if(noDuplicateName = false) {
+        if(!checkDuplicateName()) {
             this.iD = GDBH.addGroup(this.name, this.description, this.size);
         }
+        if(this.iD == 0){
+            System.out.println("Error: Saving Group");
+        }
+
         else{
             /* HANDLE PROPERLY */
-            System.out.println("Name not unique");
+            System.out.println("Name already exists, enter a different name");
         }
     }
 
 
-    public void generateiD(){
-        int generatedID = 0;
-
-        //Use database to work out unique ID
-
-        this.iD = generatedID;
+    /**Return true if the name exists, false if it doesn't **/
+    public boolean checkDuplicateName(){
+        if(GDBH.doesGroupNameExist(this.name)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public void incrementSize() {
@@ -94,7 +98,7 @@ public class Group {
         Group group2 = new Group("Test2","Desc");
 
         System.out.println(group2.iD);
-
+        System.out.println(group2.getName());
 
     }
 

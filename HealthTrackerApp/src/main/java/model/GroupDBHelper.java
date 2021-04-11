@@ -33,9 +33,8 @@ public class GroupDBHelper {
 
 
     /** Method to add group to database **/
-    //Returns False if error, true if not
+    //Returns ID when stored succesfully
     public int addGroup(String name, String desc, int size){
-
         try {
             // Input data into query removing any quotes in the description of exercise
             String addGroupSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_NAME + " , " + COLUMN_DESCRIPTION + " , " + COLUMN_SIZE + " ) VALUES( \"" + name + "\" , \"" + desc + "\" , " + size + " )";
@@ -44,18 +43,17 @@ public class GroupDBHelper {
         }catch (SQLException e){
             e.printStackTrace();
         }
-        int groupID = 100;
+        Integer groupID = 0;
 
         String getGroupNameSQL = "SELECT " + COLUMN_ID +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + " = \"" + name + "\";";
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
             groupID = results.getInt(COLUMN_ID);
+            results.close();
         }
         catch(SQLException e){
             e.printStackTrace();
         }
-
-
         return groupID;
     }
 
@@ -63,19 +61,34 @@ public class GroupDBHelper {
     //Using ID
     public String getGroupName(int ID){
         String groupName = "";
-
         String getGroupNameSQL = "SELECT " + COLUMN_NAME +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + ID + ";";
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
             groupName = results.getString(COLUMN_NAME);
+            results.close();
         }
         catch(SQLException e){
             e.printStackTrace();
         }
-
-
         return groupName;
     }
+
+    public boolean doesGroupNameExist(String name){
+        String getGroupNameSQL = "SELECT " + COLUMN_ID +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + " = \"" + name + "\";";
+        System.out.println(getGroupNameSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            if(!results.isBeforeFirst()){
+                return false;
+            }
+            results.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 
 
     /** Method to get DESCRIPTION from database **/
@@ -87,10 +100,4 @@ public class GroupDBHelper {
     /** Method to DECREMENT SIZE of group **/
 
     /** Method to DELETE GROUP **/
-
-
-
-
-
-
 }
