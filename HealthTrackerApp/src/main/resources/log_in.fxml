@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.logInController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.logInController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -11,8 +12,6 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -25,12 +24,32 @@
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
               <items>
-                <Button mnemonicParsing="false" onAction="#changeScene" text="Register" />
+                <Button mnemonicParsing="false" text="Register" />
                   <Button mnemonicParsing="false" text="Log in" />
               </items>
             </ToolBar>
          </children>
       </GridPane>
-      <Button mnemonicParsing="false" onAction="#test" text="Button" />
+      <SplitPane disable="true" dividerPositions="0.411371237458194" prefHeight="372.0" prefWidth="600.0">
+        <items>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="170.0" fitWidth="172.0" layoutX="45.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@runner.png" />
+                     </image></ImageView>
+               </children></Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Pane layoutX="48.0" layoutY="46.0" prefHeight="277.0" prefWidth="253.0" style="-fx-background-color: black; -fx-border-color: grey; -fx-border-radius: 20; -fx-background-radius: 25; -fx-border-width: 8;">
+                     <children>
+                        <VBox layoutX="34.0" layoutY="65.0" />
+                        <TextField fx:id="usernameTextField" alignment="TOP_CENTER" layoutX="52.0" layoutY="65.0" promptText="username/email" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+        </items>
+      </SplitPane>
    </children>
 </VBox>

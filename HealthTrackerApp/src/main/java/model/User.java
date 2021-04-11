@@ -11,17 +11,20 @@ import java.util.Base64;
 
 public class User {
 
+    private final int ID;
     private String firstName, surname,email,password,username;
     private double height;
     private int weightStone, weightPounds;
     private Gender gender;
 
-    public enum Gender {MALE, FEMALE, UNDEFINED}
+    public enum Gender {MALE, FEMALE}
 
-    public User(String firstName, String lastName, String username, String email, String password, double height,
+    public User(int id, String firstName, String surname, String username, String email, String password, double height,
                 int weightStone, int weightPounds, String gender) {
+
+        this.ID = id;
         this.firstName = encodeString(firstName);
-        this.surname = encodeString(lastName);
+        this.surname = encodeString(surname);
         this.username = username;
         this.password = encodeString(password);
         this.email = email;
@@ -36,8 +39,6 @@ public class User {
             case "female":
                 this.gender = Gender.FEMALE;
                 break;
-            default:
-                this.gender = Gender.UNDEFINED;
         }
     }
 
