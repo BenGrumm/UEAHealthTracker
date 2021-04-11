@@ -10,7 +10,7 @@ public class Group {
 
     private int iD, size;
     private String name, description;
-
+    private final GroupDBHelper GDBH = new GroupDBHelper();
     /** Getters **/
 
     public int getiD() {
@@ -22,7 +22,7 @@ public class Group {
     }
 
     public String getName() {
-        return name;
+        return GDBH.getGroupName(getiD());
     }
 
     public String getDescription() {
@@ -49,6 +49,19 @@ public class Group {
     }
 
     /** Additional Methods **/
+    public void saveGroup(){
+       boolean noDuplicateName = false;
+
+        if(noDuplicateName = false) {
+            this.iD = GDBH.addGroup(this.name, this.description, this.size);
+        }
+        else{
+            /* HANDLE PROPERLY */
+            System.out.println("Name not unique");
+        }
+    }
+
+
     public void generateiD(){
         int generatedID = 0;
 
@@ -68,47 +81,20 @@ public class Group {
 
     //Without ID. (Preferred)
     public Group(String name, String description) {
-        //generateiD();
         this.size = 1;
         this.name = name;
         this.description = description;
-    }
-
-    //With ID
-    public Group(int iD, int size, String name, String description) {
-        //setiD(iD);
-        this.size = size;
-        this.name = name;
-        this.description = description;
+        saveGroup();
     }
 
     /** Test Harness **/
 
     public static void main(String[] args) {
-        Group group1 = new Group(1,1,"Test1","");
+
         Group group2 = new Group("Test2","Desc");
 
-        System.out.println(group1.getiD());
-        System.out.println(group1.getName());
-        System.out.println(group1.getDescription());
-        System.out.println(group1.getSize());
+        System.out.println(group2.iD);
 
-        System.out.println(group2.getiD());
-        group2.setiD(10);
-        System.out.println(group2.getiD());
-
-        group1.setName("Changed");
-        group1.setDescription("ChangedDesc");
-        group1.setSize(2);
-
-        System.out.println(group1.getiD());
-        System.out.println(group1.getName());
-        System.out.println(group1.getDescription());
-        System.out.println(group1.getSize());
-
-        group1.incrementSize();
-
-        System.out.println(group1.size);
 
     }
 
