@@ -61,24 +61,23 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = encodeString(firstName);
+        this.firstName = firstName;
     }
 
     public void setSurname(String surname) {
-        this.surname = encodeString(surname);
+        this.surname = surname;
     }
-
 
     public void setHeight(double height) {
         this.height = height;
     }
 
     public String getFirstName() {
-        return decodeString(firstName);
+        return firstName;
     }
 
     public String getSurname() {
-        return decodeString(surname);
+        return surname;
     }
 
     public String getEmail() {
@@ -131,5 +130,21 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID=" + ID +
+                ", firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", height=" + height +
+                ", weightStone=" + weightStone +
+                ", weightPounds=" + weightPounds +
+                ", gender=" + gender +
+                '}';
     }
 }

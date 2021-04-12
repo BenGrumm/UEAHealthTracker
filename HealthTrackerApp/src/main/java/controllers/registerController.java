@@ -8,9 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import model.User;
+import model.UserDBHelper;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -51,7 +52,7 @@ public class registerController extends Controller implements Initializable {
      * This method will be called when the user clicks the register button. This event causes the controller to obtain
      * the information that has been entered into the registration form. Once the information has been check it can
      * verify the information entered is valid and all required fields have data entered.
-     * @param event
+     * @param event Provides information about the event that caused this method to run
      */
 
     @FXML
@@ -89,9 +90,24 @@ public class registerController extends Controller implements Initializable {
             boolean verifyPasswords = verifyPasswords(password, passwordVerification);
 
             if (validEmail && validPassword && verifyPasswords){
-                int id = 1;
-                User newUser = new User(id,firstname,surname,username,email,password,height,stone,pounds, gender);
-                System.out.println(newUser.getPassword());
+                UserDBHelper userDBHelper = new UserDBHelper();
+                try {
+                    boolean added = userDBHelper.addDBUser(firstname,surname,username,email,password,height,stone,pounds,gender);
+
+                    if (!added){
+
+                        boolean emailError = userDBHelper.checkValidEmail(email);
+                        if (!emailError) {
+                            changeErrorNotificationLabel("Error: Email already in use!");
+                        }
+                        else{
+                            changeErrorNotificationLabel("Error: Username already in use!");
+                        }
+                    }
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             else if (!validEmail){
                 changeErrorNotificationLabel("Error: Please enter valid email address (example@example.com)");
@@ -191,7 +207,7 @@ public class registerController extends Controller implements Initializable {
 
     /**
      * This section will change the colour of the input field back to default if some data is input into it.
-     * @param event
+     * @param event Provided information about the event that caused this method to run.
      */
 
     @FXML
@@ -241,8 +257,8 @@ public class registerController extends Controller implements Initializable {
     /**
      * This method will run when the main_menu is loaded. It sets the values and limits of the spinners as well as
      * setting the value for the drop down menu of the gender option.
-     * @param url
-     * @param resourceBundle
+     * @param url Relative path for the root object.
+     * @param resourceBundle Resources used to localise the root object.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
