@@ -10,10 +10,21 @@ public class UserDBHelper {
     public static void main(String[] args) throws SQLException {
         UserDBHelper userDBHelper = new UserDBHelper();
 
-        userDBHelper.addDBUser("John","Smith","jsmith1","JSmith@uea.ac.uk",
-                "jsmith1!",172.5, 10,1,"male");
+        addTest(userDBHelper);
 
         System.out.println(Arrays.toString(userDBHelper.getAllUsers()));
+
+        for(User user : userDBHelper.getUserViaEmail("JSmith@uea.ac.uk")){
+            System.out.println(user);
+        }
+    }
+
+    public static void addTest(UserDBHelper userDBHelper) throws SQLException {
+        userDBHelper.addDBUser("John", "Smith", "jsmith1", "JSmith@uea.ac.uk",
+                "jsmith1!", 172.5, 10, 1, "male");
+
+        userDBHelper.addDBUser("Johnny", "boolh", "jbole", "pppond@yk.ac.uk",
+                "jbol1!", 134.5, 50, 3, "female");
     }
 
     private static final String TABLE_NAME = "USERS";
@@ -30,8 +41,8 @@ public class UserDBHelper {
 
     private Database db;
 
-    public UserDBHelper(){
-        try{
+    public UserDBHelper() {
+        try {
             db = Database.getInstance();
 
             String createDBIfNotExists = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
@@ -39,8 +50,8 @@ public class UserDBHelper {
                     COLUMN_FIRSTNAME + " TEXT , " +
                     COLUMN_SURNAME + " TEXT , " +
                     COLUMN_USERNAME + " TEXT , " +
-                    COLUMN_PASSWORD + " TEXT , " +
                     COLUMN_EMAIL + " TEXT , " +
+                    COLUMN_PASSWORD + " TEXT , " +
                     COLUMN_HEIGHT + " FLOAT , " +
                     COLUMN_WEIGHT_STONE + " INTEGER , " +
                     COLUMN_WEIGHT_POUNDS + " INTEGER , " +
@@ -48,77 +59,107 @@ public class UserDBHelper {
 
             db.createTable(createDBIfNotExists);
 
-        }catch (SQLException sql){
+        } catch (SQLException sql) {
             System.out.println("Error Accessing DB");
             sql.printStackTrace();
-        }catch (ClassNotFoundException cnfe){
+        } catch (ClassNotFoundException cnfe) {
             System.out.println("JDBC driver not found");
             cnfe.printStackTrace();
         }
     }
 
-    public void addDBUser(String firstName, String surname, String username, String email, String password,
+    public boolean checkValidAccount(String email, String username){
+
+        String sql = "SELECT " + COLUMN_EMAIL + ',' + COLUMN_USERNAME + " FROM " + TABLE_NAME;
+        ResultSet rs = null;
+        try {
+            rs = db.selectQuery(sql);
+            while (rs.next()) {
+                if (rs.getString(COLUMN_EMAIL).equals(email) || rs.getString(COLUMN_USERNAME).equals(username)){
+                    return false;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean checkValidEmail(String email){
+
+        String sql = "SELECT " + COLUMN_EMAIL + " FROM " + TABLE_NAME;
+        ResultSet rs = null;
+        try {
+            rs = db.selectQuery(sql);
+            while (rs.next()) {
+                if (rs.getString(COLUMN_EMAIL).equals(email)){
+                    return false;
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+
+
+
+    public boolean addDBUser(String firstName, String surname, String username, String email, String password,
                           double height, int weightStone, int weightPounds, String gender) throws SQLException {
 
-        String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,EMAIL,PASSWORD,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS,GENDER)" +
-                " VALUES(" + '"' + firstName + '"' + ", " + '"'+ surname+ '"' + ", " + '"'+ username+ '"' + ", " + '"'
-                + email+ '"' + ", "+ '"' + password+ '"' + ", "+ '"' + height+ '"' +
-                ", "+ '"' + weightStone+ '"' + ", "+ '"' + weightPounds+ '"' + ", "+ '"' + gender+ '"' + ");";
+        boolean valid = checkValidAccount(email, username);
 
-        db.insertData(sql);
+        if (!valid){
+            System.out.println("YOU DIRT! YOU ARE NOT VALID AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            return false;
+        }
+        else {
+            String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,EMAIL,PASSWORD,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS,GENDER)" +
+                    " VALUES(" + '"' + firstName + '"' + ", " + '"' + surname + '"' + ", " + '"' + username + '"' + ", " + '"'
+                    + email + '"' + ", " + '"' + password + '"' + ", " + '"' + height + '"' +
+                    ", " + '"' + weightStone + '"' + ", " + '"' + weightPounds + '"' + ", " + '"' + gender + '"' + ");";
 
+            db.insertData(sql);
+        }
+        return true;
     }
 
-
-    public Exercise[] getDBUsers(){
-        return null;
-    }
-
-
-    /*
-    public Exercise[] getExercisesWithinRange(LocalDate from, LocalDate to){
+    public User[] getUserViaEmail(String email) {
         try {
-            ResultSet rs = db.selectQuery(String.format(withinRangeSQL, from.toString(), to.toString()));
-            return convertResultSetToExercise(rs);
-        }catch (SQLException error){
+            ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE EMAIL=" + '"' + email + '"');
+            return convertResultSetToUser(rs);
+        } catch (SQLException error) {
             return null;
         }
     }
-    */
+
 
     private static final String getAllUsers = "SELECT * FROM " + TABLE_NAME;
-    public User[] getAllUsers(){
+
+    public User[] getAllUsers() {
         try {
             ResultSet rs = db.selectQuery(getAllUsers);
-            return convertResultSetToUsers(rs);
-        }catch (SQLException error){
+            return convertResultSetToUser(rs);
+        } catch (SQLException error) {
             return null;
         }
     }
 
-    public User[] convertResultSetToUsers(ResultSet rs) throws SQLException{
+    public User[] convertResultSetToUser(ResultSet rs) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
-
-        while(rs.next()){
+        while (rs.next()) {
             int id = rs.getInt(COLUMN_ID);
             String firstname = rs.getString(COLUMN_FIRSTNAME);
             String surname = rs.getString(COLUMN_SURNAME);
             String username = rs.getString(COLUMN_USERNAME);
-            String password = rs.getString(COLUMN_PASSWORD);
             String email = rs.getString(COLUMN_EMAIL);
+            String password = rs.getString(COLUMN_PASSWORD);
             int height = rs.getInt(COLUMN_HEIGHT);
             int weight_stone = rs.getInt(COLUMN_WEIGHT_POUNDS);
             int weight_pounds = rs.getInt(COLUMN_WEIGHT_POUNDS);
             String gender = rs.getString(COLUMN_GENDER);
-
-
-            users.add(new User(id, firstname,surname,username,password,email,height,weight_stone,weight_pounds,gender));
+            users.add(new User(id, firstname, surname, username, email,password, height, weight_stone, weight_pounds, gender));
         }
-
         return users.toArray(new User[users.size()]);
-    }
-
-    public boolean addExerciseToDB(Exercise ex){
-        return false;
     }
 }

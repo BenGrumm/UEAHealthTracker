@@ -167,8 +167,8 @@ public class FoodTypeDBHelper {
         // initialise also tests add to db function
         db.initialiseFoodTypeDBFromCSV();
         // get all foods also tests convert result set function
-        System.out.println(db.getAllFoods());
-        System.out.println(db.checkTypeExists("bread"));
-        System.out.println(db.foodTypeTableLength());
+//        System.out.println(db.getAllFoods());
+//        System.out.println(db.checkTypeExists("bread"));
+//        System.out.println(db.foodTypeTableLength());
     }
 }
