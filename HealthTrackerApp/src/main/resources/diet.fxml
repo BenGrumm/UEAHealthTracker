@@ -14,8 +14,8 @@
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -41,7 +41,7 @@
                   <Button mnemonicParsing="false" text="Log in" />
               </items>
             </ToolBar>
-            <Label text="Diet: " GridPane.rowIndex="2">
+            <Label text="Diet: " GridPane.rowIndex="1">
                <font>
                   <Font size="16.0" />
                </font>
@@ -49,73 +49,73 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Label text="Exercise: " GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Label text="Exercise: " GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
                   <Label text="Name: ">
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <TextField fx:id="foodNameText">
+                  <TextField fx:id="foodNameText" onKeyTyped="#changeDietColour">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
                </children></HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                <children>
                   <Label text="Calories: ">
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <TextField fx:id="caloriesConsumedText">
+                  <TextField fx:id="caloriesConsumedText" onKeyTyped="#changeDietColour" prefHeight="25.0" prefWidth="139.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
                <children>
                   <Label text="Meal: ">
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <ChoiceBox fx:id="mealChoiceBox" prefWidth="150.0" />
+                  <ChoiceBox fx:id="mealChoiceBox" onMouseReleased="#changeDietColour" prefHeight="25.0" prefWidth="155.0" />
                </children>
             </HBox>
             <Label text="Or search our list..." GridPane.rowIndex="8">
                <padding>
                   <Insets left="20.0" />
                </padding></Label>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Label text="Enter custom exercise: " />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Label text="Name: " />
-                  <TextField fx:id="exerciseNameText" />
+                  <TextField fx:id="exerciseNameText" onKeyTyped="#changeExerciseColour" prefHeight="25.0" prefWidth="153.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <Label text="Duration: " />
+                  <TextField fx:id="durationText" onKeyTyped="#changeExerciseColour" prefHeight="25.0" prefWidth="138.0" />
+                  <Label text="minutes" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
-                  <Label text="Duration: " />
-                  <TextField fx:id="durationText" />
-                  <Label text="minutes" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <children>
                   <Label text="Calories burned: " />
-                  <TextField fx:id="caloriesBurnedText" />
+                  <TextField fx:id="caloriesBurnedText" onKeyTyped="#changeExerciseColour" prefHeight="25.0" prefWidth="101.0" />
                </children>
             </HBox>
             <Label text="Or search our list..." GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
                   <Label text="Enter custom food: ">
                      <padding>
@@ -124,7 +124,6 @@
                   </Label>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#createExerciseEntry" text="Save exercise entry" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="11">
                <children>
                   <Button mnemonicParsing="false" onAction="#createDietEntry" text="Save diet entry ">
@@ -152,27 +151,76 @@
                      <padding>
                         <Insets left="20.0" />
                      </padding></Label>
-                  <DatePicker fx:id="foodDatePicker" />
+                  <DatePicker fx:id="foodDatePicker" prefHeight="25.0" prefWidth="154.0" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
-               <children>
-                  <Label text="Date: " />
-                  <DatePicker fx:id="exerciseDatePicker" />
-               </children>
-            </HBox>
-            <ComboBox fx:id="exerciseSearchCombo" prefHeight="25.0" prefWidth="193.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ComboBox fx:id="exerciseSearchCombo" onMouseReleased="#changeExerciseColour" prefHeight="25.0" prefWidth="183.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
                <children>
-                  <TextField fx:id="exerciseSearchDurationText" prefHeight="25.0" prefWidth="50.0" />
+                  <TextField fx:id="exerciseSearchDurationText" onKeyTyped="#changeExerciseColour" prefHeight="25.0" prefWidth="50.0" />
                   <Label prefHeight="30.0" prefWidth="133.0" text="Duration in minutes" wrapText="true">
                      <padding>
                         <Insets bottom="5.0" />
                      </padding>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" onAction="#fillInSearchEntry" text="Confirm search" />
+                  <Button mnemonicParsing="false" onAction="#fillInSearchEntry" prefHeight="25.0" prefWidth="99.0" text="Confirm search" />
                </children>
             </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#createExerciseEntry" text="Save exercise entry">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
+               <children>
+                  <ComboBox fx:id="dietSearchCombo" onMouseReleased="#changeDietColour" prefHeight="25.0" prefWidth="170.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="10">
+               <children>
+                  <TextField fx:id="dietSearchServingSizeText" onKeyTyped="#changeDietColour" prefHeight="25.0" prefWidth="55.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label prefHeight="17.0" prefWidth="121.0" text="Serving size (g)">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Button mnemonicParsing="false" onAction="#fillInSearchDietEntry" prefHeight="25.0" prefWidth="97.0" text="Confirm search" />
+               </children></HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <Label text="Date: " />
+                  <DatePicker fx:id="exerciseDatePicker" prefHeight="25.0" prefWidth="160.0" />
+               </children></HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
+               <children>
+                  <Label text="Serving size (g): ">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="servingSizeText" onKeyTyped="#changeDietColour" prefHeight="25.0" prefWidth="100.0" />
+               </children></HBox>
          </children>
       </GridPane>
    </children>

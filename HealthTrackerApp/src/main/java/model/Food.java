@@ -3,18 +3,22 @@ package model;
 import java.time.LocalDate;
 
 public class Food {
-    private static int id = 0;
+    private int id;
     private String foodName;
-    private int calories;
+    private double calories;
     private String meal;
+    private double servingInGrams;
     private LocalDate dateConsumed;
+    private FoodType foodType;
 
-    public Food(String foodName, int calories, String meal, LocalDate dateConsumed) {
-        id++;
+    public Food(int id, String foodName, double calories, String meal, double servingInGrams, LocalDate dateConsumed, FoodType foodType) {
+        this.id = id;
         this.foodName = foodName;
         this.calories = calories;
         this.meal = meal;
+        this.servingInGrams = servingInGrams;
         this.dateConsumed = dateConsumed;
+        this.foodType = foodType;
     }
 
     public int getId() {
@@ -25,7 +29,7 @@ public class Food {
         return foodName;
     }
 
-    public int getCalories() {
+    public double getCalories() {
         return calories;
     }
 
@@ -33,9 +37,13 @@ public class Food {
         return meal;
     }
 
+    public double getServingInGrams() { return servingInGrams; }
+
     public LocalDate getDateConsumed() {
         return dateConsumed;
     }
+
+    public FoodType getFoodType(){ return foodType; }
 
     public void setId(int id) {
         this.id = id;
@@ -45,7 +53,7 @@ public class Food {
         this.foodName = foodName;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(double calories) {
         this.calories = calories;
     }
 

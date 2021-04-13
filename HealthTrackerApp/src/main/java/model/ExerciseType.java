@@ -34,10 +34,6 @@ public class ExerciseType {
 
     @Override
     public String toString() {
-        return "ExerciseType{" +
-                "dbID=" + dbID +
-                ", exerciseDescription='" + exerciseDescription + '\'' +
-                ", caloriesBurnedPerKGPerHour=" + caloriesBurnedPerKGPerHour +
-                '}';
+        return exerciseDescription;
     }
 }

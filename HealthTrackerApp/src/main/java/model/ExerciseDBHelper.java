@@ -8,14 +8,6 @@ import java.util.ArrayList;
 
 public class ExerciseDBHelper {
 
-    public static void main(String[] args) {
-        ExerciseDBHelper edbh = new ExerciseDBHelper();
-    }
-
-    public static void populateRandomData(){
-
-    }
-
     private static final String TABLE_NAME = "USER_EXERCISES";
 
     private static final String COLUMN_ID = "__id";
@@ -40,7 +32,6 @@ public class ExerciseDBHelper {
                                          " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " +
                                          ExerciseTypeDBHelper.TABLE_NAME + "(__id))";
             db.createTable(createDBIfNotExists);
-
         }catch (SQLException sql){
             System.out.println("Error Accessing DB");
             sql.printStackTrace();
@@ -54,8 +45,24 @@ public class ExerciseDBHelper {
         return null;
     }
 
-    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE + " BETWEEN '%s' AND '%s' ORDER BY " + COLUMN_DATE + " ASC;";
+    private static final String exerciseTableLength = "SELECT COUNT(*) AS total FROM " + TABLE_NAME;
+    /**
+     * Function that uses final string containing select and count sql statement to count how many records are in the
+     * users exercises table
+     * @return int - return total number of records in table
+     */
+    public int exerciseTableLength(){
+        try {
+            ResultSet rs = db.selectQuery(exerciseTableLength);
+            return rs.getInt("total");
+        }catch (SQLException sqle){
+            System.out.println(sqle);
+            return 0;
+        }
+    }
 
+    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE +
+            " BETWEEN '%s' AND '%s' ORDER BY " + COLUMN_DATE + " ASC;";
     /**
      * Inclusive dates
      * @param from
@@ -73,6 +80,12 @@ public class ExerciseDBHelper {
     }
 
     private static final String getAllExercises = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_DATE + " ASC";
+
+    /**
+     * Function that uses a final string containing a select everything from statement to select everything from
+     * the users exercises table
+     * @return Exercise[] - return everything from the users exercises table in an array
+     */
     public Exercise[] getAllExercises(){
         try {
             ResultSet rs = db.selectQuery(getAllExercises);
@@ -82,8 +95,13 @@ public class ExerciseDBHelper {
             return null;
         }
     }
-
-    public Exercise[] convertResultSetToExercise(ResultSet rs) throws SQLException{
+    /**
+     * Function to convert a ResultSet object to an array of Exercise objects
+     * @param rs - takes a ResultSet object
+     * @return Exercise - returns an array of exercise objects
+     * @throws SQLException
+     */
+    private Exercise[] convertResultSetToExercise(ResultSet rs) throws SQLException{
         ArrayList<Exercise> exercises = new ArrayList<>();
         ExerciseTypeDBHelper dbh = new ExerciseTypeDBHelper();
 
@@ -108,6 +126,11 @@ public class ExerciseDBHelper {
             + COLUMN_DATE + ", "
             + COLUMN_EXERCISE_ID + ") VALUES(%s, %s, %s, %s)";
 
+    /**
+     * Function to add an exercise object to the users exercises table using a final string containing an insert into sql
+     * statement
+     * @param ex - exercise object
+     */
     public void addExerciseToDB(Exercise ex){
         try {
             String sql = String.format(addExercise, ex.getMinutesExercised(), ex.getCaloriesBurned(), ex.getDate(),
@@ -117,5 +140,16 @@ public class ExerciseDBHelper {
         }catch (SQLException sqle){
             sqle.printStackTrace();
         }
+    }
+
+    // Test harness
+    public static void main(String[] args) {
+        ExerciseDBHelper edbh = new ExerciseDBHelper();
+        edbh.getAllExercises();
+        edbh.exerciseTableLength();
+        ExerciseType testExerciseType = new ExerciseType(1, "Run", 30);
+        Exercise testExercise = new Exercise(1, 60, 90, testExerciseType, LocalDate.now());
+        edbh.addExerciseToDB(testExercise);
+        //edbh.getExercisesWithinRange();
     }
 }
