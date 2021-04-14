@@ -1,31 +1,71 @@
 package controllers;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
+import model.User;
+import model.UserDBHelper;
 
 import java.net.URL;
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class logInController extends Controller implements Initializable {
 
     @FXML
-    private TextField usernameTextField;
+    private TextField detailsTextField;
+    @FXML
+    private PasswordField passwordTextField;
+    @FXML
+    private Label errorField;
+    @FXML
+    private Button loginButton;
+
+    public boolean isEmail(String text){
+        for (char c : text.toCharArray()){
+            if (c == ('@')){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @FXML
-    public void test(){
+    public void login(){
+        String enteredDetails = detailsTextField.getText();
+        String enteredPassword = passwordTextField.getText();
 
+        String correctDetails;
+        String correctPassword;
+
+        boolean isEmail = isEmail(enteredDetails);
+        UserDBHelper userDBHelper = new UserDBHelper();
+        User user;
+        if (isEmail){
+            user = userDBHelper.getUserViaEmail(enteredDetails);
+            correctDetails = user.getEmail();
+        }
+        else{
+            user = userDBHelper.getUserViaUsername(enteredDetails);
+            correctDetails = user.getUsername();
+        }
+
+        if (user == null){
+            errorField.setText("Incorrect login - Null returned");
+        }
+        else {
+            correctPassword = user.getPassword();
+            if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
+
+                //Redirect to next page - Store user logged in somewhere
+
+                System.out.println("SUCCESSFUL LOGIN");
+            } else {
+                errorField.setText("Incorrect login");
+            }
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        usernameTextField.setStyle("-fx-text-fill:white");
         System.out.println("yajr");
     }
 }

@@ -12,9 +12,9 @@ import java.util.Base64;
 public class User {
 
     private final int ID;
-    private String firstName, surname,email,password,username;
-    private double height;
+    private String firstName, surname,username, email, password;
     private int weightStone, weightPounds;
+    private double height;
     private Gender gender;
 
     public enum Gender {MALE, FEMALE}
@@ -23,10 +23,10 @@ public class User {
                 int weightStone, int weightPounds, String gender) {
 
         this.ID = id;
-        this.firstName = encodeString(firstName);
-        this.surname = encodeString(surname);
+        this.firstName = firstName;
+        this.surname = surname;
         this.username = username;
-        this.password = encodeString(password);
+        this.password = password;
         this.email = email;
         this.height = height;
         this.weightStone = weightStone;
@@ -40,24 +40,6 @@ public class User {
                 this.gender = Gender.FEMALE;
                 break;
         }
-    }
-
-    /**
-     * This method is used to convert plaintext into ciphertext of the string provided then returns the ciphertext.
-     * @param plaintext Plaintext given to be encoded to ciphertext.
-     * @return ciphertext that is the encrypted version of the input information.
-     */
-    public String encodeString(String plaintext) {
-        return Base64.getEncoder().encodeToString(plaintext.getBytes());
-    }
-
-    /**
-     * This method is used to decrypt the ciphertext provided and return the original plaintext.
-     * @param ciphertext Ciphertext given to be decoded to plaintext.
-     * @return plaintext that is the original string.
-     */
-    public String decodeString(String ciphertext) {
-        return new String (Base64.getDecoder().decode(ciphertext.getBytes()));
     }
 
     public void setFirstName(String firstName) {
@@ -85,7 +67,7 @@ public class User {
     }
 
     public String getPassword() {
-        return decodeString(password);
+        return password;
     }
 
     public void setEmail(String email) {
@@ -117,7 +99,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = encodeString(password);
+        this.password = password;
     }
 
     public double getHeight() {

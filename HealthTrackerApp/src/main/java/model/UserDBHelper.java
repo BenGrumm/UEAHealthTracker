@@ -14,7 +14,7 @@ public class UserDBHelper {
 
         System.out.println(Arrays.toString(userDBHelper.getAllUsers()));
 
-        for(User user : userDBHelper.getUserViaEmail("JSmith@uea.ac.uk")){
+        for(User user : userDBHelper.getAllUsers()){
             System.out.println(user);
         }
     }
@@ -50,8 +50,8 @@ public class UserDBHelper {
                     COLUMN_FIRSTNAME + " TEXT , " +
                     COLUMN_SURNAME + " TEXT , " +
                     COLUMN_USERNAME + " TEXT , " +
-                    COLUMN_EMAIL + " TEXT , " +
                     COLUMN_PASSWORD + " TEXT , " +
+                    COLUMN_EMAIL + " TEXT , " +
                     COLUMN_HEIGHT + " FLOAT , " +
                     COLUMN_WEIGHT_STONE + " INTEGER , " +
                     COLUMN_WEIGHT_POUNDS + " INTEGER , " +
@@ -102,8 +102,6 @@ public class UserDBHelper {
         return true;
     }
 
-
-
     public boolean addDBUser(String firstName, String surname, String username, String email, String password,
                           double height, int weightStone, int weightPounds, String gender) throws SQLException {
 
@@ -114,9 +112,9 @@ public class UserDBHelper {
             return false;
         }
         else {
-            String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,EMAIL,PASSWORD,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS,GENDER)" +
+            String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,PASSWORD,EMAIL,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS,GENDER)" +
                     " VALUES(" + '"' + firstName + '"' + ", " + '"' + surname + '"' + ", " + '"' + username + '"' + ", " + '"'
-                    + email + '"' + ", " + '"' + password + '"' + ", " + '"' + height + '"' +
+                    + Security.encrypt(password) + '"' + ", " + '"' + email + '"' + ", " + '"' + height + '"' +
                     ", " + '"' + weightStone + '"' + ", " + '"' + weightPounds + '"' + ", " + '"' + gender + '"' + ");";
 
             db.insertData(sql);
@@ -124,10 +122,28 @@ public class UserDBHelper {
         return true;
     }
 
-    public User[] getUserViaEmail(String email) {
+    public User getUserViaEmail(String email) {
         try {
             ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE EMAIL=" + '"' + email + '"');
-            return convertResultSetToUser(rs);
+            User[] users =  convertResultSetToUser(rs);
+            if (users.length != 0){
+                return users[0];
+            }
+            return null;
+        } catch (SQLException error) {
+            return null;
+        }
+    }
+
+    public User getUserViaUsername(String username) {
+        try {
+            ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE USERNAME=" + '"' + username + '"');
+            User[] users = convertResultSetToUser(rs);
+            if (users.length != 0){
+                return users[0];
+            }
+            return null;
+
         } catch (SQLException error) {
             return null;
         }
@@ -158,7 +174,7 @@ public class UserDBHelper {
             int weight_stone = rs.getInt(COLUMN_WEIGHT_POUNDS);
             int weight_pounds = rs.getInt(COLUMN_WEIGHT_POUNDS);
             String gender = rs.getString(COLUMN_GENDER);
-            users.add(new User(id, firstname, surname, username, email,password, height, weight_stone, weight_pounds, gender));
+            users.add(new User(id, firstname, surname, username, email,Security.decrypt(password), height, weight_stone, weight_pounds, gender));
         }
         return users.toArray(new User[users.size()]);
     }

@@ -30,26 +30,51 @@
             </ToolBar>
          </children>
       </GridPane>
-      <SplitPane disable="true" dividerPositions="0.411371237458194" prefHeight="372.0" prefWidth="600.0">
-        <items>
-            <Pane prefHeight="200.0" prefWidth="200.0">
+      <HBox prefHeight="375.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="370.0" prefWidth="258.0">
                <children>
-                  <ImageView fitHeight="170.0" fitWidth="172.0" layoutX="45.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="354.0" fitWidth="257.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@runner.png" />
-                     </image></ImageView>
-               </children></Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Pane layoutX="48.0" layoutY="46.0" prefHeight="277.0" prefWidth="253.0" style="-fx-background-color: black; -fx-border-color: grey; -fx-border-radius: 20; -fx-background-radius: 25; -fx-border-width: 8;">
-                     <children>
-                        <VBox layoutX="34.0" layoutY="65.0" />
-                        <TextField fx:id="usernameTextField" alignment="TOP_CENTER" layoutX="52.0" layoutY="65.0" promptText="username/email" />
-                     </children>
-                  </Pane>
+                        <Image url="@icons/baseline_directions_run_black_24dp.png" />
+                     </image>
+                  </ImageView>
                </children>
-            </Pane>
-        </items>
-      </SplitPane>
+            </HBox>
+            <VBox prefHeight="63.0" prefWidth="343.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox prefHeight="31.0" prefWidth="343.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="505.0" text="username / email" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="75.0" prefWidth="343.0">
+                     <children>
+                        <TextField fx:id="detailsTextField" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="103.0" prefHeight="35.0" prefWidth="343.0">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="507.0" text="password" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="294.0" prefHeight="63.0" prefWidth="343.0">
+                     <children>
+                        <PasswordField fx:id="passwordTextField" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="343.0">
+                     <children>
+                        <Label fx:id="errorField" prefHeight="17.0" prefWidth="347.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="210.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="151.0" text="Login" />
+                     </children></HBox>
+               </children></VBox>
+         </children>
+      </HBox>
    </children>
 </VBox>
