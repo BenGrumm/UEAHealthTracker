@@ -58,7 +58,6 @@ public class Group {
         }
 
         else{
-            /* HANDLE PROPERLY */
             System.out.println("Name already exists, enter a different name");
         }
     }
@@ -96,8 +95,12 @@ public class Group {
     public static void main(String[] args) {
 
         Group group2 = new Group("Test2","Desc");
-
+        Group group3 = new Group("Test3","Desc");
+        Group group4 = new Group("Test4","Desc");
         System.out.println(group2.iD);
+        System.out.println(group3.iD);
+        System.out.println(group4.iD);
+
         System.out.println(group2.getName());
 
     }
