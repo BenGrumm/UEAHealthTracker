@@ -61,8 +61,11 @@ public class logInController extends Controller implements Initializable {
             if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
 
                 //Redirect to next page - Store user logged in somewhere
-
+                User.loggedIn = user;
                 System.out.println("SUCCESSFUL LOGIN");
+
+                System.out.println(User.getLoggedIn());
+
             } else {
                 errorField.setText("Incorrect login");
             }

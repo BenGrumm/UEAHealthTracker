@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Base64;
-
 /**
  * This class is used to store information about a user of the health application.
  * This will store basic information about the users and can use these values to calculate additional information
@@ -10,6 +8,8 @@ import java.util.Base64;
  **/
 
 public class User {
+
+    public static User loggedIn;
 
     private final int ID;
     private String firstName, surname,username, email, password;
@@ -112,6 +112,10 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public static User getLoggedIn(){
+        return loggedIn;
     }
 
     @Override
