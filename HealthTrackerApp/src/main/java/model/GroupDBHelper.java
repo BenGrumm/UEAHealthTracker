@@ -94,10 +94,15 @@ public class GroupDBHelper {
     //Using ID
     public String getGroupName(int ID){
         String groupName = "";
-        String getGroupNameSQL = "SELECT " + COLUMN_NAME +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + ID + ";";
+        String getGroupNameSQL = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + ID + ";";
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
-            groupName = results.getString(COLUMN_NAME);
+            if (results.isBeforeFirst()) {
+                groupName = results.getString(COLUMN_NAME);
+            }
+            else{
+                System.out.println("AN ERROR HAS OCCURRED");
+            }
             results.close();
         }
         catch(SQLException e){

@@ -135,6 +135,19 @@ public class UserDBHelper {
         }
     }
 
+    public User getUserViaID(int ID) {
+        try {
+            ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE __id=" + '"' + ID + '"');
+            User[] users =  convertResultSetToUser(rs);
+            if (users.length != 0){
+                return users[0];
+            }
+            return null;
+        } catch (SQLException error) {
+            return null;
+        }
+    }
+
     public User getUserViaUsername(String username) {
         try {
             ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE USERNAME=" + '"' + username + '"');
