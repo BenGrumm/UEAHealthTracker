@@ -41,17 +41,22 @@ public class logInController extends Controller implements Initializable {
         User user;
         if (isEmail){
             user = userDBHelper.getUserViaEmail(enteredDetails);
-            correctDetails = user.getEmail();
         }
         else{
             user = userDBHelper.getUserViaUsername(enteredDetails);
-            correctDetails = user.getUsername();
         }
 
         if (user == null){
             errorField.setText("Incorrect login - Null returned");
         }
         else {
+            if (isEmail){
+                correctDetails = user.getEmail();
+            }
+            else{
+                correctDetails = user.getUsername();
+            }
+
             correctPassword = user.getPassword();
             if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
 
