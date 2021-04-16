@@ -9,7 +9,7 @@ package model;
 public class Group {
 
     private int iD, size;
-    private String name, description;
+    private String name, description,invCode;
     private final GroupDBHelper GDBH = new GroupDBHelper();
     /** Getters **/
 
@@ -51,14 +51,10 @@ public class Group {
     /** Additional Methods **/
     public void saveGroup(){
         if(!checkDuplicateName()) {
-            this.iD = GDBH.addGroup(this.name, this.description, this.size);
+            GDBH.addGroup(this.name, this.description, this.size,this.invCode,1);
         }
-        if(this.iD == 0){
+        else if(this.iD == 0){
             System.out.println("Error: Saving Group");
-        }
-
-        else{
-            System.out.println("Name already exists, enter a different name");
         }
     }
 
@@ -83,10 +79,11 @@ public class Group {
     /**Constructors**/
 
     //Without ID. (Preferred)
-    public Group(String name, String description) {
+    public Group(String name, String description, String invCode) {
         this.size = 1;
         this.name = name;
         this.description = description;
+        this.invCode = invCode;
         saveGroup();
     }
 
@@ -94,9 +91,9 @@ public class Group {
 
     public static void main(String[] args) {
 
-        Group group2 = new Group("Test2","Desc");
-        Group group3 = new Group("Test3","Desc");
-        Group group4 = new Group("Test4","Desc");
+        Group group2 = new Group("Test2","Desc","XOPPOX");
+        Group group3 = new Group("Test3","Desc","KMLLMK");
+        Group group4 = new Group("Test4","Desc","TESTED");
         System.out.println(group2.iD);
         System.out.println(group3.iD);
         System.out.println(group4.iD);

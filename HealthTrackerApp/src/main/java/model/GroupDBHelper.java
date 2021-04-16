@@ -11,17 +11,13 @@ public class GroupDBHelper {
     private static final String COLUMN_NAME = "NAME";
     private static final String COLUMN_DESCRIPTION = "DESCRIPTION";
     private static final String COLUMN_SIZE = "SIZE";
+    private static final String COLUMN_INVCODE = "CODE";
 
     /** Group Link Table With Users - Prefix LU **/
     private static final String LUTABLE_NAME = "GROUP_MEMBERS";
     private static final String LUCOLUMN_GROUPID = "GROUPID";
     private static final String LUCOLUMN_USERID = "USERID";
     private static final String LUCOLUMN_ROLE = "ROLE";
-
-    /** Group Invite Codes - Prefix LI **/
-    private static final String LITABLE_NAME = "GROUP_INVITE_CODES";
-    private static final String LICOLUMN_INVCODE = "CODE";
-    private static final String LICOLUMN_GROUPID = "GROUPID";
 
     /** Group and Goals Linked - Prefix LG **/
 
@@ -33,7 +29,7 @@ public class GroupDBHelper {
             db = Database.getInstance();
 
             //Groups Table
-            String createGroupTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT , " + COLUMN_DESCRIPTION+ " TEXT , " + COLUMN_SIZE + " INTEGER);";
+            String createGroupTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT , " + COLUMN_DESCRIPTION+ " TEXT , " + COLUMN_SIZE + " INTEGER , " + COLUMN_INVCODE + " TEXT );";
             System.out.println(createGroupTableSQL);
             db.createTable(createGroupTableSQL);
 
@@ -41,11 +37,6 @@ public class GroupDBHelper {
             String createLUTableSQL = "CREATE TABLE IF NOT EXISTS " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " INTEGER NOT NULL REFERENCES GROUPS(ID) , " + LUCOLUMN_USERID + " INTEGER NOT NULL REFERENCES USERS(__id) , " + LUCOLUMN_ROLE + ", PRIMARY KEY("+ LUCOLUMN_GROUPID +","+ LUCOLUMN_USERID +"));";
             System.out.println(createLUTableSQL);
             db.createTable(createLUTableSQL);
-
-            //Group Invite Codes
-            String createLITableSQL = "CREATE TABLE IF NOT EXISTS " + LITABLE_NAME + " (" + LICOLUMN_INVCODE +" INTEGER PRIMARY KEY, " + LICOLUMN_GROUPID + " INTERGER NOT NULL REFERENCES GROUPS(ID));";
-            System.out.println(createLITableSQL);
-            db.createTable(createLITableSQL);
 
             //Group and Goals Link Table
             ////TO ADD
@@ -65,12 +56,15 @@ public class GroupDBHelper {
      * This method is used to add a group into the database.
      * @param name Groups Name
      * @param desc Groups Description
-     * @return ciphertext that is the encrypted version of the input information.
+     * @param size Groups size, should be initialised as 1.
+     * @param invCode - should be checked to be unique prior to saving.
+     * @param userID - ID of user creating group
+     * @return saves to database, no return
      */
-    public int addGroup(String name, String desc, int size){
+    public void addGroup(String name, String desc, int size,String invCode, int userID){
         try {
             // Input data into query removing any quotes in the description of exercise
-            String addGroupSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_NAME + " , " + COLUMN_DESCRIPTION + " , " + COLUMN_SIZE + " ) VALUES( \"" + name + "\" , \"" + desc + "\" , " + size + " )";
+            String addGroupSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_NAME + " , " + COLUMN_DESCRIPTION + " , " + COLUMN_SIZE + " , " + COLUMN_INVCODE + " ) VALUES( \"" + name + "\" , \"" + desc + "\" , " + size + " , \"" + invCode + "\" )";
             System.out.println(addGroupSQL);
             db.insertData(addGroupSQL);
         }catch (SQLException e){
@@ -78,6 +72,7 @@ public class GroupDBHelper {
         }
         Integer groupID = 0;
 
+        //Gets the ID
         String getGroupNameSQL = "SELECT " + COLUMN_ID +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + " = \"" + name + "\";";
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
@@ -87,7 +82,24 @@ public class GroupDBHelper {
         catch(SQLException e){
             e.printStackTrace();
         }
-        return groupID;
+
+        if(groupID == 0){
+            System.out.println("ERROR");
+        }
+        else{
+            String setGroupOwnerSQL = "INSERT INTO " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " , " + LUCOLUMN_USERID + " , " + LUCOLUMN_ROLE + " ) VALUES( " + groupID + " , " + userID  + " , \"OWNER\" )";
+            try {
+                System.out.println(setGroupOwnerSQL);
+                db.insertData(setGroupOwnerSQL);
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+
+
+
     }
 
     // Method to get NAME from database
@@ -111,8 +123,34 @@ public class GroupDBHelper {
         return groupName;
     }
 
+    /**
+     * This method is used to determine if a group name already exists in the database.
+     * @param name Groups Name to check
+     * @return Boolean, true if it does, false if it doesn't
+     */
     public boolean doesGroupNameExist(String name){
         String getGroupNameSQL = "SELECT " + COLUMN_ID +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + " = \"" + name + "\";";
+        System.out.println(getGroupNameSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            if(!results.isBeforeFirst()){
+                return false;
+            }
+            results.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * This method is used to determine if an invite code already exists in the database.
+     * @param invCode invite code to check
+     * @return Boolean, true if it does, false if it doesn't
+     */
+    public boolean doesGroupInvCodeExist(String invCode){
+        String getGroupNameSQL = "SELECT " + COLUMN_ID +  " FROM " + TABLE_NAME + " WHERE " + COLUMN_INVCODE + " = \"" + invCode + "\";";
         System.out.println(getGroupNameSQL);
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
