@@ -107,7 +107,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="isInviteButton" mnemonicParsing="false" text="Invite">
+                  <Button fx:id="isInviteButton" mnemonicParsing="false" onAction="#InviteMember" text="Invite">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -119,7 +119,14 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Button>
-            <Label fx:id="errorLabel" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="errorLabel" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="20.0" />
+               </padding></Label>
+            <Label fx:id="isErrorLabel" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <padding>
+                  <Insets left="20.0" />
+               </padding></Label>
          </children>
       </GridPane>
    </children>

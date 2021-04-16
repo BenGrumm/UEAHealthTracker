@@ -9,14 +9,16 @@ import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import model.Group;
 import model.GroupDBHelper;
+import model.UserDBHelper;
 
 public class groupController extends Controller implements Initializable{
 
     GroupDBHelper GDBH = new GroupDBHelper();
+    UserDBHelper UDBH = new UserDBHelper();
     int currentUserID = 1;
 
     @FXML
-    private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel;
+    private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel,isErrorLabel;
     @FXML
     private TextField groupNameInput,isEmailTextField;
     @FXML
@@ -25,8 +27,11 @@ public class groupController extends Controller implements Initializable{
     private Button isInviteButton;
 
     @FXML
-    private void CreateGroup(ActionEvent event) {
 
+    /**
+     * Method used on create button press. Used to check, validate and save new groups to database.
+     */
+    private void CreateGroup(ActionEvent event) {
         if(groupNameInput.getText().isEmpty()){
             errorLabel.setTextFill(Color.rgb(255,0,0));
             errorLabel.setText("Need to input a name");
@@ -59,6 +64,10 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+    /**
+     * Method used to show or hide the invite section UI to the user for the group they just created.
+     * @param b True, to show, false to hide
+     */
     public void toggleInviteSection(boolean b){
         isAddEmailLabel.setVisible(b);
         isEmailTextField.setVisible(b);
@@ -68,6 +77,10 @@ public class groupController extends Controller implements Initializable{
         isTitle.setVisible(b);
     }
 
+    /**
+     * Method used to generate an invite code
+     * @return String of 6 characters.
+     */
     public String generateInvitecode(){
         Random rand = new Random();
         String code = "";
@@ -79,6 +92,26 @@ public class groupController extends Controller implements Initializable{
         }
         return code;
     }
+
+    /**
+     * Method used when invite members button is pressed. Checks email is registered and if it is, sends invite with
+     * the code to the user.
+     */
+    public void InviteMember(){
+        String email = isEmailTextField.getText();
+        if(!UDBH.checkValidEmail(email)){
+
+            //ADD EMAIL PART
+
+            isErrorLabel.setTextFill(Color.rgb(0,255,0));
+            isErrorLabel.setText("Invite Sent!");
+        }
+        else{
+            isErrorLabel.setTextFill(Color.rgb(255,0,0));
+            isErrorLabel.setText("Email is not associated with a registered account.");
+        }
+    }
+
 
 
     @Override

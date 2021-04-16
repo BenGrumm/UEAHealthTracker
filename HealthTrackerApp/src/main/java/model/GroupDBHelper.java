@@ -53,7 +53,8 @@ public class GroupDBHelper {
 
     /** GROUP TABLE METHODS **/
     /**
-     * This method is used to add a group into the database.
+     * This method is used to add a group into the database. It adds a group to the "GROUPS" table and a link to the
+     * user that created it in the "GROUP_MEMBERS" table, giving them the OWNER role.
      * @param name Groups Name
      * @param desc Groups Description
      * @param size Groups size, should be initialised as 1.
