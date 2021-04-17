@@ -24,3 +24,5 @@ hs_err_pid*
 HealthTrackerApp/src/main/resources/test.db
 HealthTrackerApp/target/classes/test.db
 .idea/workspace.xml
+UEAHealthServer/data/testdb.mv.db
+UEAHealthServer/data/testdb.trace.db

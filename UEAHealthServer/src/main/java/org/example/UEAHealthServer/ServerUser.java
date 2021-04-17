@@ -1,5 +1,6 @@
 package org.example.UEAHealthServer;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
  **/
 
 @Entity
+@EnableAutoConfiguration
 public class ServerUser {
 
     private @Id String email;
