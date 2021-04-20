@@ -4,8 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Set;
+
 import javafx.scene.paint.Color;
 import model.Group;
 import model.GroupDBHelper;
@@ -17,6 +20,7 @@ public class groupController extends Controller implements Initializable{
     UserDBHelper UDBH = new UserDBHelper();
     int currentUserID = 1;
 
+    //Group creation form
     @FXML
     private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel,isErrorLabel;
     @FXML
@@ -25,6 +29,15 @@ public class groupController extends Controller implements Initializable{
     private TextArea groupDescriptionInput;
     @FXML
     private Button isInviteButton;
+
+    //Group Homepage
+    @FXML
+    private Label groupNameLabel,groupMemberCountLabel, groupDescLabel,groupRoleLabel,groupGoal1Label,groupGoal2Label,groupGoal3Label;
+    @FXML
+    private Button groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton;
+
+
+
 
     @FXML
 
@@ -62,6 +75,7 @@ public class groupController extends Controller implements Initializable{
                 groupNameInput.clear();
             }
         }
+        SetUpGroupHomepage();
     }
 
     /**
@@ -112,6 +126,32 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+
+
+    public void SetUpGroupHomepage(){
+        ArrayList<Integer> usersGroupIDs = new ArrayList<Integer>();
+
+        usersGroupIDs = GDBH.getUsersGroups(currentUserID);
+
+        Group[] usersGroups = new Group[usersGroupIDs.size()];
+
+        for(int x= 0; x< usersGroupIDs.size(); x++){
+            //Get object of groups
+            System.out.println("Users group IDs:" + usersGroupIDs.get(x));
+
+
+
+
+            //Group toAdd ;
+
+
+
+
+
+        }
+
+
+    }
 
 
     @Override

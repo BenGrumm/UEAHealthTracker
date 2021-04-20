@@ -1,7 +1,9 @@
 package model;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class GroupDBHelper {
 
@@ -165,8 +167,53 @@ public class GroupDBHelper {
         }
         return true;
     }
+    /**
+     * This method is used to get a list of groupID's that a user belongs in.
+     * @param userID ID of the user
+     * @return groups a list of groupID's the user is apart of
+     */
+    public ArrayList getUsersGroupIDs(int userID){
+        ArrayList<Integer> groupIDs = new ArrayList<>();
+
+        String getGroupIDSQL = "SELECT " + LUCOLUMN_GROUPID +  " FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_USERID + " = " + userID + ";";
+        System.out.println(getGroupIDSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupIDSQL);
+
+            while(results.next()){
+                int groupID = results.getInt(LUCOLUMN_GROUPID);
+                groupIDs.add(groupID);
+            }
+
+            results.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return groupIDs;
+    }
 
 
+    public ArrayList getGroup(int groupID){
+        ArrayList<Integer> groups = new ArrayList<>();
+
+        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + groupID + ";";
+        System.out.println(getGroupIDSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupIDSQL);
+
+            while(results.next()){
+                int groupID = results.getInt(LUCOLUMN_GROUPID);
+                groupIDs.add(groupID);
+            }
+
+            results.close();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return groupIDs;
+    }
 
     // Method to get DESCRIPTION from database
 

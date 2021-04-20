@@ -38,7 +38,7 @@
                   <Button mnemonicParsing="false" text="Log in" />
               </items>
             </ToolBar>
-            <Label text="Group Name" GridPane.rowIndex="2">
+            <Label fx:id="groupNameLabel" text="Group Name" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
@@ -46,7 +46,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Label text="This is where the description of the group will load" GridPane.rowIndex="3">
+            <Label fx:id="groupDescLabel" text="This is where the description of the group will load" GridPane.rowIndex="3">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -59,7 +59,7 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Group Role: Admin" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Label fx:id="groupRoleLabel" text="Group Role: Admin" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <padding>
                   <Insets right="20.0" />
                </padding>
@@ -68,11 +68,11 @@
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
-            <Button mnemonicParsing="false" text="Invite Member" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+            <Button fx:id="inviteMethodButton" mnemonicParsing="false" text="Invite Member" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
-            <Button mnemonicParsing="false" text="Leave Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+            <Button fx:id="leaveGroupButton" mnemonicParsing="false" text="Leave Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
@@ -86,18 +86,18 @@
                <padding>
                   <Insets left="20.0" />
                </padding></Label>
-            <Label text="Goal 1: " GridPane.rowIndex="6">
+            <Label fx:id="groupGoal1Label" text="Goal 1: " GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                <padding>
                   <Insets left="20.0" />
                </padding></Label>
-            <Label text="Goal 2:" GridPane.rowIndex="7">
+            <Label fx:id="groupGoal2Label" text="Goal 2:" GridPane.rowIndex="7">
                <padding>
                   <Insets left="20.0" />
                </padding></Label>
-            <Label text="Goal 3:" GridPane.rowIndex="8">
+            <Label fx:id="groupGoal3Label" text="Goal 3:" GridPane.rowIndex="8">
                <padding>
                   <Insets left="20.0" />
                </padding>
@@ -161,7 +161,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Join">
+                  <Button fx:id="groupJoinButton" mnemonicParsing="false" text="Join">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -186,7 +186,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Create">
+                  <Button fx:id="groupCreateButton" mnemonicParsing="false" text="Create">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
