@@ -108,7 +108,6 @@ public class UserDBHelper {
         boolean valid = checkValidAccount(email, username);
 
         if (!valid){
-            System.out.println("YOU DIRT! YOU ARE NOT VALID AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return false;
         }
         else {

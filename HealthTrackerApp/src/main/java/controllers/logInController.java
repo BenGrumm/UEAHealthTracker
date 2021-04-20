@@ -47,7 +47,8 @@ public class logInController extends Controller implements Initializable {
         }
 
         if (user == null){
-            errorField.setText("Incorrect login - Null returned");
+            errorField.setText("Incorrect login. Ensure the details \nentered you entered are" +
+                    " correct!");
         }
         else {
             if (isEmail){
@@ -59,7 +60,6 @@ public class logInController extends Controller implements Initializable {
 
             correctPassword = user.getPassword();
             if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
-
                 //Redirect to next page - Store user logged in somewhere
                 User.loggedIn = user;
                 System.out.println("SUCCESSFUL LOGIN");
@@ -67,7 +67,8 @@ public class logInController extends Controller implements Initializable {
                 System.out.println(User.getLoggedIn());
 
             } else {
-                errorField.setText("Incorrect login");
+                errorField.setText("Incorrect login. Ensure the details entered you entered are" +
+                        " correct or register an account!");
             }
         }
     }

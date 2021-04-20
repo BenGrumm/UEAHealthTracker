@@ -4,6 +4,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.registerController">
    <children>
@@ -31,10 +32,19 @@
             </ToolBar>
          </children>
       </GridPane>
+      <HBox prefHeight="41.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="623.0" style="-fx-font-weight: bold;" text="Registration">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+         </children></HBox>
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Firstname:" />
             <TextField fx:id="firstnameText" onKeyTyped="#changeColour" />
+            <HBox prefHeight="40.0" prefWidth="0.0" />
             <Label text="Surname:" />
             <TextField fx:id="surnameText" onKeyTyped="#changeColour" />
          </children>
@@ -46,7 +56,8 @@
          <children>
             <Label text="Username:" />
             <TextField fx:id="usernameText" onKeyTyped="#changeColour" />
-            <Label layoutX="128.0" layoutY="22.0" text="Email:" />
+            <HBox prefHeight="40.0" prefWidth="11.0" />
+            <Label layoutX="128.0" layoutY="22.0" prefHeight="17.0" prefWidth="38.0" text="Email:" />
             <TextField fx:id="emailText" onKeyTyped="#changeColour" />
          </children>
          <padding>
@@ -55,9 +66,9 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="140.0" prefHeight="51.0" prefWidth="600.0" spacing="10.0">
          <children>
-            <Label text="Password:" />
+            <Label text=" Password:" />
             <PasswordField fx:id="passwordText" onKeyTyped="#changeColour" />
-            <Label text="Password Verification:" />
+            <Label prefHeight="51.0" prefWidth="63.0" text="Password Verification:" textAlignment="CENTER" wrapText="true" />
             <PasswordField fx:id="passwordVerificationText" layoutX="130.0" layoutY="21.0" onKeyTyped="#changeColour" />
          </children>
          <padding>
@@ -66,13 +77,14 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0" spacing="10.0">
          <children>
-            <Label text="Weight (Stone):" />
+            <Label prefHeight="44.0" prefWidth="46.0" text="Weight (Stone):" wrapText="true" />
             <Spinner fx:id="weightStoneSpinner" editable="true" onKeyTyped="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </Spinner>
-            <Label text="Weight (Pounds):" />
+            <HBox prefHeight="75.0" prefWidth="0.0" />
+            <Label prefHeight="46.0" prefWidth="59.0" text="Weight (Pounds):" wrapText="true" />
             <Spinner fx:id="weightPoundsSpinner" editable="true" onMouseClicked="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
@@ -105,7 +117,7 @@
             <Label fx:id="emptyFieldLabel" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="53.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="34.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#registerAccount" prefHeight="32.0" prefWidth="176.0" text="Register" />
          </children>
