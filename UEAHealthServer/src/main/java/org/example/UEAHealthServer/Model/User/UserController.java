@@ -1,6 +1,8 @@
-package org.example.UEAHealthServer;
+package org.example.UEAHealthServer.Model.User;
 
 import org.example.UEAHealthServer.Exceptions.UserNotFoundException;
+import org.example.UEAHealthServer.Model.User.ServerUser;
+import org.example.UEAHealthServer.Model.User.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

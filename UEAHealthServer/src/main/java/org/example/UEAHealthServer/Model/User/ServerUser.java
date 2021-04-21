@@ -1,10 +1,11 @@
-package org.example.UEAHealthServer;
+package org.example.UEAHealthServer.Model.User;
 
+import org.example.UEAHealthServer.Model.UserInGroup;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * This class is used to store information about a user of the health application.
@@ -23,12 +24,16 @@ public class ServerUser {
     private double height;
     private Gender gender;
 
+    @OneToMany
+    @JoinColumn(name = "user")
+    private Set<UserInGroup> groups;
+
     public enum Gender {MALE, FEMALE}
 
     public ServerUser(){}
 
     public ServerUser(String firstName, String surname, String username, String email, String password, double height,
-                int weightStone, int weightPounds, String gender) {
+                int weightStone, int weightPounds, String gender, Set<UserInGroup> groups) {
 
         this.firstName = firstName;
         this.surname = surname;
@@ -38,6 +43,7 @@ public class ServerUser {
         this.height = height;
         this.weightStone = weightStone;
         this.weightPounds = weightPounds;
+        this.groups = groups;
 
         switch(gender.toLowerCase()){
             case "male":
@@ -119,6 +125,14 @@ public class ServerUser {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Set<UserInGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<UserInGroup> groups) {
+        this.groups = groups;
     }
 
     @Override
