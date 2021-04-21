@@ -18,7 +18,8 @@ public class groupController extends Controller implements Initializable{
 
     GroupDBHelper GDBH = new GroupDBHelper();
     UserDBHelper UDBH = new UserDBHelper();
-    int currentUserID = 1;
+    int currentUserID = 2;
+    Group currentGroup;
 
     //Group creation form
     @FXML
@@ -35,7 +36,10 @@ public class groupController extends Controller implements Initializable{
     private Label groupNameLabel,groupMemberCountLabel, groupDescLabel,groupRoleLabel,groupGoal1Label,groupGoal2Label,groupGoal3Label;
     @FXML
     private Button groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton;
-
+    @FXML
+    private ComboBox usersGroupsComboBox;
+    @FXML
+    private TextField invCodeTextBox;
 
 
 
@@ -75,7 +79,7 @@ public class groupController extends Controller implements Initializable{
                 groupNameInput.clear();
             }
         }
-        SetUpGroupHomepage();
+        //SetUpGroupHomepage();
     }
 
     /**
@@ -131,31 +135,77 @@ public class groupController extends Controller implements Initializable{
     public void SetUpGroupHomepage(){
         ArrayList<Integer> usersGroupIDs = new ArrayList<Integer>();
 
-        usersGroupIDs = GDBH.getUsersGroups(currentUserID);
+        usersGroupIDs = GDBH.getUsersGroupIDs(currentUserID);
 
         Group[] usersGroups = new Group[usersGroupIDs.size()];
 
         for(int x= 0; x< usersGroupIDs.size(); x++){
             //Get object of groups
             System.out.println("Users group IDs:" + usersGroupIDs.get(x));
+            if(GDBH.getGroup(usersGroupIDs.get(x)) == null){
+                System.out.println("ERROR IN GETTING GROUP");
+            }
+            else{
+                usersGroups[x] = GDBH.getGroup(usersGroupIDs.get(x));
+            }
+        }
 
+        String[] groupNames = new String[usersGroups.length];
 
-
-
-            //Group toAdd ;
-
-
-
-
-
+        for(int x= 0; x< usersGroups.length; x++){
+            groupNames[x] = usersGroups[x].getName();
+            System.out.println(groupNames[x]);
         }
 
 
+        //Set ComboBox
+        usersGroupsComboBox.getItems().clear();
+        usersGroupsComboBox.getItems().addAll(groupNames);
+
+        if(!(usersGroups.length == 0)) {
+            currentGroup = usersGroups[0];
+            changeGroup(currentGroup);
+        }
+    }
+
+    public void changeGroup(Group currentGroup){
+
+        groupNameLabel.setText(currentGroup.getName());
+        groupDescLabel.setText(currentGroup.getDescription());
+        System.out.println("Members: " + currentGroup.getSize());
+        groupMemberCountLabel.setText("Members: " + currentGroup.getSize());
+        groupRoleLabel.setText("Role: " + GDBH.getMembersRole(currentGroup.getiD(),currentUserID));
+    }
+
+    /**
+     * Method used to let a member join the group. Saves them to the the database with MEMBER role
+     */
+    public void JoinGroup(){
+        String invCode = invCodeTextBox.getText();
+        int groupID= GDBH.GetGroupID(invCode) ;
+        GDBH.AddMember(groupID, currentUserID);
+        SetUpGroupHomepage();
+
+    }
+
+    public void LeaveGroup(){
+        currentGroup.getiD();
+        String role = GDBH.getMembersRole(currentGroup.getiD(),currentUserID);
+        if(role.equals("OWNER")){
+            System.out.println("OWNER - CANT LEAVE GROUP");
+        }
+        else{
+            GDBH.LeaveGroup(currentGroup.getiD(), currentUserID);
+        }
+        SetUpGroupHomepage();
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        toggleInviteSection(false);
+        //IF groups_creation:
+        //toggleInviteSection(false);
+        //IF groups:
+        SetUpGroupHomepage();
     }
 }

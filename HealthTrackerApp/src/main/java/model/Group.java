@@ -22,7 +22,7 @@ public class Group {
     }
 
     public String getName() {
-        return GDBH.getGroupName(this.iD);
+        return name;
     }
 
     public String getDescription() {
@@ -79,18 +79,19 @@ public class Group {
     /**Constructors**/
 
     //Without ID. (Preferred)
-    public Group(String name, String description, String invCode) {
-        this.size = 1;
+    public Group(int id, String name, String description,int size, String invCode) {
+        this.iD = id;
         this.name = name;
         this.description = description;
+        this.size = size;
         this.invCode = invCode;
-        saveGroup();
+        //saveGroup();
     }
 
     /** Test Harness **/
 
     public static void main(String[] args) {
-
+/*
         Group group2 = new Group("Test2","Desc","XOPPOX");
         Group group3 = new Group("Test3","Desc","KMLLMK");
         Group group4 = new Group("Test4","Desc","TESTED");
@@ -99,7 +100,7 @@ public class Group {
         System.out.println(group4.iD);
 
         System.out.println(group2.getName());
-
+*/
     }
 
 
