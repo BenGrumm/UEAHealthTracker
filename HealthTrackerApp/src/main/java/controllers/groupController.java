@@ -1,31 +1,44 @@
 package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import model.Group;
 import model.GroupDBHelper;
+import model.User;
 import model.UserDBHelper;
+import sample.GUI;
 
 public class groupController extends Controller implements Initializable{
 
     GroupDBHelper GDBH = new GroupDBHelper();
     UserDBHelper UDBH = new UserDBHelper();
-    int currentUserID = 2;
+    int currentUserID = User.getLoggedIn().getID();
     Group currentGroup;
+    Group[] usersGroups;
+    String usersCurrentUI;
+
 
     //Group creation form
     @FXML
     private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel,isErrorLabel;
     @FXML
-    private TextField groupNameInput,isEmailTextField;
+    private TextField groupNameInput,isEmailTextField,groupNameInputDash;
     @FXML
     private TextArea groupDescriptionInput;
     @FXML
@@ -44,7 +57,6 @@ public class groupController extends Controller implements Initializable{
 
 
     @FXML
-
     /**
      * Method used on create button press. Used to check, validate and save new groups to database.
      */
@@ -130,17 +142,27 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+    public void SelectDifferentGroup(ActionEvent event){
+        for(int x= 0; x< usersGroups.length; x++){
+            if(usersGroupsComboBox.getValue().equals(usersGroups[x].getName())) {
+                changeGroup(usersGroups[x]);
+            }
+        }
+    }
 
-
+    /**
+     * Method used to get a list of groups a member is apart of.
+     */
     public void SetUpGroupHomepage(){
         ArrayList<Integer> usersGroupIDs = new ArrayList<Integer>();
 
         usersGroupIDs = GDBH.getUsersGroupIDs(currentUserID);
 
-        Group[] usersGroups = new Group[usersGroupIDs.size()];
+        usersGroups = new Group[usersGroupIDs.size()];
 
         for(int x= 0; x< usersGroupIDs.size(); x++){
             //Get object of groups
+            System.out.println(usersGroupIDs.get(x));
             System.out.println("Users group IDs:" + usersGroupIDs.get(x));
             if(GDBH.getGroup(usersGroupIDs.get(x)) == null){
                 System.out.println("ERROR IN GETTING GROUP");
@@ -157,24 +179,29 @@ public class groupController extends Controller implements Initializable{
             System.out.println(groupNames[x]);
         }
 
-
         //Set ComboBox
         usersGroupsComboBox.getItems().clear();
         usersGroupsComboBox.getItems().addAll(groupNames);
 
         if(!(usersGroups.length == 0)) {
-            currentGroup = usersGroups[0];
-            changeGroup(currentGroup);
+            changeGroup(usersGroups[0]);
+        }
+        else{
+            System.out.println("Error / change scene");
         }
     }
 
-    public void changeGroup(Group currentGroup){
+    /**
+     * Method used to change all relevent labels to show a different groups information
+     */
+    public void changeGroup(Group newGroup){
 
-        groupNameLabel.setText(currentGroup.getName());
-        groupDescLabel.setText(currentGroup.getDescription());
-        System.out.println("Members: " + currentGroup.getSize());
-        groupMemberCountLabel.setText("Members: " + currentGroup.getSize());
-        groupRoleLabel.setText("Role: " + GDBH.getMembersRole(currentGroup.getiD(),currentUserID));
+        groupNameLabel.setText(newGroup.getName());
+        groupDescLabel.setText(newGroup.getDescription());
+        System.out.println("Members: " + newGroup.getSize());
+        groupMemberCountLabel.setText("Members: " + newGroup.getSize());
+        groupRoleLabel.setText("Role: " + GDBH.getMembersRole(newGroup.getiD(),currentUserID));
+        currentGroup = newGroup;
     }
 
     /**
@@ -183,11 +210,18 @@ public class groupController extends Controller implements Initializable{
     public void JoinGroup(){
         String invCode = invCodeTextBox.getText();
         int groupID= GDBH.GetGroupID(invCode) ;
-        GDBH.AddMember(groupID, currentUserID);
-        SetUpGroupHomepage();
-
+        if(GDBH.doesMemberAlreadyExistInGroup(groupID,currentUserID)){
+            System.out.println("Already in group");
+        }
+        else {
+            GDBH.AddMember(groupID, currentUserID);
+            SetUpGroupHomepage();
+        }
     }
 
+    /**
+     * Method used to let a member leave a group. Although wont let owners leave
+     */
     public void LeaveGroup(){
         currentGroup.getiD();
         String role = GDBH.getMembersRole(currentGroup.getiD(),currentUserID);
@@ -200,12 +234,39 @@ public class groupController extends Controller implements Initializable{
         SetUpGroupHomepage();
     }
 
+    public void DashToCreateAGroupPage(){
+        String name = groupNameInputDash.getText();
+        LoadCreateAGroupPage();
+        groupNameInput.setText(name);
+    }
+
+
+
+
+    public void LoadCreateAGroupPage(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/group_creation.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        groupController gc = loader.getController();
+        gc.toggleInviteSection(false);
+
+        GUI.changeScene(root);
+
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //IF groups_creation:
-        //toggleInviteSection(false);
-        //IF groups:
-        SetUpGroupHomepage();
+
+
+        System.out.println("INitialised");
+
+
+        //SetUpGroupHomepage();
     }
 }

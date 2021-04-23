@@ -317,6 +317,21 @@ public class GroupDBHelper {
     }
 
 
+    public boolean doesMemberAlreadyExistInGroup(int groupID, int userID) {
+        String getGroupNameSQL = "SELECT " + LUCOLUMN_ROLE + " FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + " AND " + LUCOLUMN_USERID + " = " + userID + ";";
+        System.out.println(getGroupNameSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            if (!results.isBeforeFirst()) {
+                return false;
+            }
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 }
 
     // Method to get DESCRIPTION from database

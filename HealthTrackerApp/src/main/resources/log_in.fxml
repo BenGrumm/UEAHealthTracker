@@ -19,7 +19,7 @@
                <items>
                   <Button mnemonicParsing="false" text="Diet &amp; Exercise" />
                   <Button mnemonicParsing="false" text="Goals" />
-                  <Button mnemonicParsing="false" text="Groups" />
+                  <Button mnemonicParsing="false" onAction="#goToGroupPage" text="Groups" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">

@@ -54,6 +54,10 @@ public class User {
         this.height = height;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public String getFirstName() {
         return firstName;
     }

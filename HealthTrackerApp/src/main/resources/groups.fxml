@@ -146,7 +146,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="usersGroupsComboBox" prefWidth="150.0" promptText="Select Group" visibleRowCount="5" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <ComboBox fx:id="usersGroupsComboBox" onAction="#SelectDifferentGroup" prefWidth="150.0" promptText="Select Group" visibleRowCount="5" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -178,7 +178,7 @@
             </Label>
             <HBox layoutX="10.0" layoutY="71.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <TextField maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="120.0" promptText="Group Name">
+                  <TextField fx:id="groupNameInputDash" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="120.0" promptText="Group Name">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -186,7 +186,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </TextField>
-                  <Button fx:id="groupCreateButton" mnemonicParsing="false" text="Create">
+                  <Button fx:id="groupCreateButton" mnemonicParsing="false" onAction="#DashToCreateAGroupPage" text="Create">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
