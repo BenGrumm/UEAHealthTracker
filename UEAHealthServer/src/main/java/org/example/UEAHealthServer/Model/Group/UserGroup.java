@@ -1,11 +1,9 @@
 package org.example.UEAHealthServer.Model.Group;
 
-import org.example.UEAHealthServer.Model.User.ServerUser;
-import org.example.UEAHealthServer.Model.UserInGroup;
+import org.example.UEAHealthServer.Model.UserGroupManyToMany.UserInGroup;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity

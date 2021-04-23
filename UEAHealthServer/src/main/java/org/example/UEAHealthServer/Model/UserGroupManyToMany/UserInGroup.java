@@ -1,4 +1,4 @@
-package org.example.UEAHealthServer.Model;
+package org.example.UEAHealthServer.Model.UserGroupManyToMany;
 
 import org.example.UEAHealthServer.Model.Group.UserGroup;
 import org.example.UEAHealthServer.Model.User.ServerUser;

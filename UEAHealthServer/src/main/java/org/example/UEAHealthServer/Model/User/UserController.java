@@ -1,19 +1,25 @@
 package org.example.UEAHealthServer.Model.User;
 
 import org.example.UEAHealthServer.Exceptions.UserNotFoundException;
-import org.example.UEAHealthServer.Model.User.ServerUser;
-import org.example.UEAHealthServer.Model.User.UserRepository;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController // indicates that the data returned by each method will be written straight into the response body instead of rendering a template
 public class UserController {
 
     private final UserRepository repository;
+    private final ServerUserModelAssembler assembler;
 
-    UserController(UserRepository repo){
+    UserController(UserRepository repo, ServerUserModelAssembler assembler){
         this.repository = repo;
+        this.assembler = assembler;
     }
 
     /**
@@ -21,8 +27,12 @@ public class UserController {
      * @return rjson format of all users
      */
     @GetMapping("/users")
-    List<ServerUser> all(){
-        return repository.findAll();
+    CollectionModel<EntityModel<ServerUser>> all(){
+        List<EntityModel<ServerUser>> users = repository.findAll().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
     }
 
     // example curl to add user
@@ -33,8 +43,9 @@ public class UserController {
      * @return Same json data is successful
      */
     @PostMapping("/users")
-    ServerUser newUser(@RequestBody ServerUser newUser){
-        return repository.save(newUser);
+    EntityModel<ServerUser> newUser(@RequestBody ServerUser newUser){
+        ServerUser user = repository.save(newUser);
+        return assembler.toModel(user);
     }
 
     /**
@@ -45,9 +56,10 @@ public class UserController {
      * @return json of data or error if not found
      */
     @GetMapping("/users/{email}")
-    ServerUser oneUser(@PathVariable String email){
+    EntityModel<ServerUser> oneUser(@PathVariable String email){
         // Throws runtime exception which will be used to render HTTP 404
-        return repository.findById(email).orElseThrow(() -> new UserNotFoundException(email));
+        ServerUser user = repository.findById(email).orElseThrow(() -> new UserNotFoundException(email));
+        return assembler.toModel(user);
     }
 
     /**
@@ -57,8 +69,8 @@ public class UserController {
      * @return user json data returned
      */
     @PutMapping("/users/{email}")
-    ServerUser replaceUser(@RequestBody ServerUser newUser, @PathVariable String email){
-        return repository.findById(email)
+    EntityModel<ServerUser> replaceUser(@RequestBody ServerUser newUser, @PathVariable String email){
+        ServerUser user = repository.findById(email)
                 .map(serverUser -> {serverUser.setFirstName(newUser.getFirstName());
                                     serverUser.setSurname(newUser.getSurname());
                                     serverUser.setUsername(newUser.getUsername());
@@ -71,6 +83,8 @@ public class UserController {
                 .orElseGet(()-> {newUser.setEmail(email);
                                 return repository.save(newUser);
                 });
+
+        return assembler.toModel(user);
     }
 
     /**

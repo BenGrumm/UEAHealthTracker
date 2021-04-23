@@ -1,8 +1,7 @@
 package org.example.UEAHealthServer.Model.User;
 
-import org.example.UEAHealthServer.Model.UserInGroup;
+import org.example.UEAHealthServer.Model.UserGroupManyToMany.UserInGroup;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.*;
 import java.util.Set;

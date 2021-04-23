@@ -1,9 +1,7 @@
 package org.example.UEAHealthServer.Configuration;
 
-import org.apache.catalina.User;
 import org.example.UEAHealthServer.Model.User.ServerUser;
 import org.example.UEAHealthServer.Model.User.UserRepository;
-import org.example.UEAHealthServer.Model.UserInGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Configuration
 public class LoadDatabase {
