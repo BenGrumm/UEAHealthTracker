@@ -118,6 +118,14 @@ public class User {
         return loggedIn;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public static void setLoggedIn(User loggedIn) {
+        User.loggedIn = loggedIn;
+    }
+
     @Override
     public String toString() {
         return "User{" +
