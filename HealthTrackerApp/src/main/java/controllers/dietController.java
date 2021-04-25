@@ -5,10 +5,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -32,6 +30,8 @@ public class dietController extends Controller implements Initializable {
     private ComboBox<FoodType> dietSearchCombo;
     @FXML
     private DatePicker foodDatePicker, exerciseDatePicker;
+    @FXML
+    private Label dietWarningLabel, exerciseWarningLabel;
 
 
     @Override
@@ -59,6 +59,9 @@ public class dietController extends Controller implements Initializable {
     public void createExerciseEntry(javafx.event.ActionEvent actionEvent) {
         boolean exerciseDataEntered = checkExerciseDataEntered();
         boolean dateValid = checkDateValid(exerciseDatePicker.getValue());
+        if(!dateValid){
+            exerciseDatePicker.setStyle("-fx-background-color: #FF4C4C");
+        }
         if(exerciseDataEntered && dateValid){
             // if exercise name in exercise type
             if(exerciseTypeDB.checkTypeExists(exerciseNameText.getText())){
@@ -70,6 +73,9 @@ public class dietController extends Controller implements Initializable {
             else{
                 createCustomExerciseEntry();
             }
+        }
+        else{
+            changeExerciseWarning("Please enter valid data");
         }
     }
 
@@ -230,12 +236,18 @@ public class dietController extends Controller implements Initializable {
     public void createDietEntry(javafx.event.ActionEvent actionEvent) {
         boolean foodDataEntered = checkDietDataEntered();
         boolean dateValid = checkDateValid(foodDatePicker.getValue());
+        if(!dateValid){
+            foodDatePicker.setStyle("-fx-background-color: #FF4C4C");
+        }
         if(foodDataEntered && dateValid) {
             if (foodTypeDB.checkTypeExists(foodNameText.getText())) {
                 createDietEntryFromList();
             } else {
                 createCustomDietEntry();
             }
+        }
+        else{
+            changeDietWarning("Please enter valid data");
         }
     }
 
@@ -375,15 +387,16 @@ public class dietController extends Controller implements Initializable {
         }
     }
 
+    private void changeDietWarning(String text){
+        dietWarningLabel.setText(text);
+    }
+
+    private void changeExerciseWarning(String text){ exerciseWarningLabel.setText(text);}
+
     /*
     to do:
     fix date saving always as 2007???????????????
     validate
-    - create dialog boxes to pop up and tell the user to enter a valid date
-    - check when entering food or exercise that an exercise of the same name doesnt already exist in the database
-        if it does, suggest the user pick from the list instead (same for food) to stop lots of duplicates
-        - also, if food or exercise name not already exist in the database then add it for next time
-    fix the maths behind the calories per kg per hour maths and the calories per 100g serving maths
     need a "clear" button to clear entry? especially if you've selected from a list and then changed your mind
      */
 }

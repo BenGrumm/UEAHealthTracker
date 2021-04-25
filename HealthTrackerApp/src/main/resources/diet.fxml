@@ -138,11 +138,21 @@
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin></Button>
+                  <Label fx:id="dietWarningLabel" prefHeight="26.0" prefWidth="151.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
                <children>
                   <Button mnemonicParsing="false" text="View exercise entries" />
+                  <Label fx:id="exerciseWarningLabel" prefHeight="26.0" prefWidth="149.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
