@@ -26,3 +26,4 @@ HealthTrackerApp/target/classes/test.db
 .idea/workspace.xml
 UEAHealthServer/data/testdb.mv.db
 UEAHealthServer/data/testdb.trace.db
+HealthServerV2/data/testdb.mv.db
