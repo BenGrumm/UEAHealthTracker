@@ -26,13 +26,13 @@ import sample.GUI;
 
 public class groupController extends Controller implements Initializable{
 
-    GroupDBHelper GDBH = new GroupDBHelper();
-    UserDBHelper UDBH = new UserDBHelper();
-    int currentUserID = User.getLoggedIn().getID();
-    Group currentGroup;
-    Group[] usersGroups;
-    String usersCurrentUI;
-
+    private GroupDBHelper GDBH = new GroupDBHelper();
+    private UserDBHelper UDBH = new UserDBHelper();
+    private int currentUserID = User.getLoggedIn().getID();
+    private Group currentGroup;
+    private Group[] usersGroups;
+    private String usersCurrentUI;
+    private String groupName;
 
     //Group creation form
     @FXML
@@ -142,6 +142,9 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+    /**
+     * Method used to swap the group displayed on the group dashboard to the group selected in the combobox
+     */
     public void SelectDifferentGroup(ActionEvent event){
         for(int x= 0; x< usersGroups.length; x++){
             if(usersGroupsComboBox.getValue().equals(usersGroups[x].getName())) {
@@ -151,7 +154,7 @@ public class groupController extends Controller implements Initializable{
     }
 
     /**
-     * Method used to get a list of groups a member is apart of.
+     * Method used to setup the group dashboard, and get upto date list of the correct groups a user is in.
      */
     public void SetUpGroupHomepage(){
         ArrayList<Integer> usersGroupIDs = new ArrayList<Integer>();
@@ -187,7 +190,7 @@ public class groupController extends Controller implements Initializable{
             changeGroup(usersGroups[0]);
         }
         else{
-            System.out.println("Error / change scene");
+            LoadCreateAGroupPage();
         }
     }
 
@@ -234,15 +237,18 @@ public class groupController extends Controller implements Initializable{
         SetUpGroupHomepage();
     }
 
+    /**
+     * Method used to move to create a group scene and carry the name they enter across
+     */
     public void DashToCreateAGroupPage(){
         String name = groupNameInputDash.getText();
         LoadCreateAGroupPage();
         groupNameInput.setText(name);
     }
 
-
-
-
+    /**
+     * Method used to move to create a group scene.
+     */
     public void LoadCreateAGroupPage(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/group_creation.fxml"));
         Parent root = null;
