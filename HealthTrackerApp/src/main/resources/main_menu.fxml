@@ -97,14 +97,14 @@
       <HBox alignment="CENTER" layoutX="10.0" layoutY="212.0" prefHeight="77.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label prefHeight="73.0" prefWidth="60.0" text="Ideal weight (Stone):" wrapText="true" />
-            <Spinner fx:id="weightStoneSpinner2" editable="true" onKeyTyped="#changeColour">
+            <Spinner fx:id="idealWeightStoneSpinner" editable="true" onKeyTyped="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </Spinner>
             <HBox prefHeight="75.0" prefWidth="0.0" />
             <Label prefHeight="66.0" prefWidth="53.0" text="Ideal weight (Pounds):" wrapText="true" />
-            <Spinner fx:id="weightPoundsSpinner2" editable="true" onMouseClicked="#changeColour">
+            <Spinner fx:id="idealWeightPoundsSpinner" editable="true" onMouseClicked="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>

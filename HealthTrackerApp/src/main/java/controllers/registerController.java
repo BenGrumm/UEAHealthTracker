@@ -30,7 +30,8 @@ public class registerController extends Controller implements Initializable {
     @FXML
     private TextField firstnameText, surnameText, usernameText, emailText, passwordText, passwordVerificationText;
     @FXML
-    private Spinner<Integer> weightStoneSpinner, weightPoundsSpinner;
+    private Spinner<Integer> weightStoneSpinner, weightPoundsSpinner, idealWeightStoneSpinner,
+            idealWeightPoundsSpinner;
     @FXML
     private Spinner<Double> heightSpinner;
     @FXML
@@ -42,6 +43,12 @@ public class registerController extends Controller implements Initializable {
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE,0,1);
 
     private final SpinnerValueFactory<Integer> weightPoundsSVF =
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(0,14,0,1);
+
+    private final SpinnerValueFactory<Integer> idealWeightStoneSVF =
+            new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE,0,1);
+
+    private final SpinnerValueFactory<Integer> idealWeightPoundsSVF =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0,14,0,1);
 
     private final SpinnerValueFactory<Double> heightSpinnerSVF =
@@ -73,6 +80,9 @@ public class registerController extends Controller implements Initializable {
             int stone = weightStoneSpinner.getValue();
             int pounds = weightPoundsSpinner.getValue();
 
+            int idealStone = idealWeightStoneSpinner.getValue();
+            int idealPounds = idealWeightPoundsSpinner.getValue();
+
             double height = heightSpinner.getValue();
 
             System.out.println("Firstname: " + firstname + "\n" +
@@ -92,7 +102,8 @@ public class registerController extends Controller implements Initializable {
             if (validEmail && validPassword && verifyPasswords){
                 UserDBHelper userDBHelper = new UserDBHelper();
                 try {
-                    boolean added = userDBHelper.addDBUser(firstname,surname,username,email,password,height,stone,pounds,gender);
+                    boolean added = userDBHelper.addDBUser(firstname,surname,username,email,password,height,stone,
+                            pounds,idealStone,idealPounds,gender);
 
                     if (!added){
 
@@ -197,6 +208,10 @@ public class registerController extends Controller implements Initializable {
             weightPoundsSpinner.setStyle(("-fx-base: rgba(255, 76, 76, 1)"));
             result=false;
         }
+        if (idealWeightStoneSpinner.getValue() == 0 && idealWeightPoundsSpinner.getValue() == 0){
+            idealWeightPoundsSpinner.setStyle(("-fx-base: rgba(255, 76, 76, 1)"));
+            result=false;
+        }
         if (heightSpinner.getValue() == 0){
             heightSpinner.setStyle(("-fx-base: rgba(255, 76, 76, 1)"));
             result=false;
@@ -239,6 +254,9 @@ public class registerController extends Controller implements Initializable {
             case("weightPoundsSpinner"):
                 weightPoundsSpinner.setStyle("color: revert");
                 break;
+            case("idealWeightPoundsSpinner"):
+                idealWeightPoundsSpinner.setStyle("color: revert");
+                break;
             case("heightSpinner"):
                 heightSpinner.setStyle("color: revert");
                 break;
@@ -264,6 +282,8 @@ public class registerController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         weightStoneSpinner.setValueFactory(weightStoneSVF);
         weightPoundsSpinner.setValueFactory(weightPoundsSVF);
+        idealWeightStoneSpinner.setValueFactory(idealWeightStoneSVF);
+        idealWeightPoundsSpinner.setValueFactory(idealWeightPoundsSVF);
         heightSpinner.setValueFactory(heightSpinnerSVF);
         ObservableList<String> genders = FXCollections.observableArrayList("Male", "Female");
         genderBox.setItems(genders);

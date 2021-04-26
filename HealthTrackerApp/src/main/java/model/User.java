@@ -13,14 +13,14 @@ public class User {
 
     private final int ID;
     private String firstName, surname,username, email, password;
-    private int weightStone, weightPounds;
-    private double height;
+    private int weightStone, weightPounds, idealWeightStone, idealWeightPounds;
+    private double height , BMI;
     private Gender gender;
 
     public enum Gender {MALE, FEMALE}
 
     public User(int id, String firstName, String surname, String username, String email, String password, double height,
-                int weightStone, int weightPounds, String gender) {
+                int weightStone, int weightPounds, int idealWeightStone, int idealWeightPounds,float bmi,String gender) {
 
         this.ID = id;
         this.firstName = firstName;
@@ -31,6 +31,9 @@ public class User {
         this.height = height;
         this.weightStone = weightStone;
         this.weightPounds = weightPounds;
+        this.idealWeightStone = idealWeightStone;
+        this.idealWeightPounds = idealWeightPounds;
+        this.BMI = bmi;
 
         switch(gender.toLowerCase()){
             case "male":
@@ -40,6 +43,34 @@ public class User {
                 this.gender = Gender.FEMALE;
                 break;
         }
+    }
+
+    public static double calculateBMI(double height, int stone, int pounds){
+        return ((stone * 6.35029) + (pounds * 0.453592)) /  ((height/100)*(height/100));
+    }
+
+    public double getBMI() {
+        return BMI;
+    }
+
+    public void setBMI(double BMI) {
+        this.BMI = BMI;
+    }
+
+    public int getIdealWeightStone() {
+        return idealWeightStone;
+    }
+
+    public void setIdealWeightPounds(int idealWeightPounds) {
+        this.idealWeightPounds = idealWeightPounds;
+    }
+
+    public void setIdealWeightStone(int idealWeightStone) {
+        this.idealWeightStone = idealWeightStone;
+    }
+
+    public int getIdealWeightPounds() {
+        return idealWeightPounds;
     }
 
     public void setFirstName(String firstName) {

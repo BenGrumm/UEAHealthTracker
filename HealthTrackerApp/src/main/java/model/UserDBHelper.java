@@ -20,11 +20,11 @@ public class UserDBHelper {
     }
 
     public static void addTest(UserDBHelper userDBHelper) throws SQLException {
-        userDBHelper.addDBUser("John", "Smith", "jsmith1", "JSmith@uea.ac.uk",
-                "jsmith1!", 172.5, 10, 1, "male");
+        //userDBHelper.addDBUser("John", "Smith", "jsmith1", "JSmith@uea.ac.uk",
+        //        "jsmith1!", 172.5, 10, 1, "male");
 
-        userDBHelper.addDBUser("Johnny", "boolh", "jbole", "pppond@yk.ac.uk",
-                "jbol1!", 134.5, 50, 3, "female");
+        //userDBHelper.addDBUser("Johnny", "boolh", "jbole", "pppond@yk.ac.uk",
+        //        "jbol1!", 134.5, 50, 3, "female");
     }
 
     private static final String TABLE_NAME = "USERS";
@@ -37,6 +37,9 @@ public class UserDBHelper {
     private static final String COLUMN_HEIGHT = "HEIGHT";
     private static final String COLUMN_WEIGHT_STONE = "WEIGHT_STONE";
     private static final String COLUMN_WEIGHT_POUNDS = "WEIGHT_POUNDS";
+    private static final String COLUMN_IDEAL_WEIGHT_STONE = "IDEAL_WEIGHT_STONE";
+    private static final String COLUMN_IDEAL_WEIGHT_POUNDS = "IDEAL_WEIGHT_POUNDS";
+    private static final String COLUMN_BMI = "BMI";
     private static final String COLUMN_GENDER = "GENDER";
 
     private Database db;
@@ -55,6 +58,9 @@ public class UserDBHelper {
                     COLUMN_HEIGHT + " FLOAT , " +
                     COLUMN_WEIGHT_STONE + " INTEGER , " +
                     COLUMN_WEIGHT_POUNDS + " INTEGER , " +
+                    COLUMN_IDEAL_WEIGHT_STONE + " INTEGER , " +
+                    COLUMN_IDEAL_WEIGHT_POUNDS + " INTEGER , " +
+                    COLUMN_BMI + " FLOAT , " +
                     COLUMN_GENDER + " TEXT)";
 
             db.createTable(createDBIfNotExists);
@@ -103,7 +109,8 @@ public class UserDBHelper {
     }
 
     public boolean addDBUser(String firstName, String surname, String username, String email, String password,
-                          double height, int weightStone, int weightPounds, String gender) throws SQLException {
+                          double height, int weightStone, int weightPounds, int idealWeightStone, int idealWeightPounds,
+                             String gender) throws SQLException {
 
         boolean valid = checkValidAccount(email, username);
 
@@ -111,10 +118,15 @@ public class UserDBHelper {
             return false;
         }
         else {
-            String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,PASSWORD,EMAIL,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS,GENDER)" +
+            String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,PASSWORD,EMAIL,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS," +
+                    "IDEAL_WEIGHT_STONE,IDEAL_WEIGHT_POUNDS,BMI,GENDER)" +
                     " VALUES(" + '"' + firstName + '"' + ", " + '"' + surname + '"' + ", " + '"' + username + '"' + ", " + '"'
                     + Security.encrypt(password) + '"' + ", " + '"' + email + '"' + ", " + '"' + height + '"' +
-                    ", " + '"' + weightStone + '"' + ", " + '"' + weightPounds + '"' + ", " + '"' + gender + '"' + ");";
+                    ", " + '"' + weightStone + '"' + ", " + '"' + weightPounds + '"'+ ", " + '"' + idealWeightStone + '"' + ", "
+                    + '"' + idealWeightPounds + '"'+  ", " + '"' + User.calculateBMI(height,weightStone,weightPounds) +
+                    '"' + ", " + '"' + gender + '"' + ");";
+
+            System.out.println(sql);
 
             db.insertData(sql);
         }
@@ -185,8 +197,12 @@ public class UserDBHelper {
             int height = rs.getInt(COLUMN_HEIGHT);
             int weight_stone = rs.getInt(COLUMN_WEIGHT_POUNDS);
             int weight_pounds = rs.getInt(COLUMN_WEIGHT_POUNDS);
+            int ideal_weight_stone = rs.getInt(COLUMN_IDEAL_WEIGHT_POUNDS);
+            int ideal_weight_pounds = rs.getInt(COLUMN_IDEAL_WEIGHT_POUNDS);
+            float bmi = rs.getFloat(COLUMN_BMI);
             String gender = rs.getString(COLUMN_GENDER);
-            users.add(new User(id, firstname, surname, username, email,Security.decrypt(password), height, weight_stone, weight_pounds, gender));
+            users.add(new User(id, firstname, surname, username, email,Security.decrypt(password), height, weight_stone,
+                    weight_pounds, ideal_weight_stone, ideal_weight_pounds,bmi, gender));
         }
         return users.toArray(new User[users.size()]);
     }
