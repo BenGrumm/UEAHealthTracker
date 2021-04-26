@@ -1,4 +1,5 @@
 package controllers;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -60,12 +61,8 @@ public class logInController extends Controller implements Initializable {
 
             correctPassword = user.getPassword();
             if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
-                //Redirect to next page - Store user logged in somewhere
                 User.loggedIn = user;
-                System.out.println("SUCCESSFUL LOGIN");
-
-                System.out.println(User.getLoggedIn());
-
+                logged_in();
             } else {
                 errorField.setText("Incorrect login. Ensure the details entered you entered are" +
                         " correct or register an account!");

@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -19,11 +20,42 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    //Global
     @FXML
-    public void gotoLogIn(ActionEvent event)
-    {
+    Button main_menu;
 
+    @FXML
+    Button log_in;
+
+    @FXML
+    Button diet;
+
+    @FXML
+    Button groups;
+
+    @FXML
+    Button goals;
+
+    @FXML
+    public void navigatePage(ActionEvent event)
+    {
+        String id = ((Control) event.getSource()).getId();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + id + ".fxml"));
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void logged_in(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/groups.fxml"));
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

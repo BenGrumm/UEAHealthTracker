@@ -27,7 +27,7 @@
             <ToolBar prefHeight="40.0" prefWidth="352.0">
               <items>
                 <Button mnemonicParsing="false" text="Register" />
-                  <Button mnemonicParsing="false" text="Log in" />
+                  <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" text="Log in" />
               </items>
             </ToolBar>
          </children>
@@ -75,16 +75,16 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" spacing="10.0">
          <children>
-            <Label prefHeight="44.0" prefWidth="46.0" text="Weight (Stone):" wrapText="true" />
+            <Label prefHeight="44.0" prefWidth="60.0" text="Weight (Stone):" wrapText="true" />
             <Spinner fx:id="weightStoneSpinner" editable="true" onKeyTyped="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
             </Spinner>
             <HBox prefHeight="75.0" prefWidth="0.0" />
-            <Label prefHeight="46.0" prefWidth="59.0" text="Weight (Pounds):" wrapText="true" />
+            <Label prefHeight="45.0" prefWidth="51.0" text="Weight (Pounds):" wrapText="true" />
             <Spinner fx:id="weightPoundsSpinner" editable="true" onMouseClicked="#changeColour">
                <cursor>
                   <Cursor fx:constant="TEXT" />
@@ -94,7 +94,27 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="167.0" prefHeight="60.0" prefWidth="600.0" spacing="10.0">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="212.0" prefHeight="77.0" prefWidth="600.0" spacing="10.0">
+         <children>
+            <Label prefHeight="73.0" prefWidth="60.0" text="Ideal weight (Stone):" wrapText="true" />
+            <Spinner fx:id="weightStoneSpinner2" editable="true" onKeyTyped="#changeColour">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </Spinner>
+            <HBox prefHeight="75.0" prefWidth="0.0" />
+            <Label prefHeight="66.0" prefWidth="53.0" text="Ideal weight (Pounds):" wrapText="true" />
+            <Spinner fx:id="weightPoundsSpinner2" editable="true" onMouseClicked="#changeColour">
+               <cursor>
+                  <Cursor fx:constant="TEXT" />
+               </cursor>
+            </Spinner>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="167.0" prefHeight="52.0" prefWidth="600.0" spacing="10.0">
          <children>
             <Label text="Gender:" />
             <ChoiceBox fx:id="genderBox" onMouseExited="#changeColour" prefWidth="150.0" />

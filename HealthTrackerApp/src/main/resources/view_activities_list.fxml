@@ -16,15 +16,15 @@
          <children>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="248.0" GridPane.columnIndex="1">
                <items>
-                  <Button mnemonicParsing="false" text="Diet &amp; Exercise" />
-                  <Button mnemonicParsing="false" text="Goals" />
-                  <Button mnemonicParsing="false" text="Groups" />
+                  <Button fx:id="diet" mnemonicParsing="false" onAction="#navigatePage" text="Diet &amp; Exercise" />
+                  <Button fx:id="goals" mnemonicParsing="false" onAction="#navigatePage" text="Goals" />
+                  <Button fx:id="groups" mnemonicParsing="false" onAction="#navigatePage" text="Groups" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
               <items>
-                <Button mnemonicParsing="false" text="Register" />
-                  <Button mnemonicParsing="false" text="Log in" />
+                <Button fx:id="main_menu" mnemonicParsing="false" onAction="#navigatePage" text="Register" />
+                  <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" text="Log in" />
               </items>
             </ToolBar>
          </children>
