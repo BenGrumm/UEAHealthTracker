@@ -16,6 +16,8 @@ public class ExerciseDBHelper {
     // Foreign key for stored exercises
     private static final String COLUMN_EXERCISE_ID = "EXERCISE_TYPE";
     private static final String COLUMN_MINUTES_EXERCISE = "MINUTES_EXERCISED";
+    // Foreign key for logged in user
+    private static final String COLUMN_USER_ID = "USER_ID";
 
     private Database db;
 
@@ -24,13 +26,17 @@ public class ExerciseDBHelper {
             db = Database.getInstance();
 
             String createDBIfNotExists = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
-                                         " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
-                                         COLUMN_MINUTES_EXERCISE + " REAL , " +
-                                         COLUMN_EXERCISE_ID + " INTEGER , " +
-                                         COLUMN_CALORIES_BURNED + " REAL , " +
-                                         COLUMN_DATE + " TEXT , " +
-                                         " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " +
-                                         ExerciseTypeDBHelper.TABLE_NAME + "(__id))";
+                    " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                    COLUMN_MINUTES_EXERCISE + " REAL , " +
+                    COLUMN_EXERCISE_ID + " INTEGER , " +
+                    COLUMN_CALORIES_BURNED + " REAL , " +
+                    COLUMN_DATE + " TEXT , " +
+                    COLUMN_USER_ID + " INTEGER , " +
+                    " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " +
+                    ExerciseTypeDBHelper.TABLE_NAME + "(__id) , " +
+                    " FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " +
+                    UserDBHelper.getTableName() + "(__id))" ;
+            System.out.println(createDBIfNotExists);
             db.createTable(createDBIfNotExists);
         }catch (SQLException sql){
             System.out.println("Error Accessing DB");
@@ -124,7 +130,8 @@ public class ExerciseDBHelper {
             + COLUMN_MINUTES_EXERCISE + ", "
             + COLUMN_CALORIES_BURNED + ", "
             + COLUMN_DATE + ", "
-            + COLUMN_EXERCISE_ID + ") VALUES(%s, %s, %s, %s)";
+            + COLUMN_EXERCISE_ID + ", "
+            + COLUMN_USER_ID + ") VALUES(%s, %s, %s, %s, %s)";
 
     /**
      * Function to add an exercise object to the users exercises table using a final string containing an insert into sql
@@ -133,8 +140,14 @@ public class ExerciseDBHelper {
      */
     public void addExerciseToDB(Exercise ex){
         try {
+            // CURRENTLY HOLDS TEST DATA - once log in process is fully funcitonal, just take the
+            // user.getLoggedIn().getID() rather than using this test user
+            User testUser = new User(1, "Caitlin", "Wright", "cwright",
+                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
+                    10, 10, "Female");
+            User.setLoggedIn(testUser);
             String sql = String.format(addExercise, ex.getMinutesExercised(), ex.getCaloriesBurned(), ex.getDate(),
-                    ex.getExerciseT().getDbID());
+                    ex.getExerciseT().getDbID(), User.getLoggedIn().getID());
             System.out.println(sql);
             db.insertData(sql);
         }catch (SQLException sqle){

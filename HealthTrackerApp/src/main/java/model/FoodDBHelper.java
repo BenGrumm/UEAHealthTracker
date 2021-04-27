@@ -16,6 +16,8 @@ public class FoodDBHelper {
     private static final String COLUMN_DATE = "DATE";
     // Foreign key for stored foods
     private static final String COLUMN_FOOD_ID = "FOOD_TYPE";
+    // Foreign key for logged in user
+    private static final String COLUMN_USER_ID = "USER_ID";
 
     private Database db;
 
@@ -31,8 +33,12 @@ public class FoodDBHelper {
                     COLUMN_SERVING + " REAL , " +
                     COLUMN_DATE + " TEXT , " +
                     COLUMN_FOOD_ID + " INTEGER , "+
+                    COLUMN_USER_ID + " INTEGER , " +
                     " FOREIGN KEY(" + COLUMN_FOOD_ID + ") REFERENCES " +
-                    FoodTypeDBHelper.TABLE_NAME + "(__id))";
+                    FoodTypeDBHelper.TABLE_NAME + "(__id) , " +
+                    "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " +
+                    UserDBHelper.getTableName() + "(__id))" ;
+            System.out.println(createDBIfNotExists);
             db.createTable(createDBIfNotExists);
 
         }catch (SQLException sql){
@@ -50,7 +56,8 @@ public class FoodDBHelper {
             + COLUMN_MEAL + ", "
             + COLUMN_SERVING + ", "
             + COLUMN_DATE + ", "
-            + COLUMN_FOOD_ID + ") VALUES(\"%s\", %s, \"%s\", %s, %s, %s)";
+            + COLUMN_FOOD_ID + ", "
+            + COLUMN_USER_ID + ") VALUES(\"%s\", %s, \"%s\", %s, %s, %s, %s)";
 
     /**
      * Function that uses final string containing insert into sql statement to insert food objects into the users foods
@@ -59,8 +66,15 @@ public class FoodDBHelper {
      */
     public void addFoodToDB(Food food){
         try {
+            // CURRENTLY HOLDS TEST DATA - once log in process is fully funcitonal, just take the
+            // user.getLoggedIn().getID() rather than using this test user
+            User testUser = new User(1, "Caitlin", "Wright", "cwright",
+                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
+                    10, 10, "Female");
+            User.setLoggedIn(testUser);
             String sql = String.format(addFood, food.getFoodName(), food.getCalories(), food.getMeal(),
-                    food.getServingInGrams(), food.getDateConsumed(), food.getFoodType().getDbID());
+                    food.getServingInGrams(), food.getDateConsumed(), food.getFoodType().getDbID(),
+                    User.getLoggedIn().getID());
             System.out.println(sql);
             db.insertData(sql);
         }catch (SQLException sqle){

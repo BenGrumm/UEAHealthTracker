@@ -42,6 +42,11 @@ public class UserDBHelper {
     private static final String COLUMN_BMI = "BMI";
     private static final String COLUMN_GENDER = "GENDER";
 
+    // Added getter so tablename can be accessed elsewhere as a foreign key
+    public static String getTableName() {
+        return TABLE_NAME;
+    }
+
     private Database db;
 
     public UserDBHelper() {
