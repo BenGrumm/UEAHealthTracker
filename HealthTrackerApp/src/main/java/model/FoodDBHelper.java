@@ -31,7 +31,7 @@ public class FoodDBHelper {
                     COLUMN_CALORIES + " REAL , " +
                     COLUMN_MEAL + " REAL , " +
                     COLUMN_SERVING + " REAL , " +
-                    COLUMN_DATE + " TEXT , " +
+                    COLUMN_DATE + " DATE , " +
                     COLUMN_FOOD_ID + " INTEGER , "+
                     COLUMN_USER_ID + " INTEGER , " +
                     " FOREIGN KEY(" + COLUMN_FOOD_ID + ") REFERENCES " +
@@ -57,7 +57,7 @@ public class FoodDBHelper {
             + COLUMN_SERVING + ", "
             + COLUMN_DATE + ", "
             + COLUMN_FOOD_ID + ", "
-            + COLUMN_USER_ID + ") VALUES(\"%s\", %s, \"%s\", %s, %s, %s, %s)";
+            + COLUMN_USER_ID + ") VALUES(\"%s\", %s, \"%s\", %s, '%s', %s, %s)";
 
     /**
      * Function that uses final string containing insert into sql statement to insert food objects into the users foods

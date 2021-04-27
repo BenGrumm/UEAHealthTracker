@@ -30,7 +30,7 @@ public class ExerciseDBHelper {
                     COLUMN_MINUTES_EXERCISE + " REAL , " +
                     COLUMN_EXERCISE_ID + " INTEGER , " +
                     COLUMN_CALORIES_BURNED + " REAL , " +
-                    COLUMN_DATE + " TEXT , " +
+                    COLUMN_DATE + " DATE , " +
                     COLUMN_USER_ID + " INTEGER , " +
                     " FOREIGN KEY(" + COLUMN_EXERCISE_ID + ") REFERENCES " +
                     ExerciseTypeDBHelper.TABLE_NAME + "(__id) , " +
@@ -131,7 +131,7 @@ public class ExerciseDBHelper {
             + COLUMN_CALORIES_BURNED + ", "
             + COLUMN_DATE + ", "
             + COLUMN_EXERCISE_ID + ", "
-            + COLUMN_USER_ID + ") VALUES(%s, %s, %s, %s, %s)";
+            + COLUMN_USER_ID + ") VALUES(%s, %s, '%s', %s, %s)";
 
     /**
      * Function to add an exercise object to the users exercises table using a final string containing an insert into sql
