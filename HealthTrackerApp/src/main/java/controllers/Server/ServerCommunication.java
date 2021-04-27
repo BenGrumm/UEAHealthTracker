@@ -1,4 +1,4 @@
-package controllers;
+package controllers.Server;
 
 import model.User;
 
@@ -17,8 +17,8 @@ public class ServerCommunication {
     private static final String baseURL = "http://localhost:8080";
 
     public static void main(String[] args) {
-        addUser(new User("Ben", "Grummit", "bgrumm", "testEmail@gmail.com",
-                "pworded", 1.9, 120, 49, "MALE"));
+        System.out.println(addUser(new User("Ben", "Grummit", "bgrumm", "testEmail@gmail.com",
+                "pworded", 1.9, 120, 49, "MALE")));
     }
 
     private static final String userJsonFormat =
@@ -37,14 +37,16 @@ public class ServerCommunication {
         con.setRequestProperty("Authorization", authHeader);
     }
 
-    public static void addUser(User user){
+    public static String addUser(User user){
         String jsonComplete = formatUserToJson(user);
 
         try {
-            sendPostRequestWithJson("/users", jsonComplete);
+            return sendPostRequestWithJson("/users", jsonComplete);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
     private static String sendPostRequestWithJson(String relativeURLExtension, String json) throws IOException {
@@ -63,6 +65,9 @@ public class ServerCommunication {
             byte[] input = json.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
+
+        int rc = con.getResponseCode();
+        System.out.println("Response code = " + rc);
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
             StringBuilder response = new StringBuilder();

@@ -25,8 +25,8 @@ public class ServerUser {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_groups",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "email"),
-            inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "user_email", referencedColumnName = "email"),
+            inverseJoinColumns = @JoinColumn(name = "group_name", referencedColumnName = "name"))
     private Set<UserGroup> groups;
 
     public enum Gender {MALE, FEMALE}

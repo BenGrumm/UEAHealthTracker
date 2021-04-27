@@ -1,6 +1,6 @@
 package org.example.HealthServerV2.Model.Group;
 
-import org.example.HealthServerV2.Model.Goal;
+import org.example.HealthServerV2.Model.Goal.Goal;
 import org.example.HealthServerV2.Model.User.ServerUser;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -11,31 +11,22 @@ import java.util.Set;
 @EnableAutoConfiguration
 public class UserGroup {
 
-    private @Id int id;
-
+    @Id
+    private String name;
+    private String description, inviteCode;
     private int size;
-    private String name, description, inviteCode;
     @ManyToMany(mappedBy = "groups")
     private Set<ServerUser> users;
-    @OneToMany
+    @OneToMany(mappedBy = "group")
     private Set<Goal> goals;
     public UserGroup(){}
 
-    public UserGroup(int id, int size, String name, String description, String inviteCode, Set<ServerUser> users){
-        this.id = id;
+    public UserGroup(int size, String name, String description, String inviteCode, Set<ServerUser> users){
         this.size = size;
         this.name = name;
         this.description = description;
         this.inviteCode = inviteCode;
         this.users = users;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getSize() {
