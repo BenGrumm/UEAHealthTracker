@@ -174,23 +174,35 @@ public class ServerV2Communication {
     }
 
     private static final String userJsonFormat =
-            "{\"email\":\"%s\",\"firstName\":\"%s\",\"surname\":\"%s\"," +
-                    "\"username\":\"%s\",\"password\":\"%s\",\"weightStone\":%d," +
-                    "\"weightPounds\":%d,\"height\":%f,\"gender\":\"%s\"}";
+            "{\"email\":\"%s\"," +
+                    "\"firstName\":\"%s\"," +
+                    "\"surname\":\"%s\"," +
+                    "\"username\":\"%s\"," +
+                    "\"password\":\"%s\"," +
+                    "\"weightStone\":%d," +
+                    "\"weightPounds\":%d," +
+                    "\"idealWeightStone\":%d," +
+                    "\"idealWeightPounds\":%d," +
+                    "\"height\":%f," +
+                    "\"BMI\":%f," +
+                    "\"gender\":\"%s\"}";
+
     public static String formatUserToJson(User user){
-        return String.format(userJsonFormat, user.getEmail(), user.getFirstName(), user.getSurname(), user.getUsername(),
-                user.getPassword(), user.getWeightStone(), user.getWeightPounds(), user.getHeight(), user.getGender().toString());
+        return String.format(userJsonFormat, user.getEmail(),
+                user.getFirstName(), user.getSurname(), user.getUsername(),
+                user.getPassword(), user.getWeightStone(), user.getWeightPounds(),
+                user.getIdealWeightStone(), user.getIdealWeightPounds(),
+                user.getHeight(), user.getBMI(), user.getGender().toString());
     }
 
     private static final String groupJsonFromat = "{" +
             "\"size\":%d," +
             "\"name\":\"%s\"," +
             "\"description\":\"%s\"," +
-            "\"inviteCode\":\"%s\"" +
+            "\"invCode\":\"%s\"" +
             "}";
     public static String formatGroupToJson(Group group){
-        // TODO update with new group format
-        return String.format(groupJsonFromat, group.getSize(), group.getName(), group.getDescription(), "INV_NOT_AVAILABLE");
+        return String.format(groupJsonFromat, group.getSize(), group.getName(), group.getDescription(), group.getInvCode());
     }
 
 }

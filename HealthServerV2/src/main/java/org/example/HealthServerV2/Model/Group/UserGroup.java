@@ -7,6 +7,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * This class is to store the information associated with groups.
+ * This will store an ID, Name and Description and Size.
+ * @author Alexander Clifford
+ **/
+
 @Entity
 @EnableAutoConfiguration
 public class UserGroup {
@@ -14,9 +20,8 @@ public class UserGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String name;
-    private String description, inviteCode;
     private int size;
+    private String name, description, invCode;
     @ManyToMany(mappedBy = "groups")
     private Set<ServerUser> users;
     @OneToMany(mappedBy = "group")
@@ -24,13 +29,14 @@ public class UserGroup {
 
     public UserGroup(){}
 
-    public UserGroup(int id, int size, String name, String description, String inviteCode, Set<ServerUser> users){
+    public UserGroup(int id, int size, String name, String description, String invCode, Set<ServerUser> users, Set<Goal> goals) {
         this.id = id;
         this.size = size;
         this.name = name;
         this.description = description;
-        this.inviteCode = inviteCode;
+        this.invCode = invCode;
         this.users = users;
+        this.goals = goals;
     }
 
     public int getResourceId(){
@@ -69,12 +75,12 @@ public class UserGroup {
         this.description = description;
     }
 
-    public String getInviteCode() {
-        return inviteCode;
+    public String getInvCode() {
+        return invCode;
     }
 
-    public void setInviteCode(String inviteCode) {
-        this.inviteCode = inviteCode;
+    public void setInvCode(String invCode) {
+        this.invCode = invCode;
     }
 
     public Set<ServerUser> getUsers() {

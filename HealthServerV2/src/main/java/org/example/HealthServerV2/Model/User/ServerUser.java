@@ -18,9 +18,9 @@ import java.util.Set;
 public class ServerUser {
 
     private @Id String email;
-    private String firstName, surname, username, password;
-    private int weightStone, weightPounds;
-    private double height;
+    private String firstName, surname,username, password;
+    private int weightStone, weightPounds, idealWeightStone, idealWeightPounds;
+    private double height , BMI;
     private Gender gender;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -34,7 +34,7 @@ public class ServerUser {
     public ServerUser(){}
 
     public ServerUser(String firstName, String surname, String username, String email, String password, double height,
-                      int weightStone, int weightPounds, String gender, Set<UserGroup> groups) {
+                int weightStone, int weightPounds, int idealWeightStone, int idealWeightPounds,float bmi,String gender) {
 
         this.firstName = firstName;
         this.surname = surname;
@@ -44,7 +44,9 @@ public class ServerUser {
         this.height = height;
         this.weightStone = weightStone;
         this.weightPounds = weightPounds;
-        this.groups = groups;
+        this.idealWeightStone = idealWeightStone;
+        this.idealWeightPounds = idealWeightPounds;
+        this.BMI = bmi;
 
         switch(gender.toLowerCase()){
             case "male":
@@ -60,68 +62,92 @@ public class ServerUser {
         return email;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getUsername() {
         return username;
-    }
-
-    public int getWeightStone() {
-        return weightStone;
-    }
-
-    public int getWeightPounds() {
-        return weightPounds;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setWeightStone(int weightStone) {
-        this.weightStone = weightStone;
-    }
-
-    public void setWeightPounds(int weightPounds) {
-        this.weightPounds = weightPounds;
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
+    public int getWeightStone() {
+        return weightStone;
+    }
+
+    public void setWeightStone(int weightStone) {
+        this.weightStone = weightStone;
+    }
+
+    public int getWeightPounds() {
+        return weightPounds;
+    }
+
+    public void setWeightPounds(int weightPounds) {
+        this.weightPounds = weightPounds;
+    }
+
+    public int getIdealWeightStone() {
+        return idealWeightStone;
+    }
+
+    public void setIdealWeightStone(int idealWeightStone) {
+        this.idealWeightStone = idealWeightStone;
+    }
+
+    public int getIdealWeightPounds() {
+        return idealWeightPounds;
+    }
+
+    public void setIdealWeightPounds(int idealWeightPounds) {
+        this.idealWeightPounds = idealWeightPounds;
+    }
+
     public double getHeight() {
         return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getBMI() {
+        return BMI;
+    }
+
+    public void setBMI(double BMI) {
+        this.BMI = BMI;
     }
 
     public Gender getGender() {

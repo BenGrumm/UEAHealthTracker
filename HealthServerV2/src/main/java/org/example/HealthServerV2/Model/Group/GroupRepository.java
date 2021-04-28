@@ -7,6 +7,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "groups", path = "groups")
 public interface GroupRepository extends JpaRepository<UserGroup, Integer> {
 
-    UserGroup findByInviteCode(@Param("inviteCode") String inviteCode);
+    UserGroup findByInvCode(@Param("invCode") String invCode);
 
 }

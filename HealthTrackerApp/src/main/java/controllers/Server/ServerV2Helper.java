@@ -12,13 +12,13 @@ public class ServerV2Helper {
     public static void main(String[] args) {
         ServerV2Helper server = new ServerV2Helper();
 
-        User user1 = new User("Greg", "Grong", "GG", "ben.grummmitt398@gmail.com",
-                "e23fkr", 1.5, 4, 5, "MALE");
-        User user2 = new User("Pavon", "Preng", "PP", "grummitt3986@gmail.com",
-                "e23fkr", 1.5, 4, 5, "MALE");
+        User user1 = new User(0, "Greg", "Grong", "GG", "ben.grummmitt398@gmail.com",
+                "e23fkr", 1.5, 4, 5, 0, 0, 0.87f, "MALE");
+        User user2 = new User(1, "Pavon", "Preng", "PP", "grummitt3986@gmail.com",
+                "e23fkr", 1.5, 4, 5, 0, 0, 0.85f, "MALE");
 
-        Group group1 = new Group(1, "Group 1 Test", "Group desc", "Role?");
-        Group group2 = new Group(2, "Group 2 Test", "Group desc", "Role?");
+        Group group1 = new Group(1, "Group 1 Test", "Group desc", 0, "138FEJ9");
+        Group group2 = new Group(2, "Group 2 Test", "Group desc", 0, "429WRF");
 
         server.addUserToServer(user1);
         server.addUserToServer(user2);
@@ -28,9 +28,6 @@ public class ServerV2Helper {
 
         server.joinGroup(user1, g1);
         server.joinGroup(user2, g2);
-
-        
-
     }
 
     public boolean checkIfGroupIDExists(int groupID){
@@ -110,7 +107,6 @@ public class ServerV2Helper {
     }
 
     public Group createGroup(Group group){
-        // TODO update for new group
         HTTPJSONResponse r = ServerV2Communication.sendGroupToServer(group);
 
         if(r == null){
@@ -118,10 +114,10 @@ public class ServerV2Helper {
         }
 
         return new Group(r.getBody().getInt("resourceId"),
-                r.getBody().getInt("size"),
                 r.getBody().getString("name"),
                 r.getBody().getString("description"),
-                "role?");
+                r.getBody().getInt("size"),
+                r.getBody().getString("invCode"));
     }
 
     public boolean joinGroup(User user, Group group){
