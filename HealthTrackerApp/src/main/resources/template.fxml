@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane>
         <columnConstraints>
@@ -18,15 +18,15 @@
          <children>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="248.0" GridPane.columnIndex="1">
                <items>
-                  <Button mnemonicParsing="false" text="Diet &amp; Exercise" />
-                  <Button mnemonicParsing="false" text="Goals" />
-                  <Button mnemonicParsing="false" text="Groups" />
+                  <Button fx:id="diet" mnemonicParsing="false" onAction="#navigatePage" text="Diet &amp; Exercise" />
+                  <Button fx:id="goals" mnemonicParsing="false" onAction="#navigatePage" text="Goals" />
+                  <Button mnemonicParsing="false" onAction="#goToGroupPage" text="Groups" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
               <items>
-                <Button mnemonicParsing="false" text="Register" />
-                  <Button mnemonicParsing="false" text="Log in" />
+                <Button fx:id="main_menu" mnemonicParsing="false" text="Register" />
+                  <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" text="Log in" />
               </items>
             </ToolBar>
          </children>

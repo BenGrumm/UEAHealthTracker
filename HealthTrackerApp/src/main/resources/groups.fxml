@@ -64,7 +64,7 @@
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" text="Manage Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#LoadManageGroup" text="Manage Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>

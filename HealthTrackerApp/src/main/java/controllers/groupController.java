@@ -54,6 +54,17 @@ public class groupController extends Controller implements Initializable{
     @FXML
     private TextField invCodeTextBox;
 
+    //Manage Group Page
+    @FXML
+    private Label mgErrLabel, mgGroupName, mgGroupDesc,mgGroupInvCode;
+    @FXML
+    private Button mgUpdateName,mgUpdateDesc, mgRegenerateCode, mgDelete;
+    @FXML
+    private TextField mgNameTextBox, mgDescTextBox;
+
+
+
+
 
 
     @FXML
@@ -309,6 +320,21 @@ public class groupController extends Controller implements Initializable{
 
         GUI.changeScene(root);
 
+    }
+
+    public void LoadManageGroup(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/manage_group.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        groupController gc = loader.getController();
+        gc.mgGroupName.setText(currentGroup.getName());
+        gc.mgGroupDesc.setText(currentGroup.getDescription());
+        gc.mgGroupInvCode.setText(currentGroup.getInvCode());
+        GUI.changeScene(root);
     }
 
 
