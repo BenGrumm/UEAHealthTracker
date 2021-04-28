@@ -49,6 +49,7 @@ public class Controller {
     }
 
     public void logged_in(){
+        /*
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/groups.fxml"));
         try {
             Parent root = loader.load();
@@ -56,6 +57,9 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
+        goToGroupPage();
+
     }
 
     /**
