@@ -36,13 +36,13 @@ public class groupController extends Controller implements Initializable{
 
     //Group creation form
     @FXML
-    private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel,isErrorLabel;
+    private Label errorLabel, isTitle, isInvCodeLabel,isInviteCodeLabel,isAddEmailLabel,isErrorLabel,createTitle,createGroupName,createGroupDesc;
     @FXML
     private TextField groupNameInput,isEmailTextField,groupNameInputDash;
     @FXML
     private TextArea groupDescriptionInput;
     @FXML
-    private Button isInviteButton;
+    private Button isInviteButton,createGroupButton;
 
     //Group Homepage
     @FXML
@@ -106,6 +106,43 @@ public class groupController extends Controller implements Initializable{
         isInviteCodeLabel.setVisible(b);
         isTitle.setVisible(b);
     }
+    /**
+     * Method used to show or hide the create group section of the UI to the user for the group they are on.
+     * @param b True, to show, false to hide
+     */
+    public void toggleCreateSection(boolean b){
+        createTitle.setVisible(b);
+        createGroupName.setVisible(b);
+        createGroupDesc.setVisible(b);
+        groupNameInput.setVisible(b);
+        groupDescriptionInput.setVisible(b);
+        createGroupButton.setVisible(b);
+    }
+    /**
+     * Method used to set up group creating UI for invite
+     */
+    public void SetUpInvite(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/group_creation.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        groupController gc = loader.getController();
+        gc.toggleInviteSection(true);
+        gc.toggleCreateSection(false);
+        gc.isInviteCodeLabel.setText(currentGroup.getInvCode());
+
+        GUI.changeScene(root);
+        /*
+        toggleInviteSection(true);
+        toggleCreateSection(true);
+        isInviteCodeLabel.setText(currentGroup.getInvCode());
+
+         */
+    }
+
 
     /**
      * Method used to generate an invite code
@@ -242,8 +279,18 @@ public class groupController extends Controller implements Initializable{
      */
     public void DashToCreateAGroupPage(){
         String name = groupNameInputDash.getText();
-        LoadCreateAGroupPage();
-        groupNameInput.setText(name);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/group_creation.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        groupController gc = loader.getController();
+        gc.toggleInviteSection(false);
+        gc.groupNameInput.setText(name);
+
+        GUI.changeScene(root);
     }
 
     /**

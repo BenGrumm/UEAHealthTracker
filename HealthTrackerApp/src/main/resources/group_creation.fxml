@@ -37,7 +37,7 @@
                   <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" text="Log in" />
               </items>
             </ToolBar>
-            <Label text="Group Name*:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <Label fx:id="createGroupName" text="Group Name*:" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <padding>
                   <Insets right="20.0" />
                </padding>
@@ -52,12 +52,12 @@
                   <Insets bottom="5.0" left="20.0" right="50.0" top="5.0" />
                </GridPane.margin>
             </TextArea>
-            <Label text="Description:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <Label fx:id="createGroupDesc" text="Description:" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <padding>
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <Label text="Create A Group:" GridPane.rowIndex="2">
+            <Label fx:id="createTitle" text="Create A Group:" GridPane.rowIndex="2">
                <padding>
                   <Insets left="20.0" />
                </padding>

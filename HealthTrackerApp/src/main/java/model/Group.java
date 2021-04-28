@@ -29,6 +29,7 @@ public class Group {
         return description;
     }
 
+    public String getInvCode(){ return invCode;}
     /** Setters **/
 
     //Need to make sure does not already exist

@@ -68,7 +68,7 @@
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
-            <Button fx:id="inviteMethodButton" mnemonicParsing="false" text="Invite Member" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+            <Button fx:id="inviteMethodButton" mnemonicParsing="false" onAction="#SetUpInvite" text="Invite Member" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
