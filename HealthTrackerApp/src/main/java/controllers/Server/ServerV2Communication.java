@@ -20,43 +20,80 @@ public class ServerV2Communication {
 
     private static final String baseURL = "http://localhost:8080";
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException{
+        System.out.println("Response = " + sendDeleteRequest("/users/ben.grummitt@gmail.com/groups/0").getResponseCode());
+        System.out.println("Response = " + joinUserGroup("ben.grummitt@gmail.com", 0).getResponseCode());
+        System.out.println("Response = " + joinUserGroup("ben.grummitt@gmail.com", 0).getResponseCode());
     }
 
-//    public static HTTPJSONResponse notifyGroupOfGoalCompletion(Group group, User user, Goal goal){
-//
-//    }
-
-    public static HTTPJSONResponse emailUserAboutGroup(String email, Group group){
-        return null;
-    }
-
-    public static HTTPJSONResponse addUserToGroup(String groupCode, User user){
-        return null;
-    }
-
-    public static HTTPJSONResponse addNewGroup(Group group){
-        return null;
-    }
-
-//    public static HTTPJSONResponse addGoalToGroup(Goal goal){
-//
-//    }
-
-    public static HTTPJSONResponse sendUserToServer(User user){
-        String json = formatUserToJson(user);
-
+    public static HTTPJSONResponse getUsers(){
         try {
-            HTTPJSONResponse response = sendPostRequestWithJson("/users", json);
-            return response;
+            return sendGetRequestForJsonResponse("/users");
+        }catch (IOException e){
+            return null;
+        }
+    }
+
+    public static HTTPJSONResponse getGroups(){
+        try {
+            return sendGetRequestForJsonResponse("/groups");
+        }catch (IOException e){
+            return null;
+        }
+    }
+
+    public static HTTPJSONResponse getGoals(){
+        try {
+            return sendGetRequestForJsonResponse("/goals");
+        }catch (IOException e){
+            return null;
+        }
+    }
+
+    public static HTTPJSONResponse sendGroupToServer(Group group){
+        String json = formatGroupToJson(group);
+
+        try{
+            return sendPostRequestWithJson("/groups", json);
         }catch (IOException e){
             e.printStackTrace();
             return null;
         }
     }
 
-    private static HTTPJSONResponse sendPostRequestWithJson(String relativeURLExtension, String json) throws IOException {
+    public static HTTPJSONResponse sendUserToServer(User user){
+        String json = formatUserToJson(user);
+
+        try {
+            return sendPostRequestWithJson("/users", json);
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static HTTPResponse joinUserGroup(String userEmail, int groupId) throws IOException{
+        String urlRelative = "/users/" + userEmail + "/groups";
+        String urlToJoin = baseURL + "/groups/" + groupId;
+
+        return sendPutRequestWithURI(urlRelative, urlToJoin);
+    }
+
+    private static HTTPJSONResponse sendGetRequestForJsonResponse(String relativeURLExtension) throws IOException{
+        URL url = new URL(baseURL + relativeURLExtension);
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        addAuthToRequest(con);
+
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+
+        return getResponseFromCon(con);
+    }
+
+    public static HTTPJSONResponse sendPostRequestWithJson(String relativeURLExtension, String json) throws IOException {
         URL url = new URL(baseURL + relativeURLExtension);
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -72,6 +109,36 @@ public class ServerV2Communication {
 
         return getResponseFromCon(con);
 
+    }
+
+    public static HTTPResponse sendPutRequestWithURI(String relativeURLExtension, String uri) throws IOException{
+        URL url = new URL(baseURL + relativeURLExtension);
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        addAuthToRequest(con);
+
+        con.setRequestMethod("PUT");
+        con.setRequestProperty("Content-Type", "text/uri-list; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+
+        writeStringToConnection(con, uri);
+
+        return new HTTPResponse(con.getResponseCode(), con.getHeaderFields());
+    }
+
+    public static HTTPResponse sendDeleteRequest(String relativeURLExtension) throws IOException{
+        URL url = new URL(baseURL + relativeURLExtension);
+
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestProperty("Accept", "*/*");
+
+        addAuthToRequest(con);
+
+        con.setRequestMethod("DELETE");
+
+        return new HTTPResponse(con.getResponseCode(), con.getHeaderFields());
     }
 
     private static void addAuthToRequest(HttpURLConnection con){
@@ -113,6 +180,17 @@ public class ServerV2Communication {
     public static String formatUserToJson(User user){
         return String.format(userJsonFormat, user.getEmail(), user.getFirstName(), user.getSurname(), user.getUsername(),
                 user.getPassword(), user.getWeightStone(), user.getWeightPounds(), user.getHeight(), user.getGender().toString());
+    }
+
+    private static final String groupJsonFromat = "{" +
+            "\"size\":%d," +
+            "\"name\":\"%s\"," +
+            "\"description\":\"%s\"," +
+            "\"inviteCode\":\"%s\"" +
+            "}";
+    public static String formatGroupToJson(Group group){
+        // TODO update with new group format
+        return String.format(groupJsonFromat, group.getSize(), group.getName(), group.getDescription(), "INV_NOT_AVAILABLE");
     }
 
 }

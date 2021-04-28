@@ -12,6 +12,8 @@ import java.util.Set;
 public class UserGroup {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String name;
     private String description, inviteCode;
     private int size;
@@ -19,14 +21,28 @@ public class UserGroup {
     private Set<ServerUser> users;
     @OneToMany(mappedBy = "group")
     private Set<Goal> goals;
+
     public UserGroup(){}
 
-    public UserGroup(int size, String name, String description, String inviteCode, Set<ServerUser> users){
+    public UserGroup(int id, int size, String name, String description, String inviteCode, Set<ServerUser> users){
+        this.id = id;
         this.size = size;
         this.name = name;
         this.description = description;
         this.inviteCode = inviteCode;
         this.users = users;
+    }
+
+    public int getResourceId(){
+        return id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getSize() {
@@ -69,4 +85,11 @@ public class UserGroup {
         this.users = users;
     }
 
+    public Set<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(Set<Goal> goals) {
+        this.goals = goals;
+    }
 }

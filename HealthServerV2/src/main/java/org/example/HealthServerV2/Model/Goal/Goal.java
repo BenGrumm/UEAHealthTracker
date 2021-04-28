@@ -2,24 +2,27 @@ package org.example.HealthServerV2.Model.Goal;
 
 import org.example.HealthServerV2.Model.Group.UserGroup;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Goal {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
     @ManyToOne
-    @JoinColumn(name="group_name")
+    @JoinColumn(name="group_id")
     UserGroup group;
+    String inviteCode;
 
-    public Goal(int id, UserGroup group) {
+    public Goal(){
+    }
+
+    public Goal(int id, UserGroup group, String inviteCode) {
         this.id = id;
         this.group = group;
+        this.inviteCode = inviteCode;
     }
 
     public int getId() {
@@ -36,5 +39,13 @@ public class Goal {
 
     public void setGroup(UserGroup group) {
         this.group = group;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }

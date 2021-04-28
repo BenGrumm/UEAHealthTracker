@@ -1,12 +1,12 @@
 package org.example.HealthServerV2.Controller;
 
-import org.apache.catalina.Server;
 import org.example.HealthServerV2.Model.Group.GroupNotFoundException;
 import org.example.HealthServerV2.Model.Group.GroupRepository;
 import org.example.HealthServerV2.Model.Group.UserGroup;
 import org.example.HealthServerV2.Model.User.ServerUser;
 import org.example.HealthServerV2.Model.User.UserNotFoundException;
 import org.example.HealthServerV2.Model.User.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,15 +27,25 @@ public class Controller {
         this.groups = groups;
     }
 
-    @PutMapping("/invite/{groupName}/{email}")
-    ResponseEntity inviteToGroup(@PathVariable String groupName, @PathVariable String email){
+    @PutMapping("/invite/{groupId}/{email}")
+    ResponseEntity inviteToGroup(@PathVariable int groupId, @PathVariable String email){
+        ServerUser userToEmail = users.findById(email).orElseThrow(() -> new UserNotFoundException(email));
+        UserGroup group = groups.findById(groupId).orElseThrow(() -> new GroupNotFoundException(groupId));
+
+        try {
+            Email.sendEmail("subject", "body", userToEmail.getEmail());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/email/{groupName}/{email}/{id}")
-    ResponseEntity sendEmailToGroup(@PathVariable String groupName, @PathVariable String email, @PathVariable int id){
+    @PutMapping("/email/{groupId}/{email}/{goalId}")
+    ResponseEntity sendEmailToGroup(@PathVariable int groupId, @PathVariable String email, @PathVariable int goalId){
         ServerUser userWhoCompleted = users.findById(email).orElseThrow(() -> new UserNotFoundException(email));
-        UserGroup groupToEmail = groups.findById(groupName).orElseThrow(() -> new GroupNotFoundException(groupName));
+        UserGroup groupToEmail = groups.findById(groupId).orElseThrow(() -> new GroupNotFoundException(groupId));
 
         for(ServerUser user : groupToEmail.getUsers()){
             try {

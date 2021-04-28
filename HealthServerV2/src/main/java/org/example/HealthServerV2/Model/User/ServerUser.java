@@ -26,7 +26,7 @@ public class ServerUser {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_groups",
             joinColumns = @JoinColumn(name = "user_email", referencedColumnName = "email"),
-            inverseJoinColumns = @JoinColumn(name = "group_name", referencedColumnName = "name"))
+            inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
     private Set<UserGroup> groups;
 
     public enum Gender {MALE, FEMALE}
@@ -54,6 +54,10 @@ public class ServerUser {
                 this.gender = Gender.FEMALE;
                 break;
         }
+    }
+
+    public String getResourceId(){
+        return email;
     }
 
     public void setFirstName(String firstName) {
