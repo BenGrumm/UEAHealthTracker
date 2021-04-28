@@ -31,6 +31,7 @@ public class groupController extends Controller implements Initializable{
     private int currentUserID = User.getLoggedIn().getID();
     private Group currentGroup;
     private Group[] usersGroups;
+    private int mgGroupID;
     private String usersCurrentUI;
     private String groupName;
 
@@ -56,11 +57,13 @@ public class groupController extends Controller implements Initializable{
 
     //Manage Group Page
     @FXML
-    private Label mgErrLabel, mgGroupName, mgGroupDesc,mgGroupInvCode;
+    private Label mgErrLabel, mgGroupName, mgGroupDesc,mgGroupInvCode, mgID;
     @FXML
     private Button mgUpdateName,mgUpdateDesc, mgRegenerateCode, mgDelete;
     @FXML
     private TextField mgNameTextBox, mgDescTextBox;
+
+
 
 
 
@@ -334,7 +337,43 @@ public class groupController extends Controller implements Initializable{
         gc.mgGroupName.setText(currentGroup.getName());
         gc.mgGroupDesc.setText(currentGroup.getDescription());
         gc.mgGroupInvCode.setText(currentGroup.getInvCode());
+        gc.mgID.setText(currentGroup.getiD() +"");
         GUI.changeScene(root);
+
+    }
+
+    public void RegenInvCode(){
+        String invCode = generateInvitecode();
+        while(GDBH.doesGroupInvCodeExist(invCode)){
+            invCode = generateInvitecode();
+        }
+        GDBH.UpdateInvCode(Integer.parseInt(mgID.getText()),invCode);
+        mgGroupInvCode.setText(invCode);
+        mgErrLabel.setTextFill(Color.rgb(0, 255, 0));
+        mgErrLabel.setText("Invite Code Updated");
+    }
+
+    public void UpdateDesc(){
+        GDBH.UpdateDesc(Integer.parseInt(mgID.getText()),mgDescTextBox.getText());
+        mgErrLabel.setTextFill(Color.rgb(0, 255, 0));
+        mgErrLabel.setText("Description Updated");
+        mgGroupDesc.setText(mgDescTextBox.getText());
+    }
+
+    public void UpdateName(){
+        String name = mgNameTextBox.getText();
+
+        if(!GDBH.doesGroupNameExist(name)) {
+            GDBH.UpdateName(Integer.parseInt(mgID.getText()), name);
+            mgErrLabel.setTextFill(Color.rgb(0, 255, 0));
+            mgErrLabel.setText("Name Updated");
+            mgGroupName.setText(mgNameTextBox.getText());
+        }
+        else{
+            mgErrLabel.setTextFill(Color.rgb(255, 0, 0));
+            mgErrLabel.setText("Name Unavailable");
+            mgNameTextBox.setText("");
+        }
     }
 
 

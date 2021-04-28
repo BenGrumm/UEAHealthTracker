@@ -86,7 +86,7 @@
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin></TextField>
-                  <Button mnemonicParsing="false" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#UpdateName" text="Update" />
                </children></HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
@@ -94,9 +94,9 @@
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin></TextField>
-                  <Button mnemonicParsing="false" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#UpdateDesc" text="Update" />
                </children></HBox>
-            <Button mnemonicParsing="false" text="Regenerate" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <Button mnemonicParsing="false" onAction="#RegenInvCode" text="Regenerate" GridPane.columnIndex="1" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></Button>
@@ -115,6 +115,11 @@
                   <Insets right="20.0" />
                </GridPane.margin>
             </Button>
+            <Label fx:id="mgID" text="GroupID:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
          </children>
       </GridPane>
    </children>

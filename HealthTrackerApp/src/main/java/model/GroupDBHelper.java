@@ -332,6 +332,36 @@ public class GroupDBHelper {
         return true;
     }
 
+    public void UpdateInvCode(int groupID, String invCode ){
+        String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_INVCODE + " = \"" + invCode + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
+        System.out.println(incrementGroupSizeSQL);
+        try {
+            db.updateTable(incrementGroupSizeSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void UpdateDesc(int groupID, String desc ){
+        String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_DESCRIPTION + " = \"" + desc + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
+        System.out.println(incrementGroupSizeSQL);
+        try {
+            db.updateTable(incrementGroupSizeSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void UpdateName(int groupID, String name ){
+        String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_NAME + " = \"" + name + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
+        System.out.println(incrementGroupSizeSQL);
+        try {
+            db.updateTable(incrementGroupSizeSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
     // Method to get DESCRIPTION from database
