@@ -21,11 +21,11 @@ public class Database {
     }
 
     protected static Database getInstance() throws ClassNotFoundException, SQLException{
-        if(db == null || db.stmt.isClosed() || db.conn.isClosed()){
-            db = new Database(dbName);
-        }
+//        if(db == null || db.stmt.isClosed() || db.conn.isClosed()){
+//            db = new Database(dbName);
+//        }
 
-        return db;
+        return new Database(dbName);
     }
 
     private Database(String dbName) throws ClassNotFoundException, SQLException{

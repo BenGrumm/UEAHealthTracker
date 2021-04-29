@@ -82,10 +82,10 @@ public class ExerciseTypeDBHelper {
 
         try {
             ResultSet rs = db.selectQuery(String.format(queryWithID, id));
+            return convertResultSetToExerciseType(rs)[0];
         }catch (SQLException sqle){
             return null;
         }
-        return null;
     }
 
     private static final String queryWithName = "SELECT COUNT(*) AS total FROM " + TABLE_NAME + " WHERE " + COLUMN_TYPE

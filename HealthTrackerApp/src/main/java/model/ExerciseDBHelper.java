@@ -23,6 +23,13 @@ public class ExerciseDBHelper {
 
     public ExerciseDBHelper(){
         try{
+            // TODO assuming this can never be called when a user is not stored in current user
+            // remove this for
+//            User testUser = new User(1, "Caitlin", "Wright", "cwright",
+//                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
+//                    10, 10, "Female");
+//            User.setLoggedIn(testUser);
+
             db = Database.getInstance();
 
             String createDBIfNotExists = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
@@ -67,8 +74,10 @@ public class ExerciseDBHelper {
         }
     }
 
-    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE +
-            " BETWEEN '%s' AND '%s' ORDER BY " + COLUMN_DATE + " ASC;";
+    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_DATE +
+            " BETWEEN ('%s' AND '%s') AND " + COLUMN_USER_ID + " = %s" +
+            " ORDER BY " + COLUMN_DATE + " ASC;";
     /**
      * Inclusive dates
      * @param from
@@ -77,7 +86,7 @@ public class ExerciseDBHelper {
      */
     public Exercise[] getExercisesWithinRange(LocalDate from, LocalDate to){
         try {
-            ResultSet rs = db.selectQuery(String.format(withinRangeSQL, from.toString(), to.toString()));
+            ResultSet rs = db.selectQuery(String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID()));
 
             return convertResultSetToExercise(rs);
         }catch (SQLException error){
@@ -85,7 +94,9 @@ public class ExerciseDBHelper {
         }
     }
 
-    private static final String getAllExercises = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_DATE + " ASC";
+    private static final String getAllExercises = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_USER_ID + " = %d" +
+            " ORDER BY " + COLUMN_DATE + " ASC";
 
     /**
      * Function that uses a final string containing a select everything from statement to select everything from
@@ -94,10 +105,13 @@ public class ExerciseDBHelper {
      */
     public Exercise[] getAllExercises(){
         try {
-            ResultSet rs = db.selectQuery(getAllExercises);
-
+            System.out.println(User.loggedIn.getID());
+            String sql = String.format(getAllExercises, User.getLoggedIn().getID());
+            System.out.println(sql);
+            ResultSet rs = db.selectQuery(String.format(getAllExercises, User.getLoggedIn().getID()));
             return convertResultSetToExercise(rs);
         }catch (SQLException error){
+            error.printStackTrace();
             return null;
         }
     }
@@ -110,6 +124,7 @@ public class ExerciseDBHelper {
     private Exercise[] convertResultSetToExercise(ResultSet rs) throws SQLException{
         ArrayList<Exercise> exercises = new ArrayList<>();
         ExerciseTypeDBHelper dbh = new ExerciseTypeDBHelper();
+
 
         while(rs.next()){
             int id = rs.getInt(COLUMN_ID);
@@ -140,12 +155,14 @@ public class ExerciseDBHelper {
      */
     public void addExerciseToDB(Exercise ex){
         try {
-            // CURRENTLY HOLDS TEST DATA - once log in process is fully funcitonal, just take the
+            // TODO CURRENTLY HOLDS TEST DATA - once log in process is fully functional, just take the
             // user.getLoggedIn().getID() rather than using this test user
-            User testUser = new User(1, "Caitlin", "Wright", "cwright",
-                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
-                    10, 10, "Female");
-            User.setLoggedIn(testUser);
+//            User testUser = new User(1, "Caitlin", "Wright", "cwright",
+//                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
+//                    10, 10, "Female");
+//            User.setLoggedIn(testUser);
+            User.getLoggedIn();
+            ex.getExerciseT().getDbID();
             String sql = String.format(addExercise, ex.getMinutesExercised(), ex.getCaloriesBurned(), ex.getDate(),
                     ex.getExerciseT().getDbID(), User.getLoggedIn().getID());
             System.out.println(sql);
@@ -158,11 +175,11 @@ public class ExerciseDBHelper {
     // Test harness
     public static void main(String[] args) {
         ExerciseDBHelper edbh = new ExerciseDBHelper();
-        edbh.getAllExercises();
-        edbh.exerciseTableLength();
         ExerciseType testExerciseType = new ExerciseType(1, "Run", 30);
         Exercise testExercise = new Exercise(1, 60, 90, testExerciseType, LocalDate.now());
         edbh.addExerciseToDB(testExercise);
-        //edbh.getExercisesWithinRange();
+        edbh.getAllExercises();
+        edbh.exerciseTableLength();
+        edbh.getExercisesWithinRange(LocalDate.now().minusDays(100), LocalDate.now());
     }
 }

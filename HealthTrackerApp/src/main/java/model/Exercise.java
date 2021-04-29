@@ -36,4 +36,29 @@ public class Exercise {
     public LocalDate getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "id = " + id + ", " +
+                "mins exercised = " + minutesExercised + ", " +
+                "cals bruned = " + caloriesBurned + ", " +
+                "ex type = " + exerciseT.getDbID() + ", " +
+                "data = " + date + ", ";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }else if(obj instanceof Exercise){
+            Exercise eObj = (Exercise) obj;
+            return id == eObj.id &&
+                    minutesExercised == eObj.getMinutesExercised() &&
+                    caloriesBurned == eObj.caloriesBurned &&
+                    exerciseT == eObj.exerciseT &&
+                    date == eObj.date;
+        }
+
+        return false;
+    }
 }

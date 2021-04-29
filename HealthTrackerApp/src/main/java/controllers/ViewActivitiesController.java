@@ -35,16 +35,20 @@ public class ViewActivitiesController extends Controller{
         dateFrom.setDayCellFactory(cb);
         dateTo.setDayCellFactory(cb);
 
-        // Exercise[] allExercises = new ExerciseDBHelper().getAllExercises();
+        Exercise[] allExercises = new ExerciseDBHelper().getAllExercises();
         // TODO switch to getting db exercises
         // in ascending order from smallest date to largest
-        ExerciseType et = new ExerciseType(2, "Running Fast", 12);
-        Exercise[] allExercises = {new Exercise(1, 15, 120, et, LocalDate.now().minusDays(13)),
-                new Exercise(0, 12, 150, et, LocalDate.now()),
-                new Exercise(2, 15, 120, et, LocalDate.now()),
-                new Exercise(3, 20, 250, et, LocalDate.now().plusDays(5))};
+//        ExerciseType et = new ExerciseType(2, "Running Fast", 12);
+//        Exercise[] allExercises = {new Exercise(1, 15, 120, et, LocalDate.now().minusDays(13)),
+//                new Exercise(0, 12, 150, et, LocalDate.now()),
+//                new Exercise(2, 15, 120, et, LocalDate.now()),
+//                new Exercise(3, 20, 250, et, LocalDate.now().plusDays(5))};
 
-        populateGraphWithRange(allExercises, allExercises[0].getDate(), allExercises[allExercises.length - 1].getDate());
+        if(allExercises.length > 0) {
+            populateGraphWithRange(allExercises, allExercises[0].getDate(), allExercises[allExercises.length - 1].getDate());
+        }else{
+
+        }
 
     }
 
@@ -52,8 +56,8 @@ public class ViewActivitiesController extends Controller{
         System.out.println("Yes Clicked Here");
 
         if(dateFrom.getValue() != null && dateTo.getValue() != null){
-            System.out.println(java.sql.Date.valueOf(dateFrom.getValue()));
-            System.out.println(java.sql.Date.valueOf(dateTo.getValue()));
+            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
+
         }
         graphLabel.setText("Label Set");
     }
