@@ -24,6 +24,7 @@ public class GroupDBHelper {
     private static final String LUCOLUMN_GROUPID = "GROUPID";
     private static final String LUCOLUMN_USERID = "USERID";
     private static final String LUCOLUMN_ROLE = "ROLE";
+    private static final String LUCOLUMN_SUBSCRIBED = "SUBSCRIBED";
 
     /**
      * Group and Goals Linked - Prefix LG
@@ -42,7 +43,7 @@ public class GroupDBHelper {
             db.createTable(createGroupTableSQL);
 
             //Group and Users Link Table
-            String createLUTableSQL = "CREATE TABLE IF NOT EXISTS " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " INTEGER NOT NULL REFERENCES GROUPS(ID) , " + LUCOLUMN_USERID + " INTEGER NOT NULL REFERENCES USERS(__id) , " + LUCOLUMN_ROLE + ", PRIMARY KEY(" + LUCOLUMN_GROUPID + "," + LUCOLUMN_USERID + "));";
+            String createLUTableSQL = "CREATE TABLE IF NOT EXISTS " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " INTEGER NOT NULL REFERENCES GROUPS(ID) , " + LUCOLUMN_USERID + " INTEGER NOT NULL REFERENCES USERS(__id) , " + LUCOLUMN_ROLE + " TEXT, " + LUCOLUMN_SUBSCRIBED + " TEXT, PRIMARY KEY(" + LUCOLUMN_GROUPID + "," + LUCOLUMN_USERID + "));";
             System.out.println(createLUTableSQL);
             db.createTable(createLUTableSQL);
 
@@ -95,7 +96,7 @@ public class GroupDBHelper {
         if (groupID == 0) {
             System.out.println("ERROR");
         } else {
-            String setGroupOwnerSQL = "INSERT INTO " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " , " + LUCOLUMN_USERID + " , " + LUCOLUMN_ROLE + " ) VALUES( " + groupID + " , " + userID + " , \"OWNER\" )";
+            String setGroupOwnerSQL = "INSERT INTO " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " , " + LUCOLUMN_USERID + " , " + LUCOLUMN_ROLE + " , " + LUCOLUMN_SUBSCRIBED + " ) VALUES( " + groupID + " , " + userID + " , \"OWNER\",\"YES\")";
             try {
                 System.out.println(setGroupOwnerSQL);
                 db.insertData(setGroupOwnerSQL);
@@ -241,13 +242,13 @@ public class GroupDBHelper {
         return role;
     }
 
-    public int GetGroupID(String invCode){
+    public int GetGroupID(String invCode) {
         String getGroupNameSQL = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_INVCODE + " = \"" + invCode + "\";";
         System.out.println(getGroupNameSQL);
         int groupID = 0;
         try {
             ResultSet results = db.selectQuery(getGroupNameSQL);
-                groupID = results.getInt(COLUMN_ID);
+            groupID = results.getInt(COLUMN_ID);
             results.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -259,7 +260,7 @@ public class GroupDBHelper {
     }
 
     public void AddMember(int groupID, int userID) {
-        String setGroupOwnerSQL = "INSERT INTO " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " , " + LUCOLUMN_USERID + " , " + LUCOLUMN_ROLE + " ) VALUES( " + groupID + " , " + userID + " , \"MEMBER\" )";
+        String setGroupOwnerSQL = "INSERT INTO " + LUTABLE_NAME + " (" + LUCOLUMN_GROUPID + " , " + LUCOLUMN_USERID + " , " + LUCOLUMN_ROLE + " , " + LUCOLUMN_SUBSCRIBED + " ) VALUES( " + groupID + " , " + userID + " , \"MEMBER\" , \"YES\")";
         try {
             System.out.println(setGroupOwnerSQL);
             db.insertData(setGroupOwnerSQL);
@@ -269,7 +270,7 @@ public class GroupDBHelper {
         IncrementGroupSize(groupID);
     }
 
-    public void IncrementGroupSize(int groupID){
+    public void IncrementGroupSize(int groupID) {
         int size = GetGroupSize(groupID) + 1;
 
         String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_SIZE + " = " + size + " WHERE " + COLUMN_ID + " = " + groupID + ";";
@@ -281,7 +282,7 @@ public class GroupDBHelper {
         }
     }
 
-    public int GetGroupSize(int groupID){
+    public int GetGroupSize(int groupID) {
         String getGroupSizeSQL = "SELECT " + COLUMN_SIZE + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + groupID + ";";
         int size = 0;
         try {
@@ -294,7 +295,7 @@ public class GroupDBHelper {
         return size;
     }
 
-    public void LeaveGroup(int groupID, int userID){
+    public void LeaveGroup(int groupID, int userID) {
         String deleteMemberSQL = "DELETE FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + " AND " + LUCOLUMN_USERID + " = " + userID + ";";
         try {
             db.deleteData(deleteMemberSQL);
@@ -304,7 +305,7 @@ public class GroupDBHelper {
         DecrementGroupSize(groupID);
     }
 
-    public void DecrementGroupSize(int groupID){
+    public void DecrementGroupSize(int groupID) {
         int size = GetGroupSize(groupID) - 1;
 
         String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_SIZE + " = " + size + " WHERE " + COLUMN_ID + " = " + groupID + ";";
@@ -332,7 +333,7 @@ public class GroupDBHelper {
         return true;
     }
 
-    public void UpdateInvCode(int groupID, String invCode ){
+    public void UpdateInvCode(int groupID, String invCode) {
         String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_INVCODE + " = \"" + invCode + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
         System.out.println(incrementGroupSizeSQL);
         try {
@@ -342,7 +343,7 @@ public class GroupDBHelper {
         }
     }
 
-    public void UpdateDesc(int groupID, String desc ){
+    public void UpdateDesc(int groupID, String desc) {
         String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_DESCRIPTION + " = \"" + desc + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
         System.out.println(incrementGroupSizeSQL);
         try {
@@ -352,7 +353,7 @@ public class GroupDBHelper {
         }
     }
 
-    public void UpdateName(int groupID, String name ){
+    public void UpdateName(int groupID, String name) {
         String incrementGroupSizeSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_NAME + " = \"" + name + "\" WHERE " + COLUMN_ID + " = " + groupID + ";";
         System.out.println(incrementGroupSizeSQL);
         try {
@@ -362,12 +363,52 @@ public class GroupDBHelper {
         }
     }
 
+    public void DeleteAllMembersOfGroup(int groupID) {
+        String deleteAllMembersSQL = "DELETE FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + ";";
+        try {
+            db.deleteData(deleteAllMembersSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DeleteGroup(int groupID) {
+        DeleteAllMembersOfGroup(groupID);
+        String deleteAllMembersSQL = "DELETE FROM " + TABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + ";";
+        try {
+            db.deleteData(deleteAllMembersSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void ChangeSubscription(int groupID, int userID, String sub) {
+        String incrementGroupSizeSQL = "UPDATE " + LUTABLE_NAME + " SET " + LUCOLUMN_SUBSCRIBED + " = \"" + sub + "\" WHERE " + LUCOLUMN_GROUPID + " = " + groupID + " AND " + LUCOLUMN_USERID + " = " + userID + ";";
+        System.out.println(incrementGroupSizeSQL);
+        try {
+            db.updateTable(incrementGroupSizeSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getMembersSubStatus(int groupID, int userID) {
+        String sub = "";
+        String getGroupNameSQL = "SELECT " + LUCOLUMN_SUBSCRIBED + " FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + " AND " + LUCOLUMN_USERID + " = " + userID + ";";
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            if (results.isBeforeFirst()) {
+                sub = results.getString(LUCOLUMN_SUBSCRIBED);
+            } else {
+                System.out.println("AN ERROR HAS OCCURRED");
+            }
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sub;
+    }
 }
-
-    // Method to get DESCRIPTION from database
-
-
-    // Method to DELETE GROUP
 
 
 

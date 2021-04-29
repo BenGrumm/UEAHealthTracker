@@ -49,7 +49,7 @@ public class groupController extends Controller implements Initializable{
     @FXML
     private Label groupNameLabel,groupMemberCountLabel, groupDescLabel,groupRoleLabel,groupGoal1Label,groupGoal2Label,groupGoal3Label;
     @FXML
-    private Button groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton;
+    private Button groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton,subButton;
     @FXML
     private ComboBox usersGroupsComboBox;
     @FXML
@@ -233,6 +233,8 @@ public class groupController extends Controller implements Initializable{
             System.out.println(groupNames[x]);
         }
 
+
+
         //Set ComboBox
         usersGroupsComboBox.getItems().clear();
         usersGroupsComboBox.getItems().addAll(groupNames);
@@ -255,6 +257,20 @@ public class groupController extends Controller implements Initializable{
         System.out.println("Members: " + newGroup.getSize());
         groupMemberCountLabel.setText("Members: " + newGroup.getSize());
         groupRoleLabel.setText("Role: " + GDBH.getMembersRole(newGroup.getiD(),currentUserID));
+        if(GDBH.getMembersRole(newGroup.getiD(),currentUserID).equals("OWNER")){
+            manageGroupButton.setVisible(true);
+        }
+        else{
+            manageGroupButton.setVisible(false);
+        }
+        if(GDBH.getMembersSubStatus(newGroup.getiD(), currentUserID).equals("YES")){
+            subButton.setText("Unsubscribe");
+        }
+        else{
+            subButton.setText("Subscribe");
+        }
+
+
         currentGroup = newGroup;
     }
 
@@ -269,7 +285,7 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             GDBH.AddMember(groupID, currentUserID);
-            SetUpGroupHomepage();
+            goToGroupPage();
         }
     }
 
@@ -285,7 +301,7 @@ public class groupController extends Controller implements Initializable{
         else{
             GDBH.LeaveGroup(currentGroup.getiD(), currentUserID);
         }
-        SetUpGroupHomepage();
+        goToGroupPage();
     }
 
     /**
@@ -376,7 +392,22 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+    public void DeleteGroup(){
+        GDBH.DeleteGroup(Integer.parseInt(mgID.getText()));
+        goToGroupPage();
+    }
 
+    public void Subscribe(){
+        if(subButton.getText().equals("Subscribe")){
+            //MAke column yes
+            GDBH.ChangeSubscription(currentGroup.getiD(),currentUserID,"YES");
+            subButton.setText("Unsubscribe");
+        }
+        else{
+            GDBH.ChangeSubscription(currentGroup.getiD(),currentUserID,"NO");
+            subButton.setText("Subscribe");
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -64,7 +64,7 @@
                   <Insets right="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#LoadManageGroup" text="Manage Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+            <Button fx:id="manageGroupButton" mnemonicParsing="false" onAction="#LoadManageGroup" text="Manage Group" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
@@ -101,6 +101,16 @@
                <padding>
                   <Insets left="20.0" />
                </padding>
+            </Label>
+            <Button fx:id="subButton" mnemonicParsing="false" onAction="#Subscribe" text="Subscribe" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets right="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Label text="Email Updates:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets right="120.0" />
+               </GridPane.margin>
             </Label>
          </children>
          <opaqueInsets>
