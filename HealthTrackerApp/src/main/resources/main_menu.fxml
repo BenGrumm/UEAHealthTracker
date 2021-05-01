@@ -116,7 +116,7 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="167.0" prefHeight="52.0" prefWidth="600.0" spacing="10.0">
          <children>
-            <Label text="Gender:" />
+            <Label prefHeight="17.0" prefWidth="56.0" text="Gender:" />
             <ChoiceBox fx:id="genderBox" onMouseExited="#changeColour" prefWidth="150.0" />
             <Label layoutX="253.0" layoutY="39.0" text="Height (cm):" />
             <Spinner fx:id="heightSpinner" editable="true" onMouseClicked="#changeColour">
