@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -25,6 +26,7 @@ public class ViewActivitiesController extends Controller{
     public Label graphLabel;
     public DatePicker dateFrom, dateTo;
     public LineChart exerciseLineChart;
+    public Button dateRangeButton;
 
     public void initialize() {
         // Set Selectable days to be from current day and before
@@ -57,7 +59,7 @@ public class ViewActivitiesController extends Controller{
     public void changeDateRange(ActionEvent actionEvent) {
         System.out.println("Yes Clicked Here");
 
-        if(dateFrom.getValue() != null && dateTo.getValue() != null){
+        if(dateFrom.getValue() != null && dateTo.getValue() != null && !dateTo.getValue().isBefore(dateFrom.getValue())){
             Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
             System.out.println(exercises.length);
             if(exercises.length != 0) {
@@ -65,12 +67,16 @@ public class ViewActivitiesController extends Controller{
             }else {
                 displayErrorNoData();
             }
+            graphLabel.setText("Activities From " + dateFrom.getValue() + " to " + dateTo.getValue());
+            dateRangeButton.setText("View Activities");
+        }else if(dateFrom.getValue() != null && dateTo.getValue().isBefore(dateFrom.getValue())){
+            graphLabel.setText("Error Date From Is Greater Than Date To");
         }
-        graphLabel.setText("Label Set");
     }
 
     public void displayErrorNoData(){
-
+        exerciseLineChart.getData().clear();
+        dateRangeButton.setText("No Data Found");
     }
 
     public void populateGraphWithRange(Exercise[] exercises, LocalDate xStart, LocalDate xEnd){

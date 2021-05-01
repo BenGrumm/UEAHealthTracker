@@ -60,7 +60,7 @@
            <children>
                <DatePicker fx:id="dateFrom" promptText="From" />
                <DatePicker fx:id="dateTo" promptText="To" />
-               <Button mnemonicParsing="false" onAction="#changeDateRange" text="View Activities" />
+               <Button fx:id="dateRangeButton" mnemonicParsing="false" onAction="#changeDateRange" text="View Range" />
            </children>
          <padding>
             <Insets bottom="5.0" top="5.0" />

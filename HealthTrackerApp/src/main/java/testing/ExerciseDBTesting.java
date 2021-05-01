@@ -21,7 +21,7 @@ public class ExerciseDBTesting {
     }
 
     public static Exercise[] populateExercisesWithTestData(){
-        User.setLoggedIn(new User(16, "Test", "User", "TestUser16", "test@user.com",
+        User.setLoggedIn(new User(17, "Test", "User", "TestUser16", "test@user.com",
                 "testPword", 5, 5, 5, 5, 5, 5,
                 "MALE"));
 

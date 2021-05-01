@@ -174,6 +174,22 @@ public class ExerciseDBHelper {
         }
     }
 
+    String removeExercise = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = %d;";
+
+    /**
+     * Function to remove an exercise from the database
+     * @param exercise to remove
+     */
+    public void removeExerciseFromDB(Exercise exercise){
+        try {
+            String deleteSql = String.format(removeExercise, exercise.getId());
+            System.out.println(deleteSql);
+            db.deleteData(deleteSql);
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+        }
+    }
+
     // Test harness
     public static void main(String[] args) {
         ExerciseDBHelper edbh = new ExerciseDBHelper();
