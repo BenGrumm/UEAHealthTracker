@@ -1,6 +1,11 @@
 package model;
 
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class WeightDBHelper {
 
@@ -36,8 +41,62 @@ public class WeightDBHelper {
         }
     }
 
+    //Add weight, pass USERweight
+
+    public void addWeight(UserWeight uw, int userID) {
+        try {
+            // Input data into query removing any quotes in the description of exercise
+            String addWeightSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_USERID + " , " + COLUMN_WEIGHTSTONE + " , " + COLUMN_WEIGHTPOUNDS + " , " + COLUMN_DATE + " ) VALUES( " + userID + " , " + uw.getStones() + " , " + uw.getPounds() + " , \"" + uw.getDateRecorded() + "\" )";
+            System.out.println(addWeightSQL);
+            db.insertData(addWeightSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<UserWeight> getUsersWeights(int userID) {
+        ArrayList<UserWeight> UsersWeights = new ArrayList<>();
+
+        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " = " + userID + ";";
+        System.out.println(getGroupIDSQL);
+        try {
+            ResultSet results = db.selectQuery(getGroupIDSQL);
+
+            while (results.next()) {
+                int stones = results.getInt(COLUMN_WEIGHTSTONE);
+                int pounds = results.getInt(COLUMN_WEIGHTPOUNDS);
+                LocalDate recordedDate = LocalDate.parse(results.getString(COLUMN_DATE));
+                UserWeight uw = new UserWeight(stones,pounds,recordedDate);
+                UsersWeights.add(uw);
+            }
+
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return UsersWeights;
+    }
+
+
+
+    //Get users weights and dates, pass userID
+
+    //Testing
     public static void main(String[] args) {
         WeightDBHelper WDBH = new WeightDBHelper();
+        UserWeight uw = new UserWeight(5,6);
+
+        WDBH.addWeight(uw,1);
+
+
+        ArrayList<UserWeight> uws = new ArrayList<>();
+        uws = WDBH.getUsersWeights(1);
+
+        for (UserWeight weight:uws) {
+            System.out.println(weight.getStones() + "," + weight.getPounds() + "," + weight.getDateRecorded());
+        }
     }
+
+
 
 }
