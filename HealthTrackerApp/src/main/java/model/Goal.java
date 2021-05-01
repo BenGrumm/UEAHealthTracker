@@ -8,6 +8,7 @@ public class Goal {
         STEPS
     }
     private int goalID;
+    private float progress, target;
     private String name;
     private goal goalType;
     private LocalDate dateStart, dateEnd;
@@ -19,11 +20,13 @@ public class Goal {
         dateEnd = LocalDate.now();
     }
 
-    public Goal(String name, goal goalType, LocalDate dateEnd){
+    public Goal(String name, goal goalType, LocalDate dateEnd, float progress, float target){
         this.name = name;
         this.goalType = goalType;
         this.dateStart = LocalDate.now();
         this.dateEnd = dateEnd;
+        this.progress = progress;
+        this.target = target;
     }
 
     public String getName() {
@@ -56,5 +59,29 @@ public class Goal {
 
     public void setDateEnd(LocalDate dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public int getGoalID() {
+        return goalID;
+    }
+
+    public void setGoalID(int goalID) {
+        this.goalID = goalID;
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+    }
+
+    public float getTarget() {
+        return target;
+    }
+
+    public void setTarget(float target) {
+        this.target = target;
     }
 }
