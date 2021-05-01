@@ -1,5 +1,6 @@
 package model;
 import java.time.LocalDate;
+import javafx.fxml.FXML;
 public class Goal {
     enum goal{
         WEIGHT,
