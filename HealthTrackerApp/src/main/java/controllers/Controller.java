@@ -4,13 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
-import javafx.scene.control.Menu;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
-import model.Group;
 import model.GroupDBHelper;
 import model.User;
 import sample.GUI;
@@ -49,17 +44,14 @@ public class Controller {
     }
 
     public void logged_in(){
-        /*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/groups.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
         try {
             Parent root = loader.load();
             GUI.changeScene(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
-         */
-        goToGroupPage();
-
     }
 
     /**

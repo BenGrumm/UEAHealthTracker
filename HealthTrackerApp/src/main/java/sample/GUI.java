@@ -25,7 +25,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/diet.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/log_in.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("UEA Health Tracker");
         primaryStage.setScene(new Scene(root, 600, 400));

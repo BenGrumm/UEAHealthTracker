@@ -163,12 +163,15 @@ public class User {
                 "ID=" + ID +
                 ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", height=" + height +
                 ", weightStone=" + weightStone +
                 ", weightPounds=" + weightPounds +
+                ", idealWeightStone=" + idealWeightStone +
+                ", idealWeightPounds=" + idealWeightPounds +
+                ", height=" + height +
+                ", BMI=" + BMI +
                 ", gender=" + gender +
                 '}';
     }

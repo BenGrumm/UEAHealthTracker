@@ -64,7 +64,6 @@ public class registerController extends Controller implements Initializable {
 
     @FXML
     private void registerAccount(ActionEvent event) {
-        System.out.println("Register attempted");
 
         boolean requiredDataEntered = checkRequiredDataEntered();
 
@@ -84,16 +83,6 @@ public class registerController extends Controller implements Initializable {
             int idealPounds = idealWeightPoundsSpinner.getValue();
 
             double height = heightSpinner.getValue();
-
-            System.out.println("Firstname: " + firstname + "\n" +
-                    "Surname: " + surname + "\n" +
-                    "Username: " + username + "\n" +
-                    "Email: " + email + "\n" +
-                    "Password: " + password + "\n" +
-                    "Password Verification: " + passwordVerification + "\n" +
-                    "Gender: " + gender + "\n" +
-                    "Weight: " + stone + " stone and " + pounds + " pounds" + "\n" +
-                    "Height: " + height + "cm\n");
 
             boolean validEmail = checkValidEmail(email);
             boolean validPassword = checkValidPassword(password);

@@ -125,11 +125,18 @@ public class UserDBHelper {
         else {
             String sql = "INSERT INTO USERS(FIRSTNAME,SURNAME,USERNAME,PASSWORD,EMAIL,HEIGHT,WEIGHT_STONE,WEIGHT_POUNDS," +
                     "IDEAL_WEIGHT_STONE,IDEAL_WEIGHT_POUNDS,BMI,GENDER)" +
-                    " VALUES(" + '"' + firstName + '"' + ", " + '"' + surname + '"' + ", " + '"' + username + '"' + ", " + '"'
-                    + Security.encrypt(password) + '"' + ", " + '"' + email + '"' + ", " + '"' + height + '"' +
-                    ", " + '"' + weightStone + '"' + ", " + '"' + weightPounds + '"'+ ", " + '"' + idealWeightStone + '"' + ", "
-                    + '"' + idealWeightPounds + '"'+  ", " + '"' + User.calculateBMI(height,weightStone,weightPounds) +
-                    '"' + ", " + '"' + gender + '"' + ");";
+                    " VALUES(" + '"' + firstName + '"' + ", "
+                    + '"' + surname + '"' + ", "
+                    + '"' + username + '"' + ", "
+                    + '"' + Security.encrypt(password) + '"' + ", "
+                    + '"' + email + '"' + ", "
+                    + '"' + height + '"' + ", "
+                    + '"' + weightStone + '"' + ", "
+                    + '"' + weightPounds + '"'+ ", "
+                    + '"' + idealWeightStone + '"' + ", "
+                    + '"' + idealWeightPounds + '"'+  ", "
+                    + '"' + User.calculateBMI(height,weightStone,weightPounds) + '"' + ", "
+                    + '"' + gender + '"' + ");";
 
             System.out.println(sql);
 
@@ -200,9 +207,9 @@ public class UserDBHelper {
             String email = rs.getString(COLUMN_EMAIL);
             String password = rs.getString(COLUMN_PASSWORD);
             int height = rs.getInt(COLUMN_HEIGHT);
-            int weight_stone = rs.getInt(COLUMN_WEIGHT_POUNDS);
+            int weight_stone = rs.getInt(COLUMN_WEIGHT_STONE);
             int weight_pounds = rs.getInt(COLUMN_WEIGHT_POUNDS);
-            int ideal_weight_stone = rs.getInt(COLUMN_IDEAL_WEIGHT_POUNDS);
+            int ideal_weight_stone = rs.getInt(COLUMN_IDEAL_WEIGHT_STONE);
             int ideal_weight_pounds = rs.getInt(COLUMN_IDEAL_WEIGHT_POUNDS);
             float bmi = rs.getFloat(COLUMN_BMI);
             String gender = rs.getString(COLUMN_GENDER);
