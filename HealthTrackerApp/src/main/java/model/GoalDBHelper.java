@@ -13,6 +13,8 @@ public class GoalDBHelper {
     private static final String COLUMN_GOALID = "GOALID";
     private static final String COLUMN_NAME = "NAME";
     private static final String COLUMN_GOALTYPE = "GOALTYPE";
+    private static final String COLUMN_PROGRESS = "PROGRESS";
+    private static final String COLUMN_TARGET = "TARGET";
     private static final String COLUMN_DATESTART = "DATE_START";
     private static final String COLUMN_DATEEND = "DATE_END";
 
@@ -37,7 +39,7 @@ public class GoalDBHelper {
             db = Database.getInstance();
 
             //Create Goals Database Table
-            String createGoalsTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_GOALID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT ,  " + COLUMN_GOALTYPE + " TEXT , " + COLUMN_DATESTART + " DATE , "+ COLUMN_DATEEND + " DATE);";
+            String createGoalsTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_GOALID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT ,  " + COLUMN_GOALTYPE + " TEXT , " + COLUMN_PROGRESS + " REAL , "+ COLUMN_TARGET + " REAL , " + COLUMN_DATESTART + " DATE , "+ COLUMN_DATEEND + " DATE);";
             System.out.println(createGoalsTableSQL);
             db.createTable(createGoalsTableSQL);
 
