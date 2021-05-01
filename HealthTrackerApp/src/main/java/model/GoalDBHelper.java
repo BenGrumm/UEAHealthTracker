@@ -42,12 +42,12 @@ public class GoalDBHelper {
             db.createTable(createGoalsTableSQL);
 
             //Create User Goals link table
-            String createGUTableSQL = "CREATE TABLE IF NOT EXISTS " + GUTABLE_NAME + " (" + GUCOLUMN_USERID + " INTEGER NOT NULL REFERENCES USERS(__id) , " + GUCOLUMN_GOALID + " INTEGER NOT NULL REFERENCES GOALS(__id), PRIMARY KEY(" + GUCOLUMN_USERID + "," + GUCOLUMN_GOALID + "));";
+            String createGUTableSQL = "CREATE TABLE IF NOT EXISTS " + GUTABLE_NAME + " (" + GUCOLUMN_USERID + " INTEGER NOT NULL REFERENCES USERS(__id) , " + GUCOLUMN_GOALID + " INTEGER NOT NULL REFERENCES GOALS(GOALID), PRIMARY KEY(" + GUCOLUMN_USERID + "," + GUCOLUMN_GOALID + "));";
             System.out.println(createGUTableSQL);
             db.createTable(createGUTableSQL);
 
             //Create Group Goals link table
-            String createGGTableSQL = "CREATE TABLE IF NOT EXISTS " + GGTABLE_NAME + " (" + GGCOLUMN_GROUPID + " INTEGER NOT NULL REFERENCES GROUPS(ID) , " + GGCOLUMN_GOALID + " INTEGER NOT NULL REFERENCES GOALS(__id), PRIMARY KEY(" + GGCOLUMN_GROUPID + "," + GGCOLUMN_GOALID + "));";
+            String createGGTableSQL = "CREATE TABLE IF NOT EXISTS " + GGTABLE_NAME + " (" + GGCOLUMN_GROUPID + " INTEGER NOT NULL REFERENCES GROUPS(ID) , " + GGCOLUMN_GOALID + " INTEGER NOT NULL REFERENCES GOALS(GOALID), PRIMARY KEY(" + GGCOLUMN_GROUPID + "," + GGCOLUMN_GOALID + "));";
             System.out.println(createGGTableSQL);
             db.createTable(createGGTableSQL);
 
