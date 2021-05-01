@@ -31,6 +31,7 @@
                   <Button fx:id="diet" mnemonicParsing="false" onAction="#navigatePage" text="Diet &amp; Exercise" />
                   <Button fx:id="goals" mnemonicParsing="false" onAction="#navigatePage" text="Goals" />
                   <Button mnemonicParsing="false" onAction="#goToGroupPage" text="Groups" />
+                  <Button fx:id="dashboard" layoutX="160.0" layoutY="10.0" mnemonicParsing="false" onAction="#goToGroupPage" text="Dahsboard" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
