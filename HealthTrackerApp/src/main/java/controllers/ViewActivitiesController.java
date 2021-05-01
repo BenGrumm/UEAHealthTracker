@@ -12,18 +12,21 @@ import javafx.util.Callback;
 import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
+import model.User;
+import testing.ExerciseDBTesting;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class ViewActivitiesController extends Controller{
 
+    private static final boolean debug = true;
+
     public Label graphLabel;
     public DatePicker dateFrom, dateTo;
     public LineChart exerciseLineChart;
 
     public void initialize() {
-        System.out.println("Init");
         // Set Selectable days to be from current day and before
         Callback<DatePicker, DateCell> cb = d -> new DateCell(){
             @Override
@@ -35,19 +38,18 @@ public class ViewActivitiesController extends Controller{
         dateFrom.setDayCellFactory(cb);
         dateTo.setDayCellFactory(cb);
 
+        //Add exercised to db
+        if(debug){
+            ExerciseDBTesting.populateExercisesWithTestData();
+        }
+
         Exercise[] allExercises = new ExerciseDBHelper().getAllExercises();
-        // TODO switch to getting db exercises
-        // in ascending order from smallest date to largest
-//        ExerciseType et = new ExerciseType(2, "Running Fast", 12);
-//        Exercise[] allExercises = {new Exercise(1, 15, 120, et, LocalDate.now().minusDays(13)),
-//                new Exercise(0, 12, 150, et, LocalDate.now()),
-//                new Exercise(2, 15, 120, et, LocalDate.now()),
-//                new Exercise(3, 20, 250, et, LocalDate.now().plusDays(5))};
 
         if(allExercises.length > 0) {
             populateGraphWithRange(allExercises, allExercises[0].getDate(), allExercises[allExercises.length - 1].getDate());
         }else{
-
+            // TODO put error message or something
+            displayErrorNoData();
         }
 
     }
@@ -57,9 +59,18 @@ public class ViewActivitiesController extends Controller{
 
         if(dateFrom.getValue() != null && dateTo.getValue() != null){
             Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
-
+            System.out.println(exercises.length);
+            if(exercises.length != 0) {
+                populateGraphWithRange(exercises, dateFrom.getValue(), dateTo.getValue());
+            }else {
+                displayErrorNoData();
+            }
         }
         graphLabel.setText("Label Set");
+    }
+
+    public void displayErrorNoData(){
+
     }
 
     public void populateGraphWithRange(Exercise[] exercises, LocalDate xStart, LocalDate xEnd){
@@ -72,6 +83,7 @@ public class ViewActivitiesController extends Controller{
         calsBurned.setName("Calories Burned");
 
         int daysBetweenDates = (int) ChronoUnit.DAYS.between(xStart, xEnd);
+        System.out.println("Days between dates = " + daysBetweenDates + ", num ex = " + exercises.length);
 
         if(daysBetweenDates > 0) {
             int arrPosition = 0;
@@ -81,7 +93,10 @@ public class ViewActivitiesController extends Controller{
             // For every date in range, set number of mins exercised and calories burned for date
             for (int i = 0; i <= daysBetweenDates; i++) {
                 System.out.println(arrPosition);
-                if(exercises != null && arrPosition < exercises.length && xStart.plusDays(i).equals(exercises[arrPosition].getDate())){
+                if(     exercises != null &&
+                        arrPosition < exercises.length &&
+                        xStart.plusDays(i).equals(exercises[arrPosition].getDate())){
+                    System.out.println("Inside");
                     date = exercises[arrPosition].getDate();
                     caloriesBurned = exercises[arrPosition].getCaloriesBurned();
                     minutesExercised = exercises[arrPosition].getMinutesExercised();
@@ -104,8 +119,15 @@ public class ViewActivitiesController extends Controller{
             }
         }
 
+        exerciseLineChart.setCreateSymbols(false);
+
         exerciseLineChart.getData().add(minsExercise);
         exerciseLineChart.getData().add(calsBurned);
+
+        exerciseLineChart.autosize();
+        exerciseLineChart.applyCss();
+
+        exerciseLineChart.toBack();
     }
 
 }

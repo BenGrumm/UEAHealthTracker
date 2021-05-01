@@ -76,7 +76,7 @@ public class ExerciseDBHelper {
 
     private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
             " WHERE " + COLUMN_DATE +
-            " BETWEEN ('%s' AND '%s') AND " + COLUMN_USER_ID + " = %s" +
+            " BETWEEN '%s' AND '%s' AND " + COLUMN_USER_ID + " = %s" +
             " ORDER BY " + COLUMN_DATE + " ASC;";
     /**
      * Inclusive dates
@@ -86,7 +86,9 @@ public class ExerciseDBHelper {
      */
     public Exercise[] getExercisesWithinRange(LocalDate from, LocalDate to){
         try {
-            ResultSet rs = db.selectQuery(String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID()));
+            String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID());
+            System.out.println(sql);
+            ResultSet rs = db.selectQuery(sql);
 
             return convertResultSetToExercise(rs);
         }catch (SQLException error){
