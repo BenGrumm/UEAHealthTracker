@@ -14,12 +14,34 @@ import java.util.Properties;
 public class Email {
 
     public static void main(String[] args) {
-        try {
-            sendEmail("Testing", "This is the message body", "youEmail@here.totest");
-        }catch (MessagingException e){
-            e.printStackTrace();
-        }
+//        try {
+//
+//            sendEmail("Testing", "This is the message body", "b.p.grummitt@gmail.com");
+//
+//        }catch (MessagingException e){
+//            e.printStackTrace();
+//        }
+
+        askUserToJoinGroup(new User(0, "Ben",
+                        "Test", "uname", "test",
+                        "test", 0.01, 5, 5,
+                        5, 5, 5, "MALE"),
+                new Group(0, "test", "test d", 1, "135fr5"), "b.p.grummitt@gmail.com");
+
+        emailGroupAboutGoalBeingMet(new User(0, "Ben",
+                        "Test", "uname", "test",
+                        "test", 0.01, 5, 5,
+                        5, 5, 5, "MALE"),
+                new Group(0, "test", "test d", 1, "135fr5"),
+                new String[]{"b.p.grummitt@gmail.com", "ben.grummitt3986@gmail.com"});
     }
+
+    private static final String htmlBodyJoinEmail = "<h2>You Have Been Invited To A Group</h2 </br>" +
+                                                    "<body>" +
+                                                        "<p>%s has invited you to the group <strong>%s</strong>.</p> </br>" +
+                                                        "<p>To join this group enter the code <strong>%s</strong> on the ? screen of your " +
+                                                        "fitness app.</p>" +
+                                                    "</body>";
 
     /**
      * Email single user about joining group
@@ -29,8 +51,21 @@ public class Email {
      * @return boolean if email send successful
      */
     public static boolean askUserToJoinGroup(User user, Group group, String email){
-        return false;
+        try {
+            sendEmail("You've Been Invited To A Group",
+                    String.format(htmlBodyJoinEmail, user.getFirstName(), group.getName(), group.getInvCode()),
+                    email);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    private static final String htmlEmailGoalComplete = "<h2>A Member Of %s Completed A Goal</h2 </br>" +
+            "<body>" +
+            "<p>%s has completed the goal <strong>%s</strong>!</p> </br>" +
+            "</body>";
 
     /**
      * Email a user group about a members goal being met
@@ -40,7 +75,18 @@ public class Email {
      * @return true if emails were successful false if one or more were not
      */
     public static boolean emailGroupAboutGoalBeingMet(User user, Group group, String[] addresses){
-        return false;
+        int numSent = 0;
+        for(int i = 0; i < addresses.length; i++){
+            try {
+                sendEmail(String.format("A Member Of %s Completed A Goal", group.getName()),
+                        String.format(htmlEmailGoalComplete, group.getName(), user.getFirstName(), "put goal here?"),
+                        addresses[i]);
+                numSent++;
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+        return numSent == addresses.length;
     }
 
     /**

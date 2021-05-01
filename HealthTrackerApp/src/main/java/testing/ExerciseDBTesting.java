@@ -12,9 +12,18 @@ public class ExerciseDBTesting {
     private static ExerciseType[] exerciseTypes = new ExerciseType[5];
 
     public static void main(String[] args) {
-        User.setLoggedIn(new User(15, "Test", "User", "Testing", "testing@email.com",
-                "testPwordIDK?", 1.7, 0, 0, 0, 0,
-                1, "MALE"));
+        Exercise[] exercisesAdded = populateExercisesWithTestData();
+        Exercise[] exercisesFromDB = exDbh.getAllExercises();
+
+        for(int i = 0; i < exercisesFromDB.length; i++){
+            System.out.println(exercisesFromDB[i]);
+        }
+    }
+
+    public static Exercise[] populateExercisesWithTestData(){
+        User.setLoggedIn(new User(16, "Test", "User", "TestUser16", "test@user.com",
+                "testPword", 5, 5, 5, 5, 5, 5,
+                "MALE"));
 
         exerciseTypes[0] = exTDbh.getType(5);
         exerciseTypes[1] = exTDbh.getType(10);
@@ -22,12 +31,8 @@ public class ExerciseDBTesting {
         exerciseTypes[3] = exTDbh.getType(20);
         exerciseTypes[4] = exTDbh.getType(25);
 
-        Exercise[] exercisesAdded = addExercisedToDB();
-        Exercise[] exercisesFromDB = exDbh.getAllExercises();
+        return addExercisedToDB();
 
-        for(int i = 0; i < exercisesFromDB.length; i++){
-            System.out.println(exercisesFromDB[i]);
-        }
     }
 
     public static Exercise[] addExercisedToDB(){
