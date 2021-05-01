@@ -171,6 +171,25 @@ public class UserDBHelper {
         }
     }
 
+    public boolean updateWeight(int stone, int pounds){
+
+        double newBmi = User.calculateBMI(User.loggedIn.getHeight(), stone, pounds);
+
+        String sql = "UPDATE USERS " +
+                "SET WEIGHT_STONE = " + "'" + stone + "' , "
+                + " WEIGHT_POUNDS = " + "'" + pounds + "' , " +
+                "BMI = " + "'" + newBmi + "'" +
+                " WHERE __id= '" + User.getLoggedIn().getID() +  "'" + ";";
+        try {
+            System.out.println(sql);
+            db.updateTable(sql);
+            return true;
+        }catch (Exception ignored){}
+        return false;
+    }
+
+
+
     public User getUserViaUsername(String username) {
         try {
             ResultSet rs = db.selectQuery("SELECT * FROM " + TABLE_NAME + " WHERE USERNAME=" + '"' + username + '"');

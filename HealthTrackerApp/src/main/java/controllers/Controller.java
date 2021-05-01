@@ -45,7 +45,7 @@ public class Controller {
 
     public void logged_in(){
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/details.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
         try {
             Parent root = loader.load();
             GUI.changeScene(root);

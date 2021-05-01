@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.detailsController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.dashboardController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -18,9 +18,10 @@
          <children>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="248.0" GridPane.columnIndex="1">
                <items>
-                  <Button disable="true" mnemonicParsing="false" text="Diet &amp; Exercise" />
-                  <Button disable="true" mnemonicParsing="false" text="Goals" />
-                  <Button disable="true" mnemonicParsing="false" text="Groups" />
+                  <Button fx:id="diet" mnemonicParsing="false" onAction="#navigatePage" text="Diet &amp; Exercise" />
+                  <Button fx:id="goals" mnemonicParsing="false" onAction="#navigatePage" text="Goals" />
+                  <Button mnemonicParsing="false" onAction="#goToGroupPage" text="Groups" />
+                  <Button fx:id="dashboard" layoutX="160.0" layoutY="10.0" mnemonicParsing="false" onAction="#navigatePage" text="Dashboard" />
                </items>
             </ToolBar>
             <ToolBar prefHeight="40.0" prefWidth="352.0">
@@ -34,8 +35,8 @@
       <GridPane>
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.0" minWidth="0.0" prefWidth="32.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="98.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.0" minWidth="10.0" prefWidth="367.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="93.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="375.0" minWidth="10.0" prefWidth="374.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -52,7 +53,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="nameLabel" prefHeight="30.0" prefWidth="371.0" GridPane.columnIndex="2">
+            <Label fx:id="nameLabel" prefHeight="30.0" prefWidth="371.0" text="name here" GridPane.columnIndex="2">
                <font>
                   <Font size="20.0" />
                </font>
@@ -99,7 +100,7 @@
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="bmiLabel" prefHeight="47.0" prefWidth="204.0" style="-fx-font-weight: bold;" GridPane.columnIndex="4">
+            <Label fx:id="bmiLabel" prefHeight="47.0" prefWidth="204.0" style="-fx-font-weight: bold;" text="bmi here" GridPane.columnIndex="4">
                <font>
                   <Font size="32.0" />
                </font>
@@ -109,7 +110,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="showWeightStoneLabel" prefHeight="30.0" prefWidth="29.0" GridPane.columnIndex="1">
+            <Label fx:id="showWeightStoneLabel" prefHeight="30.0" prefWidth="29.0" text="x" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -121,17 +122,17 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane layoutX="10.0" layoutY="40.0">
+      <GridPane layoutX="10.0" layoutY="40.0" prefHeight="41.0" prefWidth="600.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="160.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="3.0" prefWidth="19.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="154.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="3.0" prefWidth="25.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="108.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="110.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="203.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="15.0" minHeight="4.0" prefHeight="4.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Label prefHeight="27.0" prefWidth="112.0" text="Classification:" GridPane.columnIndex="3">
@@ -144,7 +145,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="showWeightPoundsLabel" prefHeight="30.0" prefWidth="36.0" GridPane.columnIndex="1">
+            <Label fx:id="showWeightPoundsLabel" prefHeight="30.0" prefWidth="36.0" text="x" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -173,7 +174,7 @@
                   <Font size="32.0" />
                </font>
             </Label>
-            <Label fx:id="targetBmiLabel" prefHeight="47.0" prefWidth="204.0" style="-fx-font-weight: bold;" GridPane.columnIndex="4">
+            <Label fx:id="targetBmiLabel" prefHeight="47.0" prefWidth="204.0" style="-fx-font-weight: bold;" text="bmi here" GridPane.columnIndex="4">
                <font>
                   <Font size="32.0" />
                </font>
@@ -183,7 +184,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="targetWeightStoneLabel" prefHeight="30.0" prefWidth="29.0" GridPane.columnIndex="1">
+            <Label fx:id="targetWeightStoneLabel" prefHeight="30.0" prefWidth="29.0" text="x" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -195,12 +196,12 @@
             </Label>
          </children>
       </GridPane>
-      <GridPane layoutX="10.0" layoutY="100.0">
+      <GridPane layoutX="10.0" layoutY="100.0" prefHeight="46.0" prefWidth="600.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="154.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="3.0" prefWidth="22.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="112.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="111.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="362.0" minWidth="10.0" prefWidth="111.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="112.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="201.0" />
          </columnConstraints>
          <rowConstraints>
@@ -217,7 +218,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="targetWeightPoundsLabel" prefHeight="30.0" prefWidth="149.0" GridPane.columnIndex="1">
+            <Label fx:id="targetWeightPoundsLabel" prefHeight="30.0" prefWidth="149.0" text="x" GridPane.columnIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
@@ -227,6 +228,49 @@
                   <Font size="20.0" />
                </font>
             </Label>
+         </children>
+      </GridPane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="54.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="10.0" prefWidth="395.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="30.0" prefWidth="153.0" style="-fx-font-weight: bold;" text="Update Weight:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label prefHeight="30.0" prefWidth="68.0" text=" Stone" textAlignment="RIGHT" GridPane.columnIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Spinner fx:id="weightStoneSpinner" GridPane.columnIndex="1" />
+            <Spinner fx:id="weightPoundsSpinner" onMouseClicked="#changeColour" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label layoutX="207.0" layoutY="10.0" prefHeight="30.0" prefWidth="81.0" text=" Pounds" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <GridPane layoutX="10.0" layoutY="236.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="150.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="132.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="433.0" minWidth="10.0" prefWidth="317.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Button mnemonicParsing="false" onAction="#updateWeight" prefHeight="25.0" prefWidth="120.0" text="Update Weight" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>
