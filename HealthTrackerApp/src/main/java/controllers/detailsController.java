@@ -22,13 +22,14 @@ public class detailsController extends Controller implements Initializable {
 
     @FXML
     Label bmiLabel, bmiClassification, showWeightStoneLabel, showWeightPoundsLabel, caloriesRemaining,
-            targetWeightStoneLabel, targetWeightPoundsLabel, targetBmiClassification, targetBmiLabel;
+            targetWeightStoneLabel, targetWeightPoundsLabel, targetBmiClassification, targetBmiLabel, nameLabel;
 
     /**
      * This method will run when the details page is loaded. It sets the values for the BMI.
      * @param url Relative path for the root object.
      * @param resourceBundle Resources used to localise the root object.
      */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -62,6 +63,8 @@ public class detailsController extends Controller implements Initializable {
 
         targetWeightStoneLabel.setText(Integer.toString(User.getLoggedIn().getIdealWeightStone()));
         targetWeightPoundsLabel.setText(Integer.toString(User.getLoggedIn().getIdealWeightPounds()));
+
+        nameLabel.setText(User.loggedIn.getFirstName());
 
     }
 }
