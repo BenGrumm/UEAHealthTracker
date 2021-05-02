@@ -90,13 +90,12 @@ public class WeightDBHelper {
         return UsersWeights;
     }
 
-<<<<<<< HEAD
     private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
             " WHERE " + COLUMN_DATE +
             " BETWEEN '%s' AND '%s' AND " + COLUMN_USERID + " = %s" +
             " ORDER BY " + COLUMN_DATE + " ASC;";
 
-    public ArrayList<UserWeight> getWeightsWithinRange(LocalDate from, LocalDate to){
+    public ArrayList<UserWeight> getWeightsWithinRange(LocalDate from, LocalDate to) {
         try {
             ArrayList<UserWeight> UsersWeights = new ArrayList<>();
             String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID());
@@ -107,14 +106,15 @@ public class WeightDBHelper {
                 int stones = results.getInt(COLUMN_WEIGHTSTONE);
                 int pounds = results.getInt(COLUMN_WEIGHTPOUNDS);
                 LocalDate recordedDate = LocalDate.parse(results.getString(COLUMN_DATE));
-                UserWeight uw = new UserWeight(stones,pounds,recordedDate);
+                UserWeight uw = new UserWeight(stones, pounds, recordedDate);
                 UsersWeights.add(uw);
             }
             return UsersWeights;
-        }catch (SQLException error){
+        } catch (SQLException error) {
             return null;
         }
-=======
+    }
+
     public boolean checkDate(LocalDate date, int userID) {
         String getDateSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE + " = \"" + date + "\" AND " + COLUMN_USERID + " = " + userID + ";";
         System.out.println(getDateSQL);
@@ -128,7 +128,7 @@ public class WeightDBHelper {
             e.printStackTrace();
         }
         return true;
->>>>>>> 887e0c64a3d9ac39ef69bbfa0d68e459dfa798bb
+
     }
 
 
