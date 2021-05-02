@@ -2,6 +2,7 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GoalDBHelper {
@@ -60,6 +61,13 @@ public class GoalDBHelper {
             System.out.println("JDBC driver not found");
             cnfe.printStackTrace();
         }
+    }
+
+    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate){
+        //ADD code to add the goal to the database here. :o
+        //I am going to do this soon.
+
+        return true;
     }
 
     public static void main(String[] args) {

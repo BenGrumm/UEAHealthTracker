@@ -8,7 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import model.Goal;
 import model.UserDBHelper;
+import model.GoalDBHelper;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -90,6 +92,7 @@ public class registerController extends Controller implements Initializable {
 
             if (validEmail && validPassword && verifyPasswords){
                 UserDBHelper userDBHelper = new UserDBHelper();
+                GoalDBHelper goalDBHelper = new GoalDBHelper();
                 try {
                     boolean added = userDBHelper.addDBUser(firstname,surname,username,email,password,height,stone,
                             pounds,idealStone,idealPounds,gender);
@@ -104,6 +107,14 @@ public class registerController extends Controller implements Initializable {
                             changeErrorNotificationLabel("Error: Username already in use!");
                         }
                     }
+
+                    //George code for goals stuff... :)
+                    //Generate weight goal based off information entered.
+                    //Give a week to complete and name it 'Getting started'
+                    //Here is the code below smiley face ::))
+                    //goalDBHelper.addGoal(info lololol :P );
+                    //fyi i am very stupid if i thought this process through wrong sorry.
+
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
