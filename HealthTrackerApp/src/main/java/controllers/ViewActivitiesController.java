@@ -14,14 +14,13 @@ import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
 import model.User;
+import sample.Main;
 import testing.ExerciseDBTesting;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class ViewActivitiesController extends Controller{
-
-    private static final boolean debug = true;
 
     public Label graphLabel;
     public DatePicker dateFrom, dateTo;
@@ -41,7 +40,7 @@ public class ViewActivitiesController extends Controller{
         dateTo.setDayCellFactory(cb);
 
         //Add exercised to db
-        if(debug){
+        if(Main.debug){
             ExerciseDBTesting.populateExercisesWithTestData();
         }
 

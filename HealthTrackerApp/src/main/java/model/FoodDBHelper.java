@@ -3,6 +3,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class FoodDBHelper {
 
@@ -68,10 +69,10 @@ public class FoodDBHelper {
         try {
             // CURRENTLY HOLDS TEST DATA - once log in process is fully funcitonal, just take the
             // user.getLoggedIn().getID() rather than using this test user
-            User testUser = new User(1, "Caitlin", "Wright", "cwright",
-                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
-                    10, 10, "Female");
-            User.setLoggedIn(testUser);
+//            User testUser = new User(1, "Caitlin", "Wright", "cwright",
+//                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
+//                    10, 10, "Female");
+//            User.setLoggedIn(testUser);
             String sql = String.format(addFood, food.getFoodName(), food.getCalories(), food.getMeal(),
                     food.getServingInGrams(), food.getDateConsumed(), food.getFoodType().getDbID(),
                     User.getLoggedIn().getID());
@@ -95,6 +96,86 @@ public class FoodDBHelper {
             System.out.println(sqle);
             return 0;
         }
+    }
+
+    public enum Order{
+        ASC,
+        DESC
+    }
+
+    public static final String sqlGetAll = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_USER_ID + " = %d" +
+            " ORDER BY " + COLUMN_DATE + " %s";
+
+    public Food[] getAllFoods(Order order){
+        try {
+            System.out.println(User.loggedIn.getID());
+            String sql = String.format(sqlGetAll, User.getLoggedIn().getID(), order.toString());
+            System.out.println(sql);
+            ResultSet rs = db.selectQuery(sql);
+            return convertResultSetToFoods(rs);
+        }catch (SQLException error){
+            error.printStackTrace();
+            return null;
+        }
+    }
+
+    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_DATE +
+            " BETWEEN '%s' AND '%s' AND " + COLUMN_USER_ID + " = %s" +
+            " ORDER BY " + COLUMN_DATE + " %s;";
+
+    public Food[] getFoodsWithinRange(LocalDate dateFrom, LocalDate dateTo, Order order){
+        try {
+            String sql = String.format(withinRangeSQL, dateFrom.toString(), dateTo.toString(), User.getLoggedIn().getID(), order.toString());
+            System.out.println(sql);
+            ResultSet rs = db.selectQuery(sql);
+
+            return convertResultSetToFoods(rs);
+        }catch (SQLException error){
+            return null;
+        }
+    }
+
+    /**
+     *                     " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
+     *                     COLUMN_NAME + " TEXT , " +
+     *                     COLUMN_CALORIES + " REAL , " +
+     *                     COLUMN_MEAL + " REAL , " +
+     *                     COLUMN_SERVING + " REAL , " +
+     *                     COLUMN_DATE + " DATE , " +
+     *                     COLUMN_FOOD_ID + " INTEGER , "+
+     *                     COLUMN_USER_ID + " INTEGER , " +
+     *                     " FOREIGN KEY(" + COLUMN_FOOD_ID + ") REFERENCES " +
+     *                     FoodTypeDBHelper.TABLE_NAME + "(__id) , " +
+     *                     "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " +
+     */
+
+    /**
+     *
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
+    public Food[] convertResultSetToFoods(ResultSet resultSet) throws SQLException{
+        ArrayList<Food> foods = new ArrayList<>();
+        FoodTypeDBHelper dbh = new FoodTypeDBHelper();
+
+        while(resultSet.next()){
+            int id = resultSet.getInt(COLUMN_ID);
+            String foodName = resultSet.getString(COLUMN_NAME);
+            double caloriesConsumed = resultSet.getDouble(COLUMN_CALORIES);
+            String meal = resultSet.getString(COLUMN_MEAL);
+            double serving = resultSet.getDouble(COLUMN_SERVING);
+            LocalDate date = LocalDate.parse(resultSet.getString(COLUMN_DATE));
+            int foodID = resultSet.getInt(COLUMN_FOOD_ID);
+
+            FoodType ft = dbh.getType(foodID);
+
+            foods.add(new Food(id, foodName, caloriesConsumed, meal, serving, date, ft));
+        }
+
+        return foods.toArray(new Food[foods.size()]);
     }
 
     // test harness

@@ -161,6 +161,28 @@ public class FoodTypeDBHelper {
         }
     }
 
+    private static final String queryWithID = "SELECT * FROM " + TABLE_NAME + " WHERE " + ID_COLUMN + " = %d";
+    /**
+     * Function to query food type table based on record id and return the food type object found
+     * @param id
+     * @return FoodType
+     */
+    public FoodType getType(int id){
+
+        try {
+            ResultSet rs = db.selectQuery(String.format(queryWithID, id));
+            FoodType[] ft = convertResultSetToFoodType(rs);
+            if(ft.length >= 1){
+                return ft[0];
+            }else{
+                System.out.println(id + " not found");
+                return null;
+            }
+        }catch (SQLException sqle){
+            return null;
+        }
+    }
+
     // Test harness
     public static void main(String[] args) {
         FoodTypeDBHelper db = new FoodTypeDBHelper();

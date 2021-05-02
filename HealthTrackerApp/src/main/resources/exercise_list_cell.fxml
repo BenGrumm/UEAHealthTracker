@@ -70,7 +70,8 @@
          <ImageView pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@icons/baseline_delete_black_24dp.png" />
-            </image></ImageView>
+            </image>
+         </ImageView>
       </graphic>
    </Button>
 </HBox>

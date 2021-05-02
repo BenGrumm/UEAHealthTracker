@@ -11,13 +11,12 @@ import javafx.scene.control.ListView;
 import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
+import sample.Main;
 import testing.ExerciseDBTesting;
 
 import java.time.LocalDate;
 
 public class ViewActivitiesListController extends Controller{
-
-    private static final boolean debug = true;
 
     public ListView<Exercise> exercisesList;
     public DatePicker dateFrom;
@@ -30,7 +29,7 @@ public class ViewActivitiesListController extends Controller{
     public void initialize(){
         observableList = FXCollections.observableArrayList();
 
-        if(debug){
+        if(Main.debug){
             ExerciseDBTesting.populateExercisesWithTestData();
         }
 

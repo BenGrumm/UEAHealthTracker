@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public class Food {
+
     private int id;
     private String foodName;
     private double calories;
