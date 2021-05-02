@@ -57,7 +57,7 @@ public class WeightDBHelper {
     public ArrayList<UserWeight> getUsersWeights(int userID) {
         ArrayList<UserWeight> UsersWeights = new ArrayList<>();
 
-        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " = " + userID + ";";
+        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " =" + userID + ";";
         System.out.println(getGroupIDSQL);
         try {
             ResultSet results = db.selectQuery(getGroupIDSQL);
@@ -69,12 +69,36 @@ public class WeightDBHelper {
                 UserWeight uw = new UserWeight(stones,pounds,recordedDate);
                 UsersWeights.add(uw);
             }
-
             results.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return UsersWeights;
+    }
+
+    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_DATE +
+            " BETWEEN '%s' AND '%s' AND " + COLUMN_USERID + " = %s" +
+            " ORDER BY " + COLUMN_DATE + " ASC;";
+
+    public ArrayList<UserWeight> getWeightsWithinRange(LocalDate from, LocalDate to){
+        try {
+            ArrayList<UserWeight> UsersWeights = new ArrayList<>();
+            String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID());
+            System.out.println(sql);
+            ResultSet results = db.selectQuery(sql);
+
+            while (results.next()) {
+                int stones = results.getInt(COLUMN_WEIGHTSTONE);
+                int pounds = results.getInt(COLUMN_WEIGHTPOUNDS);
+                LocalDate recordedDate = LocalDate.parse(results.getString(COLUMN_DATE));
+                UserWeight uw = new UserWeight(stones,pounds,recordedDate);
+                UsersWeights.add(uw);
+            }
+            return UsersWeights;
+        }catch (SQLException error){
+            return null;
+        }
     }
 
 
