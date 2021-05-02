@@ -1,15 +1,19 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.util.Callback;
+
 import model.*;
 
+import javax.sound.sampled.Line;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -34,8 +38,13 @@ public class weightProgressController extends Controller{
         dateFrom.setDayCellFactory(cb);
         dateTo.setDayCellFactory(cb);
 
-        ArrayList<UserWeight> userWeights = new WeightDBHelper().getUsersWeights(User.getLoggedIn().getID());
 
+        ArrayList<UserWeight> userWeights = new WeightDBHelper().getUsersWeights(User.getLoggedIn().getID());
+        for (int x=0; x<userWeights.size(); x++){
+            System.out.println(userWeights.get(x).getDateRecorded());
+        }
+
+        /*
         if(userWeights.size() > 0) {
             populateGraphWithRange(userWeights, userWeights.get(User.getLoggedIn().getID()).getDateRecorded(),
                     userWeights.get(userWeights.size() - 1).getDateRecorded());
@@ -43,6 +52,14 @@ public class weightProgressController extends Controller{
             // TODO put error message or something
             displayErrorNoData();
         }
+        */
+
+        //Maybe default to first weight record and todays date.
+        LocalDate startDate = LocalDate.parse("2021-05-03");
+        LocalDate endDate = LocalDate.parse("2021-05-07");
+
+        PopGraphInRange(userWeights,startDate, endDate);
+
 
     }
 
@@ -117,5 +134,69 @@ public class weightProgressController extends Controller{
         weightLineChart.applyCss();
 
         weightLineChart.toBack();
+    }
+
+
+    /**
+     * This method is used to plot the weight of the user in pounds, against the date in days.
+     * @param userWeights List of all usersWeights in record.
+     * @param startDate date to display from
+     * @param endDate date to display to.
+     */
+    public void PopGraphInRange(ArrayList<UserWeight> userWeights, LocalDate startDate, LocalDate endDate) {
+
+        //Clears the data being displayed graph.
+        weightLineChart.getData().clear();
+
+        //Creates an arraylist storing the every date between the startDate and endDate.
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        LocalDate aDate = startDate;
+        while (aDate.isBefore(endDate)) {
+            dates.add(aDate);
+            aDate = aDate.plusDays(1);
+        }
+        dates.add(endDate);
+
+        //Create a series to plot
+        XYChart.Series series = new XYChart.Series();
+
+        int prevWeight = 0;
+        int userWeightsCounter = 0;
+
+        //sets the previous weight to the most recent weight before the startDate, and increases the index to the
+        // users weight record in dates to the one on or after the start date.
+        while (userWeights.get(userWeightsCounter).getDateRecorded().isBefore(startDate)) {
+            prevWeight = (userWeights.get(userWeightsCounter).getStones()*14) + userWeights.get(userWeightsCounter).getPounds();
+            userWeightsCounter++;
+        }
+
+        //iterates through all the dates in the list and plots the most  recent weight.
+
+        for (int x = 0; x < dates.size(); x++) {
+            String dateAsString = dates.get(x).toString();
+
+            //If the date is less than the most recent date record
+            if(userWeightsCounter < userWeights.size()) {
+                //if the date of the weight in record is equal to the date in dates, add to plot
+                if (userWeights.get(userWeightsCounter).getDateRecorded().equals(dates.get(x))) {
+                    int weight = (userWeights.get(userWeightsCounter).getStones() * 14) + userWeights.get(userWeightsCounter).getPounds();
+                    series.getData().add(new XYChart.Data(dateAsString, weight));
+                    prevWeight = weight;
+                    userWeightsCounter++;
+                }
+                //else add most recent previous dates weight
+                else {
+                    series.getData().add(new XYChart.Data(dateAsString, prevWeight));
+                }
+            }
+            //else add most recent previous date weight
+            else{
+                series.getData().add(new XYChart.Data(dateAsString, prevWeight));
+            }
+
+        }
+
+        series.setName(User.getLoggedIn().getFirstName() + "'s Weight Over Time");
+        weightLineChart.getData().add(series);
     }
 }
