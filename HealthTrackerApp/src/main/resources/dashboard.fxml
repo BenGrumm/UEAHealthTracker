@@ -273,5 +273,24 @@
             <Button mnemonicParsing="false" onAction="#updateWeight" prefHeight="25.0" prefWidth="120.0" text="Update Weight" GridPane.columnIndex="1" />
          </children>
       </GridPane>
+      <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="198.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="10.0" prefWidth="180.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefHeight="30.0" prefWidth="206.0" style="-fx-font-weight: bold;" text="View Weight History:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="weightProgress" mnemonicParsing="false" onAction="#navigatePage" text="View" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </VBox>

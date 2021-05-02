@@ -44,20 +44,34 @@ public class WeightDBHelper {
     //Add weight, pass USERweight
 
     public void addWeight(UserWeight uw, int userID) {
-        try {
-            // Input data into query removing any quotes in the description of exercise
-            String addWeightSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_USERID + " , " + COLUMN_WEIGHTSTONE + " , " + COLUMN_WEIGHTPOUNDS + " , " + COLUMN_DATE + " ) VALUES( " + userID + " , " + uw.getStones() + " , " + uw.getPounds() + " , \"" + uw.getDateRecorded() + "\" )";
-            System.out.println(addWeightSQL);
-            db.insertData(addWeightSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        if(checkDate(uw.getDateRecorded(),userID))
+        {
+            try {
+                String updateWeightSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_WEIGHTSTONE + " = " + uw.getStones() + " AND "+ COLUMN_WEIGHTPOUNDS + " = " + uw.getPounds() + " WHERE " + COLUMN_USERID + " = " + userID + " AND " + COLUMN_DATE + " = \"" + uw.getDateRecorded() + "\";";
+                System.out.println(updateWeightSQL);
+                db.updateTable(updateWeightSQL);
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        else
+            {
+            try {
+                // Input data into query removing any quotes in the description of exercise
+                String addWeightSQL = "INSERT INTO " + TABLE_NAME + " (" + COLUMN_USERID + " , " + COLUMN_WEIGHTSTONE + " , " + COLUMN_WEIGHTPOUNDS + " , " + COLUMN_DATE + " ) VALUES( " + userID + " , " + uw.getStones() + " , " + uw.getPounds() + " , \"" + uw.getDateRecorded() + "\" )";
+                System.out.println(addWeightSQL);
+                db.insertData(addWeightSQL);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public ArrayList<UserWeight> getUsersWeights(int userID) {
         ArrayList<UserWeight> UsersWeights = new ArrayList<>();
 
-        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " = " + userID + ";";
+        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " =" + userID + ";";
         System.out.println(getGroupIDSQL);
         try {
             ResultSet results = db.selectQuery(getGroupIDSQL);
@@ -69,12 +83,52 @@ public class WeightDBHelper {
                 UserWeight uw = new UserWeight(stones,pounds,recordedDate);
                 UsersWeights.add(uw);
             }
-
             results.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return UsersWeights;
+    }
+
+    private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
+            " WHERE " + COLUMN_DATE +
+            " BETWEEN '%s' AND '%s' AND " + COLUMN_USERID + " = %s" +
+            " ORDER BY " + COLUMN_DATE + " ASC;";
+
+    public ArrayList<UserWeight> getWeightsWithinRange(LocalDate from, LocalDate to) {
+        try {
+            ArrayList<UserWeight> UsersWeights = new ArrayList<>();
+            String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID());
+            System.out.println(sql);
+            ResultSet results = db.selectQuery(sql);
+
+            while (results.next()) {
+                int stones = results.getInt(COLUMN_WEIGHTSTONE);
+                int pounds = results.getInt(COLUMN_WEIGHTPOUNDS);
+                LocalDate recordedDate = LocalDate.parse(results.getString(COLUMN_DATE));
+                UserWeight uw = new UserWeight(stones, pounds, recordedDate);
+                UsersWeights.add(uw);
+            }
+            return UsersWeights;
+        } catch (SQLException error) {
+            return null;
+        }
+    }
+
+    public boolean checkDate(LocalDate date, int userID) {
+        String getDateSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_DATE + " = \"" + date + "\" AND " + COLUMN_USERID + " = " + userID + ";";
+        System.out.println(getDateSQL);
+        try {
+            ResultSet results = db.selectQuery(getDateSQL);
+            if (!results.isBeforeFirst()) {
+                return false;
+            }
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+
     }
 
 
@@ -84,10 +138,10 @@ public class WeightDBHelper {
     //Testing
     public static void main(String[] args) {
         WeightDBHelper WDBH = new WeightDBHelper();
-        UserWeight uw = new UserWeight(5,6);
-
+        UserWeight uw = new UserWeight(8,8);
+        UserWeight uw2 = new UserWeight(8,6);
         WDBH.addWeight(uw,1);
-
+        WDBH.addWeight(uw2,1);
 
         ArrayList<UserWeight> uws = new ArrayList<>();
         uws = WDBH.getUsersWeights(1);
