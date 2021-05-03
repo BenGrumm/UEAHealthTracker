@@ -48,6 +48,17 @@ public class ViewFoodsListController extends Controller{
     }
 
     public void changeDateRange(ActionEvent actionEvent) {
+        if(dateFrom.getValue() != null && dateTo.getValue() != null && !dateTo.getValue().isBefore(dateFrom.getValue())){
+            Food[] foods = new FoodDBHelper().getFoodsWithinRange(dateFrom.getValue(), dateTo.getValue(), FoodDBHelper.Order.ASC);
+            System.out.println(foods.length);
+            observableList.clear();
+            observableList.addAll(foods);
+            foodsList.setItems(observableList);
+            listFoodsLabel.setText("Meals From " + dateFrom.getValue() + " to " + dateTo.getValue());
+            dateRangeButton.setText("View Foods");
+        }else if(dateFrom.getValue() != null && dateTo.getValue().isBefore(dateFrom.getValue())){
+            listFoodsLabel.setText("Error Date From Is Greater Than Date To");
+        }
     }
 
     public void switchToGraphActivity(ActionEvent actionEvent) {
