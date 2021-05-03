@@ -63,10 +63,64 @@ public class GoalDBHelper {
         }
     }
 
-    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate){
-        //ADD code to add the goal to the database here. :o
-        //I am going to do this soon.
+    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String userID){
+        try {
+            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END)" +
+                    " VALUES(" + '"' + name + '"' + ", "
+                    + '"' + goalType + '"' + ", "
+                    + '"' + progress + '"' + ", "
+                    + '"' + target + '"' + ", "
+                    + '"' + startDate + '"' + ", "
+                    + '"' + endDate + '"' + ");";
+            db.insertData(sql);
 
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try{
+            String getGoalIdSQL = "SELECT * FROM GOALS WHERE GOALID=(SELECT max(GOALID) FROM GOALS);";
+            String goalID = "";
+            ResultSet results = db.selectQuery(getGoalIdSQL);
+            goalID = String.valueOf(results.getInt("GOALID"));
+            results.close();
+            String sql = "INSERT INTO USERS_GOALS(USERID,GOALID)" +
+                    " VALUES(" + '"' + userID + '"' + ", "
+                    + '"' + goalID + '"' + ");";
+            db.insertData(sql);
+        }catch(SQLException e){
+
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean addGroupGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String groupID){
+        try {
+            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END)" +
+                    " VALUES(" + '"' + name + '"' + ", "
+                    + '"' + goalType + '"' + ", "
+                    + '"' + progress + '"' + ", "
+                    + '"' + target + '"' + ", "
+                    + '"' + startDate + '"' + ", "
+                    + '"' + endDate + '"' + ");";
+            db.insertData(sql);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try{
+            String getGoalIdSQL = "SELECT * FROM GOALS WHERE GOALID=(SELECT max(GOALID) FROM GOALS);";
+            String goalID = "";
+            ResultSet results = db.selectQuery(getGoalIdSQL);
+            goalID = String.valueOf(results.getInt("GOALID"));
+            results.close();
+            String sql = "INSERT INTO GROUP_GOALS(GROUPID,GOALID)" +
+                    " VALUES(" + '"' + groupID + '"' + ", "
+                    + '"' + goalID + '"' + ");";
+            db.insertData(sql);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return true;
     }
 

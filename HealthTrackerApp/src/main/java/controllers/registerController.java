@@ -14,6 +14,7 @@ import model.GoalDBHelper;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -112,9 +113,13 @@ public class registerController extends Controller implements Initializable {
                     //Generate weight goal based off information entered.
                     //Give a week to complete and name it 'Getting started'
                     //Here is the code below smiley face ::))
-                    //goalDBHelper.addGoal(info lololol :P );
-                    //fyi i am very stupid if i thought this process through wrong sorry.
-
+                    goalDBHelper.addGoal("Getting started",
+                            Goal.goal.WEIGHT,
+                            stone+(pounds/14),
+                            idealStone+(idealPounds/14),
+                            LocalDate.now(),
+                            LocalDate.now().plusWeeks(1),
+                            String.valueOf(userDBHelper.getUserViaUsername(username).getID()));
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

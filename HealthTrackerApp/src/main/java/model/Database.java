@@ -10,6 +10,7 @@ public class Database {
 
     private Connection conn;
     private Statement stmt;
+    public ResultSet keys;
 
     public static void main(String[] args) {
         try {
@@ -81,6 +82,9 @@ public class Database {
      */
     protected boolean insertData(String insertQuery) throws SQLException{
         int numRowsAffected = stmt.executeUpdate(insertQuery);
+
+        //George code for finding the id of the record just inserted etc etc its the cool way.
+        keys = stmt.getGeneratedKeys();
 
         return numRowsAffected == 0;
     }
