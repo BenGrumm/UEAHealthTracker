@@ -18,10 +18,10 @@ public class FoodDBTesting {
         getFoodTypes();
         
         fDBH.addFoodToDB(new Food(-1, "Incredible Food", 400, "meal?", 850, LocalDate.now().minusDays(0), mFoodTypes[4]));
-        fDBH.addFoodToDB(new Food(-1, "Boring Food", 250, "meal?", 300, LocalDate.now().minusDays(1), mFoodTypes[4]));
-        fDBH.addFoodToDB(new Food(-1, "Food", 640, "meal?", 1200, LocalDate.now().minusDays(8), mFoodTypes[4]));
-        fDBH.addFoodToDB(new Food(-1, "Healthy Food", 15, "meal?", 800, LocalDate.now().minusDays(12), mFoodTypes[4]));
-        fDBH.addFoodToDB(new Food(-1, "Shit Food", 500, "meal?", 300, LocalDate.now().minusDays(4), mFoodTypes[4]));
+        fDBH.addFoodToDB(new Food(-1, "Boring Food", 250, "meal?", 300, LocalDate.now().minusDays(1), mFoodTypes[1]));
+        fDBH.addFoodToDB(new Food(-1, "Food", 640, "meal?", 1200, LocalDate.now().minusDays(8), mFoodTypes[3]));
+        fDBH.addFoodToDB(new Food(-1, "Healthy Food", 15, "meal?", 800, LocalDate.now().minusDays(12), mFoodTypes[0]));
+        fDBH.addFoodToDB(new Food(-1, "Shit Food", 500, "meal?", 300, LocalDate.now().minusDays(4), mFoodTypes[2]));
     }
 
     public static void getFoodTypes(){

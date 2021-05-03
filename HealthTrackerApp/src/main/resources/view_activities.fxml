@@ -67,5 +67,10 @@
             <Insets bottom="5.0" top="5.0" />
          </padding>
        </HBox>
+      <Button mnemonicParsing="false" onAction="#switchToListActivity" text="View Activities In Detail">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+      </Button>
    </children>
 </VBox>

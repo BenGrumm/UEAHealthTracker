@@ -3,6 +3,8 @@ package controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -11,9 +13,12 @@ import model.Exercise;
 import model.ExerciseDBHelper;
 import model.Food;
 import model.FoodDBHelper;
+import sample.GUI;
 import sample.Main;
 import testing.ExerciseDBTesting;
 import testing.FoodDBTesting;
+
+import java.io.IOException;
 
 public class ViewFoodsListController extends Controller{
 
@@ -45,4 +50,14 @@ public class ViewFoodsListController extends Controller{
     public void changeDateRange(ActionEvent actionEvent) {
     }
 
+    public void switchToGraphActivity(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_foods.fxml"));
+
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

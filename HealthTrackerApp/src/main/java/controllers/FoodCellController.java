@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import model.ExerciseDBHelper;
 import model.Food;
+import model.FoodDBHelper;
 
 
 import java.io.IOException;
@@ -15,6 +16,8 @@ public class FoodCellController extends ListCell<Food> {
     public HBox hBox;
     public Text dateText;
     public Text calsText;
+    public Text mealText;
+    public Text typeText;
     public Button deleteCellButton;
 
     private FXMLLoader fxmLoader;
@@ -48,13 +51,15 @@ public class FoodCellController extends ListCell<Food> {
 
                 if(alert.getResult() == ButtonType.YES){
                     System.out.println("Delete Yes");
-                    // new FoodDBHelper().removeExerciseFromDB(getItem());
+                    new FoodDBHelper().removeFoodFromDB(getItem());
                     getListView().getItems().remove(getItem());
                 }
             });
 
             calsText.setText(Double.toString(food.getCalories()));
             dateText.setText(food.getDateConsumed().toString());
+            mealText.setText(food.getMeal());
+            typeText.setText(food.getFoodType().getFoodDescription());
 
             setText(null);
             setGraphic(hBox);

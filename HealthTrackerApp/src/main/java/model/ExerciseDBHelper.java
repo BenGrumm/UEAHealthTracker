@@ -174,7 +174,7 @@ public class ExerciseDBHelper {
         }
     }
 
-    String removeExercise = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = %d;";
+    private static String removeExercise = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = %d;";
 
     /**
      * Function to remove an exercise from the database

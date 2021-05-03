@@ -137,19 +137,21 @@ public class FoodDBHelper {
         }
     }
 
+    private static String removeFood = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = %d;";
+
     /**
-     *                     " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
-     *                     COLUMN_NAME + " TEXT , " +
-     *                     COLUMN_CALORIES + " REAL , " +
-     *                     COLUMN_MEAL + " REAL , " +
-     *                     COLUMN_SERVING + " REAL , " +
-     *                     COLUMN_DATE + " DATE , " +
-     *                     COLUMN_FOOD_ID + " INTEGER , "+
-     *                     COLUMN_USER_ID + " INTEGER , " +
-     *                     " FOREIGN KEY(" + COLUMN_FOOD_ID + ") REFERENCES " +
-     *                     FoodTypeDBHelper.TABLE_NAME + "(__id) , " +
-     *                     "FOREIGN KEY(" + COLUMN_USER_ID + ") REFERENCES " +
+     * Function to remove a food from the database
+     * @param food to remove
      */
+    public void removeFoodFromDB(Food food){
+        try {
+            String deleteSql = String.format(removeFood, food.getId());
+            System.out.println(deleteSql);
+            db.deleteData(deleteSql);
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+        }
+    }
 
     /**
      *

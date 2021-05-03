@@ -43,12 +43,12 @@
             </rotationAxis>
         </GridPane>
         <Label fx:id="graphLabel" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <text>All Activities</text>
+            <text>All Meals</text>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
             <font>
-                <Font size="14.0" />
+                <Font size="18.0" />
             </font>
         </Label>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -73,5 +73,10 @@
                 <Insets bottom="5.0" top="5.0" />
             </padding>
         </HBox>
+        <Button mnemonicParsing="false" onAction="#switchToListActivity" text="View Activities In Detail">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+        </Button>
     </children>
 </VBox>

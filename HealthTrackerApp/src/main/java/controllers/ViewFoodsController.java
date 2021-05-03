@@ -1,6 +1,8 @@
 package controllers;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -12,9 +14,11 @@ import model.Exercise;
 import model.ExerciseDBHelper;
 import model.Food;
 import model.FoodDBHelper;
+import sample.GUI;
 import sample.Main;
 import testing.FoodDBTesting;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -123,4 +127,14 @@ public class ViewFoodsController extends Controller{
         dateRangeButton.setText("No Data Found");
     }
 
+    public void switchToListActivity(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_foods_list.fxml"));
+
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

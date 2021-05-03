@@ -4,6 +4,8 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -11,9 +13,11 @@ import javafx.scene.control.ListView;
 import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
+import sample.GUI;
 import sample.Main;
 import testing.ExerciseDBTesting;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ViewActivitiesListController extends Controller{
@@ -52,6 +56,16 @@ public class ViewActivitiesListController extends Controller{
             dateRangeButton.setText("View Activities");
         }else if(dateFrom.getValue() != null && dateTo.getValue().isBefore(dateFrom.getValue())){
             listActivitiesLabel.setText("Error Date From Is Greater Than Date To");
+        }
+    }
+
+    public void switchToGraphActivity(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_activities.fxml"));
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

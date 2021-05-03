@@ -2,6 +2,8 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -14,9 +16,11 @@ import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
 import model.User;
+import sample.GUI;
 import sample.Main;
 import testing.ExerciseDBTesting;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -135,4 +139,14 @@ public class ViewActivitiesController extends Controller{
         exerciseLineChart.toBack();
     }
 
+    public void switchToListActivity(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view_activities_list.fxml"));
+
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
