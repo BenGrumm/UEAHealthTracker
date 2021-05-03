@@ -17,6 +17,13 @@ public class Exercise {
         this.date = date;
     }
 
+    public Exercise(int id, double minutesExercised, double caloriesBurned, LocalDate date) {
+        this.id = id;
+        this.minutesExercised = minutesExercised;
+        this.caloriesBurned = caloriesBurned;
+        this.date = date;
+    }
+
     public int getId() {
         return id;
     }
@@ -27,6 +34,10 @@ public class Exercise {
 
     public double getCaloriesBurned() {
         return caloriesBurned;
+    }
+
+    public void setExerciseT(ExerciseType et){
+        this.exerciseT = et;
     }
 
     public ExerciseType getExerciseT() {

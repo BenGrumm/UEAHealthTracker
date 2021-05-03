@@ -161,7 +161,7 @@ public class FoodDBHelper {
      */
     public Food[] convertResultSetToFoods(ResultSet resultSet) throws SQLException{
         ArrayList<Food> foods = new ArrayList<>();
-        FoodTypeDBHelper dbh = new FoodTypeDBHelper();
+        ArrayList<Integer> ftID = new ArrayList<>();
 
         while(resultSet.next()){
             int id = resultSet.getInt(COLUMN_ID);
@@ -170,11 +170,15 @@ public class FoodDBHelper {
             String meal = resultSet.getString(COLUMN_MEAL);
             double serving = resultSet.getDouble(COLUMN_SERVING);
             LocalDate date = LocalDate.parse(resultSet.getString(COLUMN_DATE));
-            int foodID = resultSet.getInt(COLUMN_FOOD_ID);
+            ftID.add(resultSet.getInt(COLUMN_FOOD_ID));
 
-            FoodType ft = dbh.getType(foodID);
+            foods.add(new Food(id, foodName, caloriesConsumed, meal, serving, date));
+        }
 
-            foods.add(new Food(id, foodName, caloriesConsumed, meal, serving, date, ft));
+        FoodTypeDBHelper dbh = new FoodTypeDBHelper();
+
+        for(int i = 0; i < foods.size(); i++){
+            foods.get(i).setFoodType(dbh.getType(ftID.get(i)));
         }
 
         return foods.toArray(new Food[foods.size()]);

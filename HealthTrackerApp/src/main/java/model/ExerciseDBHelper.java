@@ -125,8 +125,7 @@ public class ExerciseDBHelper {
      */
     private Exercise[] convertResultSetToExercise(ResultSet rs) throws SQLException{
         ArrayList<Exercise> exercises = new ArrayList<>();
-        ExerciseTypeDBHelper dbh = new ExerciseTypeDBHelper();
-
+        ArrayList<Integer> exerciseTypes = new ArrayList<>();
 
         while(rs.next()){
             int id = rs.getInt(COLUMN_ID);
@@ -134,9 +133,15 @@ public class ExerciseDBHelper {
             double caloriesBurned = rs.getDouble(COLUMN_CALORIES_BURNED);
             // SQLite doesn't have date storage so stored as TEXT
             LocalDate date = LocalDate.parse(rs.getString(COLUMN_DATE));
-            ExerciseType et = dbh.getType(rs.getInt(COLUMN_EXERCISE_ID));
+            exerciseTypes.add(rs.getInt(COLUMN_EXERCISE_ID));
 
-            exercises.add(new Exercise(id, minsExercised, caloriesBurned, et, date));
+            exercises.add(new Exercise(id, minsExercised, caloriesBurned, date));
+        }
+
+        ExerciseTypeDBHelper dbh = new ExerciseTypeDBHelper();
+
+        for(int i = 0; i < exercises.size(); i++){
+            exercises.get(i).setExerciseT(dbh.getType(exerciseTypes.get(i)));
         }
 
         return exercises.toArray(new Exercise[exercises.size()]);

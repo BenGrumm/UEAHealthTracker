@@ -22,6 +22,15 @@ public class Food {
         this.foodType = foodType;
     }
 
+    public Food(int id, String foodName, double calories, String meal, double servingInGrams, LocalDate dateConsumed) {
+        this.id = id;
+        this.foodName = foodName;
+        this.calories = calories;
+        this.meal = meal;
+        this.servingInGrams = servingInGrams;
+        this.dateConsumed = dateConsumed;
+    }
+
     public int getId() {
         return id;
     }
@@ -65,5 +74,9 @@ public class Food {
 
     public void setDateConsumed(LocalDate dateConsumed) {
         this.dateConsumed = dateConsumed;
+    }
+
+    public void setFoodType(FoodType foodType){
+        this.foodType = foodType;
     }
 }
