@@ -7,7 +7,7 @@ public class Goal {
         DIET,
         STEPS
     }
-    private int goalID;
+    private int goalID, copiedID;
     private float progress, target;
     private String name;
     private goal goalType;
@@ -35,6 +35,17 @@ public class Goal {
         this.dateEnd = dateEnd;
         this.progress = progress;
         this.target = target;
+    }
+
+    public Goal(int goalID, float progress, float target, String name, goal goalType, LocalDate dateStart, LocalDate dateEnd, int copiedID) {
+        this.goalID = goalID;
+        this.progress = progress;
+        this.target = target;
+        this.name = name;
+        this.goalType = goalType;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.copiedID = copiedID;
     }
 
     public String getName() {
