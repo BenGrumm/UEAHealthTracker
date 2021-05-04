@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.dietController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.dietController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -135,7 +135,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="12">
                <children>
-                  <Button mnemonicParsing="false" text="View diet entries">
+                  <Button fx:id="view_foods_list" mnemonicParsing="false" onAction="#navigatePage" text="View diet entries">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin></Button>
@@ -148,7 +148,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
                <children>
-                  <Button mnemonicParsing="false" text="View exercise entries" />
+                  <Button fx:id="view_activities_list" mnemonicParsing="false" onAction="#navigatePage" text="View exercise entries" />
                   <Label fx:id="exerciseWarningLabel" prefHeight="26.0" prefWidth="149.0">
                      <HBox.margin>
                         <Insets left="20.0" />

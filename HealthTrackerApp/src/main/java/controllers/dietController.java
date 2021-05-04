@@ -11,6 +11,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import javafx.scene.image.ImageView;
 import model.*;
 
 public class dietController extends Controller implements Initializable {
@@ -48,6 +49,10 @@ public class dietController extends Controller implements Initializable {
         food type database
          */
         dietSearchCombo.setItems(FXCollections.observableArrayList(foodTypeDB.getAllFoods()));
+        Tooltip dateTooltip = new Tooltip("Date must be past or present");
+        dateTooltip.setGraphic(new ImageView("/warning_icon.png"));
+        foodDatePicker.setTooltip(dateTooltip);
+        exerciseDatePicker.setTooltip(dateTooltip);
 
     }
 
@@ -85,7 +90,7 @@ public class dietController extends Controller implements Initializable {
      */
     private void createExerciseEntryFromList(){
         //Placeholder exercise ID for custom exercise entry - needs to be number of entries in user exercises db?
-        int exerciseId = 500;
+        int exerciseId = exerciseDB.exerciseTableLength() +1;
         // retrieving values from either custom or preset exercise entry
         ExerciseType type = exerciseSearchCombo.getValue();
         String exerciseName = exerciseNameText.getText();
@@ -302,7 +307,6 @@ public class dietController extends Controller implements Initializable {
             double calories = (Double.parseDouble(servingSizeText.getText())/100) * entryType.getCaloriesPer100g();
             caloriesConsumedText.setText(Double.toString(calories));
         }
-
     }
 
     /**
@@ -393,12 +397,6 @@ public class dietController extends Controller implements Initializable {
 
     private void changeExerciseWarning(String text){ exerciseWarningLabel.setText(text);}
 
-    /*
-    to do:
-    fix date saving always as 2007???????????????
-    validate
-    need a "clear" button to clear entry? especially if you've selected from a list and then changed your mind
-     */
 }
 
 
