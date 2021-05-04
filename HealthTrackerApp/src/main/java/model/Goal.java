@@ -37,14 +37,23 @@ public class Goal {
         this.target = target;
     }
 
-    public Goal(int goalID, float progress, float target, String name, goal goalType, LocalDate dateStart, LocalDate dateEnd, int copiedID) {
+    public Goal(int goalID, String name, goal goalType,float progress, float target, LocalDate dateStart, LocalDate dateEnd, int copiedID) {
         this.goalID = goalID;
-        this.progress = progress;
-        this.target = target;
         this.name = name;
         this.goalType = goalType;
+        this.progress = progress;
+        this.target = target;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
+        this.copiedID = copiedID;
+    }
+
+    public Goal(int goalID, String name, goal goalType,float progress, float target, int copiedID) {
+        this.goalID = goalID;
+        this.name = name;
+        this.goalType = goalType;
+        this.progress = progress;
+        this.target = target;
         this.copiedID = copiedID;
     }
 
