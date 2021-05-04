@@ -141,7 +141,7 @@ public class registerController extends Controller implements Initializable {
                         "(Hover over field for more info)");
             }
             else{
-                changeErrorNotificationLabel("Error: Please ensure that the passords match");
+                changeErrorNotificationLabel("Error: Please ensure that the passwords match");
             }
 
         }
