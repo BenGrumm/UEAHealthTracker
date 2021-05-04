@@ -71,7 +71,7 @@ public class WeightDBHelper {
     public ArrayList<UserWeight> getUsersWeights(int userID) {
         ArrayList<UserWeight> UsersWeights = new ArrayList<>();
 
-        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " =" + userID + ";";
+        String getGroupIDSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERID + " =" + userID + " ORDER BY " + COLUMN_DATE + " ASC;";
         System.out.println(getGroupIDSQL);
         try {
             ResultSet results = db.selectQuery(getGroupIDSQL);

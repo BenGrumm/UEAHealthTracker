@@ -1,9 +1,7 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DateCell;
@@ -24,6 +22,7 @@ public class weightProgressController extends Controller{
     public DatePicker dateFrom, dateTo;
     public LineChart weightLineChart;
     public Button dateRangeButton;
+    public LocalDate firstDate;
 
     public void initialize() {
         // Set Selectable days to be from current day and before
@@ -41,9 +40,10 @@ public class weightProgressController extends Controller{
 
         ArrayList<UserWeight> userWeights = new WeightDBHelper().getUsersWeights(User.getLoggedIn().getID());
         for (int x=0; x<userWeights.size(); x++){
-            System.out.println(userWeights.get(x).getDateRecorded());
+            System.out.println(userWeights.get(x).getDateRecorded() + " weight = " + ((userWeights.get(x).getStones()*14) + userWeights.get(x).getPounds()));
         }
 
+        firstDate = userWeights.get(0).getDateRecorded();
         /*
         if(userWeights.size() > 0) {
             populateGraphWithRange(userWeights, userWeights.get(User.getLoggedIn().getID()).getDateRecorded(),
@@ -55,8 +55,8 @@ public class weightProgressController extends Controller{
         */
 
         //Maybe default to first weight record and todays date.
-        LocalDate startDate = LocalDate.parse("2021-05-03");
-        LocalDate endDate = LocalDate.parse("2021-05-07");
+        LocalDate startDate = userWeights.get(0).getDateRecorded();
+        LocalDate endDate = userWeights.get(userWeights.size() - 1).getDateRecorded();
 
         PopGraphInRange(userWeights,startDate, endDate);
 
@@ -64,23 +64,22 @@ public class weightProgressController extends Controller{
     }
 
     public void changeDateRange(ActionEvent actionEvent) {
-        /*
-        System.out.println("Yes Clicked Here");
 
         if(dateFrom.getValue() != null && dateTo.getValue() != null && !dateTo.getValue().isBefore(dateFrom.getValue())){
-            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
-            System.out.println(exercises.length);
-            if(exercises.length != 0) {
-                populateGraphWithRange(exercises, dateFrom.getValue(), dateTo.getValue());
-            }else {
-                displayErrorNoData();
+            ArrayList<UserWeight> userWeights = new WeightDBHelper().getUsersWeights(User.getLoggedIn().getID());
+
+            if(checkDateValid(dateFrom.getValue()) && checkDateValid(dateTo.getValue())  ) {
+                PopGraphInRange(userWeights, dateFrom.getValue(), dateTo.getValue());
+                graphLabel.setText("Weight From " + dateFrom.getValue() + " to " + dateTo.getValue());
             }
-            graphLabel.setText("Activities From " + dateFrom.getValue() + " to " + dateTo.getValue());
-            dateRangeButton.setText("View Activities");
+            else{
+                graphLabel.setText("Dates invalid, either before user registered or in the future");
+            }
+
         }else if(dateFrom.getValue() != null && dateTo.getValue().isBefore(dateFrom.getValue())){
             graphLabel.setText("Error Date From Is Greater Than Date To");
         }
-         */
+
     }
 
     public void displayErrorNoData(){
@@ -139,7 +138,7 @@ public class weightProgressController extends Controller{
 
     /**
      * This method is used to plot the weight of the user in pounds, against the date in days.
-     * @param userWeights List of all usersWeights in record.
+     * @param userWeights List of all usersWeights in record sorted by date.
      * @param startDate date to display from
      * @param endDate date to display to.
      */
@@ -198,5 +197,34 @@ public class weightProgressController extends Controller{
 
         series.setName(User.getLoggedIn().getFirstName() + "'s Weight Over Time");
         weightLineChart.getData().add(series);
+
+        XYChart.Series idealSeries = new XYChart.Series();
+
+        int idealWeight = (User.getLoggedIn().getIdealWeightStone() * 14) +User.getLoggedIn().getIdealWeightPounds();
+        //Add ideal weight
+        for (int x = 0; x < dates.size(); x++) {
+            String dateAsString = dates.get(x).toString();
+
+            idealSeries.getData().add(new XYChart.Data(dateAsString, idealWeight));
+
+        }
+
+        idealSeries.setName("Ideal weight");
+        weightLineChart.getData().add(idealSeries);
+
+    }
+
+
+    private boolean checkDateValid(LocalDate date) {
+        if (date.isAfter(LocalDate.now())) {
+            return false;
+        }
+        else if (date.isBefore(firstDate))
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

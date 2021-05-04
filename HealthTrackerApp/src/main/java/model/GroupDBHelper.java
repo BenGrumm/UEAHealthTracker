@@ -169,6 +169,19 @@ public class GroupDBHelper {
         return true;
     }
 
+    public int getGroupIDViaName(String name){
+        String getGroupNameSQL = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + " = \"" + name + "\";";
+        int groupID = 0;
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            groupID = results.getInt(COLUMN_ID);
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groupID;
+    }
+
     /**
      * This method is used to get a list of groupID's that a user belongs in.
      *

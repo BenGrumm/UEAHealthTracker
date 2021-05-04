@@ -171,6 +171,7 @@ public class UserDBHelper {
         }
     }
 
+
     public boolean updateWeight(int stone, int pounds){
 
         double newBmi = User.calculateBMI(User.loggedIn.getHeight(), stone, pounds);

@@ -104,6 +104,8 @@ public class groupController extends Controller implements Initializable{
                 errorLabel.setText("Group name already exists, please try a different name");
                 groupNameInput.clear();
             }
+
+            currentGroup = GDBH.getGroup(GDBH.getGroupIDViaName(name));
         }
         //SetUpGroupHomepage();
     }
@@ -147,7 +149,7 @@ public class groupController extends Controller implements Initializable{
         gc.toggleInviteSection(true);
         gc.toggleCreateSection(false);
         gc.isInviteCodeLabel.setText(currentGroup.getInvCode());
-
+        gc.currentGroup = currentGroup;
         GUI.changeScene(root);
         /*
         toggleInviteSection(true);
@@ -181,8 +183,10 @@ public class groupController extends Controller implements Initializable{
     public void InviteMember(){
         String email = isEmailTextField.getText();
         if(!UDBH.checkValidEmail(email)){
+            UserDBHelper udbh = new UserDBHelper();
+            User userToInvite = udbh.getUserViaEmail(email);
 
-            //ADD EMAIL PART
+            Email.askUserToJoinGroup(userToInvite,currentGroup,email);
 
             isErrorLabel.setTextFill(Color.rgb(0,255,0));
             isErrorLabel.setText("Invite Sent!");

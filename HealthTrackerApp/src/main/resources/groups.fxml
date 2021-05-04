@@ -97,7 +97,10 @@
             <Label fx:id="groupGoal2Label" text="Goal 2:" GridPane.rowIndex="7">
                <padding>
                   <Insets left="20.0" />
-               </padding></Label>
+               </padding>
+               <graphic>
+                  <Button mnemonicParsing="false" text="Button" />
+               </graphic></Label>
             <Label fx:id="groupGoal3Label" text="Goal 3:" GridPane.rowIndex="8">
                <padding>
                   <Insets left="20.0" />
