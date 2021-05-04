@@ -6,15 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import model.User;
+import model.*;
 
 import java.net.URL;
 import java.util.*;
 
 import javafx.event.ActionEvent;
-import model.UserDBHelper;
-import model.UserWeight;
-import model.WeightDBHelper;
 
 /**
  * This class is the controller for the registration from the main_menu UI. It works by setting storing all the
@@ -29,7 +26,7 @@ public class dashboardController extends Controller implements Initializable {
      */
     @FXML
     Label bmiLabel, bmiClassification, showWeightStoneLabel, showWeightPoundsLabel, caloriesRemaining,
-            targetWeightStoneLabel, targetWeightPoundsLabel, targetBmiClassification, targetBmiLabel, nameLabel;
+            targetWeightStoneLabel, targetWeightPoundsLabel, targetBmiClassification, targetBmiLabel, nameLabel, dailyCalories;
     @FXML
     Spinner<Integer> weightPoundsSpinner, weightStoneSpinner;
 
@@ -116,11 +113,13 @@ public class dashboardController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setBMI();
-
+        GoalDBHelper goalDBHelper = new GoalDBHelper();
         nameLabel.setText(User.loggedIn.getFirstName());
 
         weightStoneSpinner.setValueFactory(weightStoneSVF);
         weightPoundsSpinner.setValueFactory(weightPoundsSVF);
+
+        //dailyCalories.setText(goalDBHelper.getGoal(__USERID__).getTarget()-goalDBHelper.getGoal(__USERID__).getProgress());
 
     }
 }

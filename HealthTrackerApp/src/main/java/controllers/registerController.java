@@ -113,13 +113,21 @@ public class registerController extends Controller implements Initializable {
                     //Generate weight goal based off information entered.
                     //Give a week to complete and name it 'Getting started'
                     //Here is the code below smiley face ::))
+                    goalDBHelper.addGoal("Daily calories",
+                            Goal.goal.DIET,
+                            0,
+                            2000,
+                            String.valueOf(userDBHelper.getUserViaUsername(username).getID()),
+                            0);
+
                     goalDBHelper.addGoal("Getting started",
                             Goal.goal.WEIGHT,
                             stone+(pounds/14),
                             idealStone+(idealPounds/14),
                             LocalDate.now(),
                             LocalDate.now().plusWeeks(1),
-                            String.valueOf(userDBHelper.getUserViaUsername(username).getID()));
+                            String.valueOf(userDBHelper.getUserViaUsername(username).getID()),
+                            0);
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

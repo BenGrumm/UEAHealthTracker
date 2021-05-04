@@ -13,11 +13,19 @@ public class Goal {
     private goal goalType;
     private LocalDate dateStart, dateEnd;
 
+
     public Goal(){
         name = "";
         goalType = goal.WEIGHT;
         dateStart = LocalDate.now();
         dateEnd = LocalDate.now();
+    }
+
+    public Goal(String name, goal goalType, float progress, float target){
+        this.name = name;
+        this.goalType = goalType;
+        this.progress = progress;
+        this.target = target;
     }
 
     public Goal(String name, goal goalType, LocalDate dateEnd, float progress, float target){

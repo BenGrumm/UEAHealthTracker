@@ -18,6 +18,7 @@ public class GoalDBHelper {
     private static final String COLUMN_TARGET = "TARGET";
     private static final String COLUMN_DATESTART = "DATE_START";
     private static final String COLUMN_DATEEND = "DATE_END";
+    private static final String COLUMN_COPIEDFROM = "COPIED_FROM";
 
     /**
      * Goals - User Table - Prefix GU
@@ -40,7 +41,7 @@ public class GoalDBHelper {
             db = Database.getInstance();
 
             //Create Goals Database Table
-            String createGoalsTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_GOALID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT ,  " + COLUMN_GOALTYPE + " TEXT , " + COLUMN_PROGRESS + " REAL , "+ COLUMN_TARGET + " REAL , " + COLUMN_DATESTART + " DATE , "+ COLUMN_DATEEND + " DATE);";
+            String createGoalsTableSQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUMN_GOALID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_NAME + " TEXT ,  " + COLUMN_GOALTYPE + " TEXT , " + COLUMN_PROGRESS + " REAL , "+ COLUMN_TARGET + " REAL , " + COLUMN_DATESTART + " DATE , "+ COLUMN_DATEEND + " DATE, " + COLUMN_COPIEDFROM + " INTEGER);";
             System.out.println(createGoalsTableSQL);
             db.createTable(createGoalsTableSQL);
 
@@ -63,15 +64,16 @@ public class GoalDBHelper {
         }
     }
 
-    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String userID){
+    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, String userID, int copiedFrom){
         try {
-            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END)" +
+            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END,COPIED_FROM)" +
                     " VALUES(" + '"' + name + '"' + ", "
                     + '"' + goalType + '"' + ", "
                     + '"' + progress + '"' + ", "
                     + '"' + target + '"' + ", "
-                    + '"' + startDate + '"' + ", "
-                    + '"' + endDate + '"' + ");";
+                    + '"' + 0 + '"' + ", "
+                    + '"' + 0 + '"' + ", "
+                    + '"' + copiedFrom + '"' + ");";;
             db.insertData(sql);
 
         }catch (SQLException e){
@@ -94,15 +96,77 @@ public class GoalDBHelper {
         return true;
     }
 
-    public boolean addGroupGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String groupID){
+    public boolean addGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String userID, int copiedFrom){
         try {
-            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END)" +
+            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END,COPIED_FROM)" +
                     " VALUES(" + '"' + name + '"' + ", "
                     + '"' + goalType + '"' + ", "
                     + '"' + progress + '"' + ", "
                     + '"' + target + '"' + ", "
                     + '"' + startDate + '"' + ", "
-                    + '"' + endDate + '"' + ");";
+                    + '"' + endDate + '"' + ", "
+                    + '"' + copiedFrom + '"' + ");";
+            db.insertData(sql);
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try{
+            String getGoalIdSQL = "SELECT * FROM GOALS WHERE GOALID=(SELECT max(GOALID) FROM GOALS);";
+            String goalID = "";
+            ResultSet results = db.selectQuery(getGoalIdSQL);
+            goalID = String.valueOf(results.getInt("GOALID"));
+            results.close();
+            String sql = "INSERT INTO USERS_GOALS(USERID,GOALID)" +
+                    " VALUES(" + '"' + userID + '"' + ", "
+                    + '"' + goalID + '"' + ");";
+            db.insertData(sql);
+        }catch(SQLException e){
+
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public void dupeGroupGoal(){
+
+        //create a new goal associated with userid and use the id of the groupgoal for the copiedfrom value.
+    }
+
+    public void removeGoal(){
+
+    }
+    public void removeGroupGoal(){
+        //fetch the goalid of the group goal. treat this at the copiedfrom value to check for.
+        //cascade removes group goal from group goal table.
+        //go through the goal table and change all goals that had the copiedfrom value to 0.
+    }
+
+    public ArrayList<Goal> getGoalsByUserId(){
+
+        //create an arraylist of goal objects
+
+        //go to the table for goals.
+        //for every goal where user id equals function input
+        //arraylist.add(new Goal());
+
+        return new ArrayList<Goal>();
+    }
+
+    public ArrayList<Goal> getGoalsByGroupId(){
+        return new ArrayList<Goal>();
+    }
+
+    public boolean addGroupGoal(String name, Goal.goal goalType, float progress, float target, LocalDate startDate, LocalDate endDate, String groupID, int copiedFrom){
+        try {
+            String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END,COPIED_FROM)" +
+                    " VALUES(" + '"' + name + '"' + ", "
+                    + '"' + goalType + '"' + ", "
+                    + '"' + progress + '"' + ", "
+                    + '"' + target + '"' + ", "
+                    + '"' + startDate + '"' + ", "
+                    + '"' + endDate + '"' + ", "
+                    + '"' + copiedFrom + '"' + ");";
             db.insertData(sql);
 
         }catch (SQLException e){
