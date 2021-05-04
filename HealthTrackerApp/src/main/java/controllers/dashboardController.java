@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import model.*;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -30,6 +32,9 @@ public class dashboardController extends Controller implements Initializable {
     @FXML
     Spinner<Integer> weightPoundsSpinner, weightStoneSpinner;
 
+    @FXML
+    DatePicker datePicker;
+
     private final SpinnerValueFactory<Integer> weightStoneSVF =
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Integer.MAX_VALUE,User.loggedIn.getWeightStone(),1);
 
@@ -38,24 +43,28 @@ public class dashboardController extends Controller implements Initializable {
 
     @FXML
     public void updateWeight(ActionEvent event){
-
+        LocalDate tomorrow = LocalDate.now().plus(1, ChronoUnit.DAYS);
         if (!(weightPoundsSpinner.getValue() == 0 && weightStoneSpinner.getValue() == 0)) {
+            if (datePicker.getValue() != null && datePicker.getValue().isBefore(tomorrow)) {
+                UserWeight userWeight = new UserWeight(weightStoneSpinner.getValue(), weightPoundsSpinner.getValue(), datePicker.getValue());
+                WeightDBHelper weightDBHelper = new WeightDBHelper();
+                UserDBHelper userDBHelper = new UserDBHelper();
 
-            UserWeight userWeight = new UserWeight(weightStoneSpinner.getValue(), weightPoundsSpinner.getValue());
-            WeightDBHelper weightDBHelper = new WeightDBHelper();
-            UserDBHelper userDBHelper = new UserDBHelper();
+                weightDBHelper.addWeight(userWeight, User.getLoggedIn().getID());
 
-            weightDBHelper.addWeight(userWeight, User.getLoggedIn().getID());
+                userDBHelper.updateWeight(userWeight.getStones(), userWeight.getPounds());
 
-            userDBHelper.updateWeight(userWeight.getStones(), userWeight.getPounds());
+                User.getLoggedIn().setWeightStone(userWeight.getStones());
+                User.getLoggedIn().setWeightPounds(userWeight.getPounds());
 
-            User.getLoggedIn().setWeightStone(userWeight.getStones());
-            User.getLoggedIn().setWeightPounds(userWeight.getPounds());
+                User.getLoggedIn().setBMI(User.calculateBMI(User.loggedIn.getHeight(),
+                        userWeight.getStones(), userWeight.getPounds()));
 
-            User.getLoggedIn().setBMI(User.calculateBMI(User.loggedIn.getHeight(),
-                    userWeight.getStones(), userWeight.getPounds()));
-
-            setBMI();
+                setBMI();
+            }
+            else{
+                datePicker.setStyle(("-fx-base: rgba(255, 76, 76, 1)"));
+            }
         }
         else{
             weightPoundsSpinner.setStyle(("-fx-base: rgba(255, 76, 76, 1)"));
@@ -63,7 +72,11 @@ public class dashboardController extends Controller implements Initializable {
     }
 
     public void changeColour(Event event) {
-        weightPoundsSpinner.setStyle("color: revert");
+        if ("weightPoundsSpinner".equals(((Control) event.getSource()).getId())) {
+            weightPoundsSpinner.setStyle("color: revert");
+        } else {
+            datePicker.setStyle("color: revert");
+        }
     }
 
 
@@ -100,6 +113,8 @@ public class dashboardController extends Controller implements Initializable {
 
         targetWeightStoneLabel.setText(Integer.toString(User.getLoggedIn().getIdealWeightStone()));
         targetWeightPoundsLabel.setText(Integer.toString(User.getLoggedIn().getIdealWeightPounds()));
+
+        datePicker.setValue(LocalDate.now());
     }
 
 
