@@ -89,7 +89,6 @@ public class dietController extends Controller implements Initializable {
      * the database. Then adds this object to the users exercises table.
      */
     private void createExerciseEntryFromList(){
-        //Placeholder exercise ID for custom exercise entry - needs to be number of entries in user exercises db?
         int exerciseId = exerciseDB.exerciseTableLength() +1;
         // retrieving values from either custom or preset exercise entry
         ExerciseType type = exerciseSearchCombo.getValue();
@@ -104,7 +103,12 @@ public class dietController extends Controller implements Initializable {
                 "Date exercised: " + exerciseDate);
 
         Exercise exerciseEntry = new Exercise(exerciseId, duration, caloriesBurned, type, exerciseDate);
-        exerciseDB.addExerciseToDB(exerciseEntry);
+        if(!exerciseDB.addExerciseToDB(exerciseEntry)){
+            System.out.println("Exercise has NOT been added successfully");
+        }
+        else{
+            System.out.println("Exercise has been added successfully");
+        }
     }
 
     /**
@@ -125,7 +129,12 @@ public class dietController extends Controller implements Initializable {
         int exerciseId = exerciseDB.exerciseTableLength() + 1;
         Exercise customExercise = new Exercise(exerciseId, Float.parseFloat(durationText.getText()),
                 Float.parseFloat(caloriesBurnedText.getText()), type, exerciseDatePicker.getValue());
-        exerciseDB.addExerciseToDB(customExercise);
+        if(!exerciseDB.addExerciseToDB(customExercise)){
+            System.out.println("Exercise has NOT been added successfully");
+        }
+        else{
+            System.out.println("Exercise has been added successfully");
+        }
     }
 
     /**
@@ -138,11 +147,10 @@ public class dietController extends Controller implements Initializable {
             ExerciseType entry = exerciseSearchCombo.getValue();
             exerciseNameText.setText(entry.getExerciseDescription());
             durationText.setText(exerciseSearchDurationText.getText());
-            // REAL WEIGHT SHOULD COME FROM THE USER WHEN THEY ARE LOGGED IN
-            int testWeightKG = 100;
-            // Need to check the below maths is right? Result doesnt seem like the right number
-            float caloriesBurnedConversion = (entry.getCaloriesBurned()/60)*testWeightKG*Integer.parseInt(exerciseSearchDurationText.getText());
-            caloriesBurnedText.setText(Float.toString(caloriesBurnedConversion));
+            User userLoggedIn = User.getLoggedIn();
+            double userLoggedInWeight =  userLoggedIn.getWeightKG();
+            double caloriesBurnedConversion = (entry.getCaloriesBurned()/60)*userLoggedInWeight*Integer.parseInt(exerciseSearchDurationText.getText());
+            caloriesBurnedText.setText(Double.toString(caloriesBurnedConversion));
         }
     }
 
@@ -227,7 +235,7 @@ public class dietController extends Controller implements Initializable {
      */
     private boolean checkDateValid(LocalDate date){
         boolean result = true;
-        if(date.isAfter(LocalDate.now())){
+        if(date == null || date.isAfter(LocalDate.now())){
             result = false;
         }
         return result;
@@ -261,8 +269,7 @@ public class dietController extends Controller implements Initializable {
      * the database. Then adds this object to the users foods table.
      */
     public void createDietEntryFromList(){
-        //Placeholder food ID for custom food entry - needs to be number of entries in user foods db? same issue as with exercises
-        int foodId = 500;
+        int foodId = foodDB.foodTableLength() + 1;
         // retrieving values from either custom or preset exercise entry
         FoodType type = dietSearchCombo.getValue();
         String foodName = foodNameText.getText();
@@ -271,7 +278,12 @@ public class dietController extends Controller implements Initializable {
         double servingSize = Double.parseDouble(servingSizeText.getText());
         LocalDate date = foodDatePicker.getValue();
         Food dietEntry = new Food(foodId, foodName, calories, meal, servingSize, date, type);
-        foodDB.addFoodToDB(dietEntry);
+        if(!foodDB.addFoodToDB(dietEntry)){
+            System.out.println("Diet entry has NOT added successfully");
+        }
+        else{
+            System.out.println("Diet entry has been added successfully");
+        }
     }
 
     /**
@@ -291,7 +303,12 @@ public class dietController extends Controller implements Initializable {
                 mealChoiceBox.getValue(), Double.parseDouble(servingSizeText.getText()), foodDatePicker.getValue(),
                         type);
         System.out.println(customFood.toString());
-        foodDB.addFoodToDB(customFood);
+        if(!foodDB.addFoodToDB(customFood)){
+            System.out.println("Food has NOT been added successfully");
+        }
+        else{
+            System.out.println("Food has been added successfully");
+        }
     }
     /**
      * Function takes data from the user's selected food type and uses it to fill in the form data to then be saved
@@ -336,6 +353,7 @@ public class dietController extends Controller implements Initializable {
             foodDatePicker.setStyle(("-fx-background-color: #FF4C4C"));
             result=false;
         }
+        System.out.println(result);
         return result;
 
     }

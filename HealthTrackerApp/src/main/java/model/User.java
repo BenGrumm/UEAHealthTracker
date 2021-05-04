@@ -157,6 +157,13 @@ public class User {
         User.loggedIn = loggedIn;
     }
 
+    public double getWeightKG(){
+        double stones = this.weightStone + (this.weightPounds / 14);
+        double kg = stones * 6.35029318;
+        return kg;
+
+    }
+
     @Override
     public String toString() {
         return "User{" +
