@@ -160,22 +160,18 @@ public class ExerciseDBHelper {
      * statement
      * @param ex - exercise object
      */
-    public void addExerciseToDB(Exercise ex){
+    public boolean addExerciseToDB(Exercise ex){
         try {
-            // TODO CURRENTLY HOLDS TEST DATA - once log in process is fully functional, just take the
-            // user.getLoggedIn().getID() rather than using this test user
-//            User testUser = new User(1, "Caitlin", "Wright", "cwright",
-//                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
-//                    10, 10, "Female");
-//            User.setLoggedIn(testUser);
             User.getLoggedIn();
             ex.getExerciseT().getDbID();
             String sql = String.format(addExercise, ex.getMinutesExercised(), ex.getCaloriesBurned(), ex.getDate(),
                     ex.getExerciseT().getDbID(), User.getLoggedIn().getID());
             System.out.println(sql);
             db.insertData(sql);
+            return true;
         }catch (SQLException sqle){
             sqle.printStackTrace();
+            return false;
         }
     }
 

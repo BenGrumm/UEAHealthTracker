@@ -65,21 +65,17 @@ public class FoodDBHelper {
      * table
      * @param food
      */
-    public void addFoodToDB(Food food){
+    public boolean addFoodToDB(Food food){
         try {
-            // CURRENTLY HOLDS TEST DATA - once log in process is fully funcitonal, just take the
-            // user.getLoggedIn().getID() rather than using this test user
-//            User testUser = new User(1, "Caitlin", "Wright", "cwright",
-//                    "17cwright@gmail.com", "123", 10, 10, 10, 10,
-//                    10, 10, "Female");
-//            User.setLoggedIn(testUser);
             String sql = String.format(addFood, food.getFoodName(), food.getCalories(), food.getMeal(),
                     food.getServingInGrams(), food.getDateConsumed(), food.getFoodType().getDbID(),
                     User.getLoggedIn().getID());
             System.out.println(sql);
             db.insertData(sql);
+            return true;
         }catch (SQLException sqle){
             sqle.printStackTrace();
+            return false;
         }
     }
 
