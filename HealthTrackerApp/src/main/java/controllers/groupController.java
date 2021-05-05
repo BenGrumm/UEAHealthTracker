@@ -322,9 +322,17 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal1Button.setVisible(true);
-            groupGoal1Label.setText(groupsGoals.get(0).getName());
+            groupGoal1Label.setText(groupsGoals.get(0).getName() + " - " + groupsGoals.get(0).getTarget());
             goalComboBox.setVisible(true);
             removeGroupGoal.setVisible(true);
+            if(goalDBH.userHasGoal(groupsGoals.get(0).getGoalID(),currentUserID)){
+                goal1Button.setDisable(true);
+                goal1Button.setText("Copied");
+            }
+            else {
+                goal1Button.setDisable(false);
+                goal1Button.setText("Copy");
+            }
         }
 
         if(groupsGoals.get(1) == null){
@@ -333,7 +341,15 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal2Button.setVisible(true);
-            groupGoal2Label.setText(groupsGoals.get(1).getName());
+            groupGoal2Label.setText(groupsGoals.get(1).getName() + " - " + groupsGoals.get(1).getTarget());
+            if(goalDBH.userHasGoal(groupsGoals.get(1).getGoalID(),currentUserID)){
+                goal2Button.setDisable(true);
+                goal2Button.setText("Copied");
+            }
+            else {
+                goal2Button.setDisable(false);
+                goal2Button.setText("Copy");
+            }
         }
 
         if(groupsGoals.get(2) == null){
@@ -343,8 +359,16 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal3Button.setVisible(true);
-            groupGoal3Label.setText(groupsGoals.get(2).getName());
+            groupGoal3Label.setText(groupsGoals.get(2).getName()+ " - " + groupsGoals.get(2).getTarget());
             addGroupGoal.setVisible(false);
+            if(goalDBH.userHasGoal(groupsGoals.get(2).getGoalID(),currentUserID)){
+                goal3Button.setDisable(true);
+                goal3Button.setText("Copied");
+            }
+            else {
+                goal3Button.setDisable(false);
+                goal3Button.setText("Copy");
+            }
         }
 
         if(GDBH.getMembersRole(newGroup.getiD(),currentUserID).equals("OWNER")){
@@ -499,7 +523,7 @@ public class groupController extends Controller implements Initializable{
 
     public void Subscribe(){
         if(subButton.getText().equals("Subscribe")){
-            //MAke column yes
+            //Make column yes
             GDBH.ChangeSubscription(currentGroup.getiD(),currentUserID,"YES");
             subButton.setText("Unsubscribe");
         }
