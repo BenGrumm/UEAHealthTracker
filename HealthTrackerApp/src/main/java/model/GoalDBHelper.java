@@ -73,8 +73,8 @@ public class GoalDBHelper {
                     + '"' + goalType + '"' + ", "
                     + '"' + progress + '"' + ", "
                     + '"' + target + '"' + ", "
-                    + '"' + 0 + '"' + ", "
-                    + '"' + 0 + '"' + ", "
+                    + '"' + LocalDate.now() + '"' + ", "
+                    + '"' + LocalDate.now() + '"' + ", "
                     + '"' + copiedFrom + '"' + ");";;
             db.insertData(sql);
 
@@ -256,7 +256,9 @@ public class GoalDBHelper {
         return ret;
     }
 
-    public void removeGoal(){}
+    public void removeGoal(int goalID){
+
+    }
 
 
     public void removeGroupGoal(int goalID, int groupID){
@@ -280,15 +282,63 @@ public class GoalDBHelper {
         //go through the goal table and change all goals that had the copiedfrom value to 0.
     }
 
-    public ArrayList<Goal> getGoalsByUserId(){
+    public ArrayList<Goal> getGoalsByUserId(int userID){
+        ArrayList<Integer> goalIDs = new ArrayList<>();
+        ArrayList<Goal> userGoals = new ArrayList<>();
 
-        //create an arraylist of goal objects
+        String getGoalIdsSQL = "SELECT " + GUCOLUMN_GOALID +" FROM " + GUTABLE_NAME + " WHERE " + GUCOLUMN_USERID + " = " + userID + ";";
+        System.out.println(getGoalIdsSQL);
+        try {
+            ResultSet results = db.selectQuery(getGoalIdsSQL);
 
-        //go to the table for goals.
-        //for every goal where user id equals function input
-        //arraylist.add(new Goal());
+            while(results.next()){
+                goalIDs.add(results.getInt(GUCOLUMN_GOALID));
 
-        return new ArrayList<Goal>();
+            }
+
+
+            boolean hasDates = true;
+            LocalDate startdate = null, enddate = null;
+
+            for(Integer goalIDe : goalIDs){
+                String getGoalsById = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalIDe + ";";
+                results = db.selectQuery(getGoalsById);
+                while (results.next()) {
+                    int id = results.getInt(COLUMN_GOALID);
+                    String name = results.getString(COLUMN_NAME);
+                    String goaltype = results.getString(COLUMN_GOALTYPE);
+                    float progress = results.getFloat(COLUMN_PROGRESS);
+                    float target = results.getFloat(COLUMN_TARGET);
+                    if (results.getString(COLUMN_DATESTART).equals("0")) {
+                        hasDates = false;
+                    } else {
+                        startdate = LocalDate.parse(results.getString(COLUMN_DATESTART));
+                    }
+                    if (results.getString(COLUMN_DATEEND).equals("0")) {
+                        hasDates = false;
+                    } else {
+                        enddate = LocalDate.parse(results.getString(COLUMN_DATEEND));
+                    }
+                    int copiedfrom = results.getInt(COLUMN_COPIEDFROM);
+
+                    Goal.goal gt = Goal.goal.valueOf(goaltype);
+                    if (hasDates) {
+                        userGoals.add(new Goal(id, name, gt, progress, target, startdate, enddate, copiedfrom));
+
+                    }
+                    else{
+                        userGoals.add(new Goal(id, name, gt, progress, target, copiedfrom));
+                    }
+                }
+
+            }
+            results.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userGoals;
     }
 
     /** SEEMS TO WORK, ONLY IF GOALS ARE SAVED AS 0 IN DATE IF THEY DON'T USE THEM **/

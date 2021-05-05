@@ -120,7 +120,7 @@ public class Goal {
     public void renderGoal(Pane pane){
         VBox container = new VBox();
         Label goalName = new Label(name);
-        container.setStyle("-fx-border-color: lightseagreen;\n" +
+        container.setStyle("-fx-border-color: black;\n" +
                 "-fx-border-insets: 5;\n" +
                 "-fx-border-width: 2;\n" +
                 "-fx-border-radius: 4;\n" +
@@ -134,8 +134,18 @@ public class Goal {
                 "-fx-padding: 3;\n");
         container.getChildren().add(goalName);
         container.getChildren().add(new Label(goalType.toString()));
-        container.getChildren().add(new Label("Status: " + Float.toString(progress)));
-        container.getChildren().add(new Label("Target: " + Float.toString(target)));
+        //container.getChildren().add(new Label("Status: " + Float.toString(progress)));
+        container.getChildren().add(new Label(String.format("Status: %.2f", progress)));
+        //container.getChildren().add(new Label("Target: " + Float.toString(target)));
+        container.getChildren().add(new Label(String.format("Target: %.2f", target)));
+
+        if(goalType != goal.DIET){
+
+            //System.out.println(name + " : " + dateEnd);
+            container.getChildren().add(new Label(String.format("Start date: %s", dateStart.toString())));
+            container.getChildren().add(new Label(String.format("End date: %s", dateEnd.toString())));
+        }
+
         pane.getChildren().add(container);
     }
 }
