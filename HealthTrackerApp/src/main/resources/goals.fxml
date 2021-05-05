@@ -75,11 +75,33 @@
          <VBox.margin>
             <Insets top="7.0" />
          </VBox.margin>
-         <right>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-         </right>
          <center>
             <VBox fx:id="goalsPane" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-         </center></BorderPane>
+         </center>
+         <right>
+            <VBox alignment="TOP_CENTER" prefHeight="363.0" prefWidth="135.0" spacing="10.0" style="-fx-border-width: 1; -fx-border-color: Black; -fx-border-style: dotted;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Add Goal">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="goalTypeChoice" prefHeight="25.0" prefWidth="100.0" />
+                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="133.0">
+                     <children>
+                        <Label text="Name:  " />
+                        <TextField fx:id="nameInput" prefHeight="25.0" prefWidth="74.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="29.0" prefWidth="133.0">
+                     <children>
+                        <Label text="Target:  " />
+                        <TextField fx:id="targetInput" prefHeight="25.0" prefWidth="34.0" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#addGoal" text="Add" />
+               </children>
+            </VBox>
+         </right></BorderPane>
    </children>
 </VBox>

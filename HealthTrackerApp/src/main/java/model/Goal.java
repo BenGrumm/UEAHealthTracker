@@ -120,13 +120,13 @@ public class Goal {
     public void renderGoal(Pane pane){
         VBox container = new VBox();
         Label goalName = new Label(name);
-        container.setStyle("-fx-border-color: black;\n" +
+        container.setStyle("-fx-border-color: lightseagreen;\n" +
                 "-fx-border-insets: 5;\n" +
-                "-fx-border-width: 1;\n" +
+                "-fx-border-width: 2;\n" +
+                "-fx-border-radius: 4;\n" +
                 "-fx-border-style: solid;\n" +
                 "-fx-padding: 3;\n" +
                 "-fx-alignment: center;\n");
-        //goalName.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         goalName.setStyle("-fx-border-color: black;\n" +
                 "-fx-border-insets: 5;\n" +
                 "-fx-border-width: 1;\n" +
