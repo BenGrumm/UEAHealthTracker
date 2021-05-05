@@ -18,19 +18,18 @@ import java.util.Set;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.Group;
-import model.GroupDBHelper;
-import model.User;
-import model.UserDBHelper;
+import model.*;
 import sample.GUI;
 
 public class groupController extends Controller implements Initializable{
 
     private GroupDBHelper GDBH = new GroupDBHelper();
     private UserDBHelper UDBH = new UserDBHelper();
+    private GoalDBHelper goalDBH = new GoalDBHelper();
     private int currentUserID = User.getLoggedIn().getID();
     private Group currentGroup;
     private Group[] usersGroups;
+    ArrayList<Goal> groupsGoals;
     private int mgGroupID;
     private String usersCurrentUI;
     private String groupName;
@@ -49,9 +48,9 @@ public class groupController extends Controller implements Initializable{
     @FXML
     private Label groupNameLabel,groupMemberCountLabel, groupDescLabel,groupRoleLabel,groupGoal1Label,groupGoal2Label,groupGoal3Label;
     @FXML
-    private Button groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton,subButton;
+    private Button removeGroupGoal, addGroupGoal, groupJoinButton,groupCreateButton,manageGroupButton,inviteMethodButton,leaveGroupButton,subButton,goal1Button, goal2Button,goal3Button;
     @FXML
-    private ComboBox usersGroupsComboBox;
+    private ComboBox usersGroupsComboBox, goalComboBox;
     @FXML
     private TextField invCodeTextBox;
 
@@ -251,22 +250,119 @@ public class groupController extends Controller implements Initializable{
         }
     }
 
+    @FXML
+    private void addGoal1(ActionEvent event){
+        DupeGoal(0);
+    }
+    @FXML
+    private void addGoal2(ActionEvent event){
+        DupeGoal(1);
+    }
+    @FXML
+    private void addGoal3(ActionEvent event){
+        DupeGoal(2);
+    }
+
+    private void DupeGoal(int index){
+        Goal goal = groupsGoals.get(index);
+        goalDBH.dupeGroupGoal(goal,currentUserID);
+    }
+
+
+
+    @FXML
+    private void addGroupGoal(){
+
+    }
+
+    @FXML
+    private void removeGroupGoal(){
+        goalComboBox.getValue();
+        int goalID = 0;
+
+        for(int x=0; x<groupsGoals.size(); x++) {
+            if (groupsGoals.get(x) != null){
+                if (groupsGoals.get(x).getName().equals(goalComboBox.getValue())) {
+                    goalID = groupsGoals.get(x).getGoalID();
+                    goalDBH.removeGroupGoal(goalID, currentGroup.getiD());
+                }
+            }
+        }
+
+        SetUpGroupHomepage();
+    }
     /**
      * Method used to change all relevent labels to show a different groups information
      */
     public void changeGroup(Group newGroup){
+
+        groupsGoals = goalDBH.getGoalsByGroupId(newGroup.getiD());
+        String[] groupGoalNames = new String[3];
+
+        while (groupsGoals.size()<3){
+            groupsGoals.add(null);
+        }
+
+        for(int x=0; x<groupsGoals.size();x++){
+            if(groupsGoals.get(x) != null) {
+                groupGoalNames[x] = groupsGoals.get(x).getName();
+            }
+        }
 
         groupNameLabel.setText(newGroup.getName());
         groupDescLabel.setText(newGroup.getDescription());
         System.out.println("Members: " + newGroup.getSize());
         groupMemberCountLabel.setText("Members: " + newGroup.getSize());
         groupRoleLabel.setText("Role: " + GDBH.getMembersRole(newGroup.getiD(),currentUserID));
+        if(groupsGoals.get(0) == null){
+            goal1Button.setVisible(false);
+            groupGoal1Label.setText(" ");
+            goalComboBox.setVisible(false);
+            removeGroupGoal.setVisible(false);
+        }
+        else {
+            goal1Button.setVisible(true);
+            groupGoal1Label.setText(groupsGoals.get(0).getName());
+            goalComboBox.setVisible(true);
+            removeGroupGoal.setVisible(true);
+        }
+
+        if(groupsGoals.get(1) == null){
+            goal2Button.setVisible(false);
+            groupGoal2Label.setText(" ");
+        }
+        else {
+            goal2Button.setVisible(true);
+            groupGoal2Label.setText(groupsGoals.get(1).getName());
+        }
+
+        if(groupsGoals.get(2) == null){
+            goal3Button.setVisible(false);
+            groupGoal3Label.setText(" ");
+            addGroupGoal.setVisible(true);
+        }
+        else {
+            goal3Button.setVisible(true);
+            groupGoal3Label.setText(groupsGoals.get(2).getName());
+            addGroupGoal.setVisible(false);
+        }
+
         if(GDBH.getMembersRole(newGroup.getiD(),currentUserID).equals("OWNER")){
             manageGroupButton.setVisible(true);
+            goalComboBox.getItems().clear();
+            for(int i=0; i<groupGoalNames.length;i++) {
+                if(groupGoalNames[i] != null) {
+                    goalComboBox.getItems().add(groupGoalNames[i]);
+                }
+            }
         }
         else{
+            goalComboBox.setVisible(false);
+            removeGroupGoal.setVisible(false);
+            addGroupGoal.setVisible(false);
             manageGroupButton.setVisible(false);
         }
+
         if(GDBH.getMembersSubStatus(newGroup.getiD(), currentUserID).equals("YES")){
             subButton.setText("Unsubscribe");
         }

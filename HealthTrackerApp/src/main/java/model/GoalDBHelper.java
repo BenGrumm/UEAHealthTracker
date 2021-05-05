@@ -180,9 +180,8 @@ public class GoalDBHelper {
         return ret;
     }
 
-    public void removeGoal(){
+    public void removeGoal(){}
 
-    }
 
     public void removeGroupGoal(int goalID, int groupID){
 

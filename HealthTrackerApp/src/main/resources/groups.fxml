@@ -77,35 +77,70 @@
                <GridPane.margin>
                   <Insets right="20.0" />
                </GridPane.margin></Button>
-            <Label text="Group Goals" GridPane.rowIndex="5">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets left="20.0" />
-               </opaqueInsets>
-               <padding>
-                  <Insets left="20.0" />
-               </padding></Label>
-            <Label fx:id="groupGoal1Label" text="Goal 1: " GridPane.rowIndex="6">
+            <HBox GridPane.rowIndex="5">
+               <children>
+                  <Label text="Group Goals">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets left="20.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+                  <Button fx:id="addGroupGoal" mnemonicParsing="false" onAction="#addGroupGoal" text="Add A Group Goal">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
-               <padding>
-                  <Insets left="20.0" />
-               </padding></Label>
-            <Label fx:id="groupGoal2Label" text="Goal 2:" GridPane.rowIndex="7">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <graphic>
-                  <Button mnemonicParsing="false" text="Button" />
-               </graphic></Label>
-            <Label fx:id="groupGoal3Label" text="Goal 3:" GridPane.rowIndex="8">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </Label>
+               <children>
+                  <Button fx:id="goal1Button" mnemonicParsing="false" onAction="#addGoal1" text="Copy">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Button>
+                  <Label fx:id="groupGoal1Label" text="Goal 1:">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox GridPane.rowIndex="7">
+               <children>
+                  <Button fx:id="goal2Button" mnemonicParsing="false" onAction="#addGoal2" text="Copy">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Label fx:id="groupGoal2Label" text="Goal 2:">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox GridPane.rowIndex="8">
+               <children>
+                  <Button fx:id="goal3Button" mnemonicParsing="false" onAction="#addGoal3" text="Copy">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Label fx:id="groupGoal3Label" text="Goal 3:">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
             <Button fx:id="subButton" mnemonicParsing="false" onAction="#Subscribe" text="Subscribe" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets right="20.0" />
@@ -116,6 +151,20 @@
                   <Insets right="120.0" />
                </GridPane.margin>
             </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
+               <children>
+                  <ComboBox fx:id="goalComboBox" prefWidth="150.0" promptText="Goal To Delete">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </ComboBox>
+                  <Button fx:id="removeGroupGoal" mnemonicParsing="false" onAction="#removeGroupGoal" text="Remove Goal">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
          <opaqueInsets>
             <Insets />
