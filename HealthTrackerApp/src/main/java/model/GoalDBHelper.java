@@ -145,6 +145,79 @@ public class GoalDBHelper {
         System.out.println("Hi");
     }
 
+    /** Method to update goal and returns true or false depending on if the goal is complete
+     *
+     * @param goalID An individual goal to update.
+     * @param progress The progress to store, must already be added/subtracted.
+     * @return true if goal is complete, false if goal is not complete.
+     */
+
+    public boolean updateGoalProgress(int goalID, float progress){
+        String getCurrentProgressSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalID + ";";
+        System.out.println(getCurrentProgressSQL);
+        float prevProgress = 0,target = 0;
+        try {
+            ResultSet results = db.selectQuery(getCurrentProgressSQL);
+            prevProgress = results.getFloat(COLUMN_PROGRESS);
+            target = results.getFloat(COLUMN_TARGET);
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        String updateGoalSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_PROGRESS + " = " + progress + " WHERE " + COLUMN_GOALID + " = " + goalID + ";";
+        System.out.println(updateGoalSQL);
+        try {
+            db.updateTable(updateGoalSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isGoalComplete(goalID, prevProgress);
+
+    }
+
+    public boolean isGoalComplete(int goalID, float prevProgress){
+
+        String getGroupNameSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalID + ";";
+        System.out.println(getGroupNameSQL);
+        float progress = 0,target = 0;
+        String goaltype = "";
+        try {
+            ResultSet results = db.selectQuery(getGroupNameSQL);
+            goaltype = results.getString(COLUMN_GOALTYPE);
+            progress = results.getFloat(COLUMN_PROGRESS);
+            target = results.getFloat(COLUMN_TARGET);
+
+            results.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        Goal.goal gt = Goal.goal.valueOf(goaltype);
+
+
+        if((prevProgress < target && gt.equals(Goal.goal.WEIGHT)) || gt.equals(Goal.goal.STEPS) || gt.equals(Goal.goal.DIET) ){
+            if(progress >= target){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else {
+            if(progress <= target){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
+
     public boolean userHasGoal(int goalID,int userID) {
         ArrayList<Integer> goalIDs = new ArrayList<>();
 
@@ -341,7 +414,7 @@ public class GoalDBHelper {
 
     public static void main(String[] args) {
         GoalDBHelper GDBH = new GoalDBHelper();
-
+/*
         ArrayList<Goal> g = GDBH.getGoalsByGroupId(1);
 
         for(int x=0; x<g.size(); x++){
@@ -350,9 +423,12 @@ public class GoalDBHelper {
 
         GDBH.dupeGroupGoal(g.get(2), 23);
         System.out.println("Group size: " + GDBH.getNumberOfGoalsForAGroup(1));
-
+*/
+        System.out.println(GDBH.updateGoalProgress(18,11.5F));
+/*
         System.out.println("is " + GDBH.userHasGoal(3,23));
         System.out.println(GDBH.userHasGoal(3,24));
+        */
     }
 
 }
