@@ -171,6 +171,9 @@ public class GoalDBHelper {
                 if (!results.isBeforeFirst()) {
                     ret = false;
                 }
+                else{
+                    return true;
+                }
                 results.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -199,9 +202,6 @@ public class GoalDBHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
         //fetch the goalid of the group goal. treat this at the copiedfrom value to check for.
         //Xcascade removes group goal from group goal table.
         //go through the goal table and change all goals that had the copiedfrom value to 0.
