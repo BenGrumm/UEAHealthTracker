@@ -99,7 +99,7 @@ public class Email {
     public static void sendEmail(String subject, String htmlOrTextBody, String address) throws MessagingException {
         Message message = new MimeMessage(initSession());
 
-        message.setFrom(new InternetAddress("climatemonitoringpeoplecmp@gmail.com"));
+        message.setFrom(new InternetAddress("UEAHealthApp@gmail.com"));
 
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
         message.setSubject(subject);
