@@ -75,19 +75,11 @@
          <VBox.margin>
             <Insets top="7.0" />
          </VBox.margin>
-         <center>
-            <AnchorPane fx:id="goalsPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="Goal objects WIP" />
-               </children>
-            </AnchorPane>
-         </center>
          <right>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="Label" />
-               </children>
-            </VBox>
-         </right></BorderPane>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </right>
+         <center>
+            <VBox fx:id="goalsPane" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </center></BorderPane>
    </children>
 </VBox>

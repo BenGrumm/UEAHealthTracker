@@ -1,6 +1,10 @@
 package model;
 import java.time.LocalDate;
-import javafx.fxml.FXML;
+
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+
 public class Goal {
     public enum goal{
         WEIGHT,
@@ -111,5 +115,27 @@ public class Goal {
 
     public void setTarget(float target) {
         this.target = target;
+    }
+
+    public void renderGoal(Pane pane){
+        VBox container = new VBox();
+        Label goalName = new Label(name);
+        container.setStyle("-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 1;\n" +
+                "-fx-border-style: solid;\n" +
+                "-fx-padding: 3;\n" +
+                "-fx-alignment: center;\n");
+        //goalName.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        goalName.setStyle("-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 1;\n" +
+                "-fx-border-style: solid;\n" +
+                "-fx-padding: 3;\n");
+        container.getChildren().add(goalName);
+        container.getChildren().add(new Label(goalType.toString()));
+        container.getChildren().add(new Label("Status: " + Float.toString(progress)));
+        container.getChildren().add(new Label("Target: " + Float.toString(target)));
+        pane.getChildren().add(container);
     }
 }
