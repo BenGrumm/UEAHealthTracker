@@ -10,12 +10,15 @@ package model;
 public class User {
 
     public static User loggedIn;
+    public static int dailyCalorieLimit, dailyCalories;
 
     private final int ID;
     private String firstName, surname,username, email, password;
     private int weightStone, weightPounds, idealWeightStone, idealWeightPounds;
     private double height , BMI;
     private Gender gender;
+
+    public static GoalDBHelper goalDBHelper = new GoalDBHelper();
 
     public enum Gender {MALE, FEMALE}
 
@@ -155,6 +158,15 @@ public class User {
 
     public static void setLoggedIn(User loggedIn) {
         User.loggedIn = loggedIn;
+    }
+
+    public static void setDailyCalorieLimit(){
+        for (Goal goal: goalDBHelper.getGoalsByUserId(User.loggedIn.getID())) {
+            if(goal.getGoalType() == Goal.goal.DIET){
+                dailyCalorieLimit = (int)goal.getTarget();
+                dailyCalories = (int)goal.getProgress();
+            }
+        }
     }
 
     public double getWeightKG(){

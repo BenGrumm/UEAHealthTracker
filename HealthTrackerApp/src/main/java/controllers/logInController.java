@@ -57,6 +57,7 @@ public class logInController extends Controller{
             correctPassword = user.getPassword();
             if (correctDetails.equals(enteredDetails) && correctPassword.equals(enteredPassword)) {
                 User.loggedIn = user;
+                User.setDailyCalorieLimit();
                 logged_in();
             } else {
                 errorField.setText("Incorrect login. Ensure the details entered you entered are" +

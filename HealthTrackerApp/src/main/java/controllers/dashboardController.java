@@ -134,6 +134,7 @@ public class dashboardController extends Controller implements Initializable {
         weightStoneSpinner.setValueFactory(weightStoneSVF);
         weightPoundsSpinner.setValueFactory(weightPoundsSVF);
 
+        dailyCalories.setText(String.valueOf(User.dailyCalorieLimit - User.dailyCalories));
         //dailyCalories.setText(goalDBHelper.getGoal(__USERID__).getTarget()-goalDBHelper.getGoal(__USERID__).getProgress());
 
     }

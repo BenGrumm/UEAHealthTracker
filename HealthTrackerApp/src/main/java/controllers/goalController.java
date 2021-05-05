@@ -115,6 +115,8 @@ public class goalController extends Controller{
         startDate.setValue(LocalDate.now());
         startDate.setDisable(true);
 
+        //System.out.println(User.dailyCalorieLimit);
+
         calendar.setDayCellFactory(datePicker -> new DateCell(){
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
