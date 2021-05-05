@@ -56,12 +56,13 @@ public class goalController extends Controller{
         //System.out.println("Date input: " + calendar.getValue());
         if(goalTypeChoice.getValue().equals("Calorie")){
             //goalDBHelper.addGoal(nameInput.getText(), Goal.goal.valueOf(goalTypeChoice.getValue()), )
-            /*for (Goal goal: goalDBHelper.getGoalsByUserId(User.loggedIn.getID())) {
+            for (Goal goal: goalDBHelper.getGoalsByUserId(User.loggedIn.getID())) {
                 if(goal.getGoalType() == Goal.goal.DIET){
                     goalDBHelper.removeGoal(goal.getGoalID());
                 }
 
-            }*/
+            }
+            User.dailyCalorieLimit = Integer.valueOf(targetInput.getText());
             goalDBHelper.addGoal("Daily calories",
                     Goal.goal.DIET,
                     0.0f,
@@ -138,12 +139,16 @@ public class goalController extends Controller{
                 if(t1.equals("Weight")){
                     dateSelection.setVisible(true);
                     targetSubscript.setText("kg");
+                    nameInput.setDisable(false);
                 }else if(t1.equals("Calorie")){
                     dateSelection.setVisible(false);
+                    nameInput.setText("Daily Calories");
+                    nameInput.setDisable(true);
                     targetSubscript.setText("Calories");
                 }else{
                     dateSelection.setVisible(true);
                     targetSubscript.setText("Steps");
+                    nameInput.setDisable(false);
                 }
             }
         });

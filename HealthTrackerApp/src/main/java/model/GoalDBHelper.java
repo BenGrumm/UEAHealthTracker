@@ -66,6 +66,24 @@ public class GoalDBHelper {
         }
     }
 
+    public boolean removeGoal(int goalID){
+        String deleteUserGoalSQL = "DELETE FROM " + GUTABLE_NAME + " WHERE " + GUCOLUMN_GOALID + " = " + goalID + ";";
+        try {
+            db.deleteData(deleteUserGoalSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        deleteUserGoalSQL = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalID + ";";
+        try {
+            db.deleteData(deleteUserGoalSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
     public boolean addGoal(String name, Goal.goal goalType, float progress, float target, String userID, int copiedFrom){
         try {
             String sql = "INSERT INTO GOALS(NAME,GOALTYPE,PROGRESS,TARGET,DATE_START,DATE_END,COPIED_FROM)" +
@@ -255,11 +273,6 @@ public class GoalDBHelper {
 
         return ret;
     }
-
-    public void removeGoal(int goalID){
-
-    }
-
 
     public void removeGroupGoal(int goalID, int groupID){
 

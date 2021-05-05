@@ -1,6 +1,8 @@
 package model;
 import java.time.LocalDate;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -118,6 +120,7 @@ public class Goal {
     }
 
     public void renderGoal(Pane pane){
+        GoalDBHelper goalDBHelper = new GoalDBHelper();
         VBox container = new VBox();
         Label goalName = new Label(name);
         container.setStyle("-fx-border-color: black;\n" +
@@ -139,11 +142,26 @@ public class Goal {
         //container.getChildren().add(new Label("Target: " + Float.toString(target)));
         container.getChildren().add(new Label(String.format("Target: %.2f", target)));
 
+
+
         if(goalType != goal.DIET){
 
             //System.out.println(name + " : " + dateEnd);
             container.getChildren().add(new Label(String.format("Start date: %s", dateStart.toString())));
             container.getChildren().add(new Label(String.format("End date: %s", dateEnd.toString())));
+            Button deleteButton = new Button();
+            deleteButton.setText("Delete");
+            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    System.out.println("test");
+                    goalDBHelper.removeGoal(goalID);
+                    container.getChildren().clear();
+                    container.setStyle(null);
+                }
+            });
+
+            container.getChildren().add(deleteButton);
         }
 
         pane.getChildren().add(container);
