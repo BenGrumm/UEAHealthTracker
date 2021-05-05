@@ -266,6 +266,7 @@ public class groupController extends Controller implements Initializable{
     private void DupeGoal(int index){
         Goal goal = groupsGoals.get(index);
         goalDBH.dupeGroupGoal(goal,currentUserID);
+        SetUpGroupHomepage();
     }
 
 
