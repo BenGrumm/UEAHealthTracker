@@ -56,7 +56,7 @@ public class FoodCellController extends ListCell<Food> {
                 }
             });
 
-            calsText.setText(Double.toString(food.getCalories()));
+            calsText.setText(String.format("%.2f", food.getCalories()));
             dateText.setText(food.getDateConsumed().toString());
             mealText.setText(food.getMeal());
             typeText.setText(food.getFoodType().getFoodDescription());

@@ -58,7 +58,7 @@ public class ExerciseCellController extends ListCell<Exercise> {
 
             typeText.setText(exercise.getExerciseT().getExerciseDescription());
             minsText.setText(Double.toString(exercise.getMinutesExercised()));
-            calsText.setText(Double.toString(exercise.getCaloriesBurned()));
+            calsText.setText(String.format("%.2f", exercise.getCaloriesBurned()));
             dateText.setText(exercise.getDate().toString());
 
             setText(null);
