@@ -82,6 +82,8 @@ public class groupGoalController extends Controller implements Initializable{
         if(groupsGoals.size() == 3){
             goToGroupPage();
         }
+
+        //ADD SNED EMAIL FUNCTION
     }
 
     @Override

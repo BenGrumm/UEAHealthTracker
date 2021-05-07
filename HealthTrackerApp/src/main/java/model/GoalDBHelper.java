@@ -2,13 +2,17 @@ package model;
 
 
 
+import controllers.Email;
+
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GoalDBHelper {
-
+    GroupDBHelper groupDBHelper = new GroupDBHelper();
+    UserDBHelper userDBHelper = new UserDBHelper();
     /**
      * Goals Table - Prefix none
      **/
@@ -163,14 +167,15 @@ public class GoalDBHelper {
         System.out.println("Hi");
     }
 
-    /** Method to update goal and returns true or false depending on if the goal is complete
+    /** Method to update goal
      *
      * @param goalID An individual goal to update.
      * @param progress The progress to store, must already be added/subtracted.
-     * @return true if goal is complete, false if goal is not complete.
      */
 
-    public boolean updateGoalProgress(int goalID, float progress){
+
+    public void updateGoalProgress(int goalID, float progress){
+
         String getCurrentProgressSQL = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalID + ";";
         System.out.println(getCurrentProgressSQL);
         float prevProgress = 0,target = 0;
@@ -191,8 +196,32 @@ public class GoalDBHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        /** Can use this to prompt users to make new goal**/
+        if(isGoalComplete(goalID,prevProgress)){
+            //checks group goal, if so alerts members.
+            if(getGoalByID(goalID).getCopiedID() != 0){
+                int goalIDOfGroup = getGoalByID(goalID).getCopiedID();
+                int groupID = getGroupViaGoal(goalIDOfGroup);
 
-        return isGoalComplete(goalID, prevProgress);
+                ArrayList<Integer> userIds = groupDBHelper.getUserIDsSubbed(groupID);
+
+                ArrayList<String> usersEmails = new ArrayList<>();
+
+                for(int x=0;x<userIds.size();x++){
+                    usersEmails.add(userDBHelper.getUserViaID(userIds.get(x)).getEmail());
+                }
+
+                String[] userAddresses = new String[usersEmails.size()];
+
+                for(int x=0;x<userIds.size();x++){
+                    userAddresses[x] = usersEmails.get(x);
+                }
+                Email.emailGroupAboutGoalBeingMet(User.getLoggedIn(),groupDBHelper.getGroup(groupID),userAddresses);
+
+            }
+            //check if group goal
+            //Send email. List of group members emails, user and group and the goal they are in.
+        }
 
     }
 
@@ -377,6 +406,19 @@ public class GoalDBHelper {
         return groupGoals;
     }
 
+    public int getGroupViaGoal(int goalID){
+        String getGoalIDsSQL = "SELECT " + GGCOLUMN_GROUPID + " FROM " + GGTABLE_NAME + " WHERE "+ GGCOLUMN_GOALID + " = " + goalID + ";";
+        int groupID = 0;
+        try {
+            ResultSet results = db.selectQuery(getGoalIDsSQL);
+            groupID = results.getInt(GGCOLUMN_GROUPID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return groupID;
+    }
+
 
     public Goal getGoalByID(int goalID){
 
@@ -487,7 +529,7 @@ public class GoalDBHelper {
         GDBH.dupeGroupGoal(g.get(2), 23);
         System.out.println("Group size: " + GDBH.getNumberOfGoalsForAGroup(1));
 */
-        System.out.println(GDBH.updateGoalProgress(18,11.5F));
+        //System.out.println(GDBH.updateGoalProgress(18,11.5F));
 /*
         System.out.println("is " + GDBH.userHasGoal(3,23));
         System.out.println(GDBH.userHasGoal(3,24));
