@@ -68,6 +68,16 @@ public class Email {
             "</body>";
 
     /**
+     * Email a set of addresses of user in a group about a goal being added to the group
+     * @param group that the goal was added to
+     * @param addresses of user in the group to email
+     * @return true if all emails sent successfully else false
+     */
+    public static boolean emailGroupAboutNewGoal(Group group, String[] addresses){
+        return false;
+    }
+
+    /**
      * Email a user group about a members goal being met
      * @param user who met the goal
      * @param group the group object in which the goal was met
