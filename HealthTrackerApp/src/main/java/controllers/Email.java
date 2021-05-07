@@ -2,12 +2,15 @@ package controllers;
 
 import model.Group;
 import model.User;
+import org.apache.commons.io.FileUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 
@@ -36,13 +39,6 @@ public class Email {
                 new String[]{"b.p.grummitt@gmail.com", "ben.grummitt3986@gmail.com"});
     }
 
-    private static final String htmlBodyJoinEmail = "<h2>You Have Been Invited To A Group</h2 </br>" +
-                                                    "<body>" +
-                                                        "<p>%s has invited you to the group <strong>%s</strong>.</p> </br>" +
-                                                        "<p>To join this group enter the code <strong>%s</strong> on the ? screen of your " +
-                                                        "fitness app.</p>" +
-                                                    "</body>";
-
     /**
      * Email single user about joining group
      * @param user user inviting
@@ -52,20 +48,18 @@ public class Email {
      */
     public static boolean askUserToJoinGroup(User user, Group group, String email){
         try {
+            String emailBody = FileUtils.readFileToString(new File(System.getProperty("user.dir") +
+                    "/src/main/resources/UserJoinGroupV2.html"), "UTF-8");
+
             sendEmail("You've Been Invited To A Group",
-                    String.format(htmlBodyJoinEmail, user.getFirstName(), group.getName(), group.getInvCode()),
+                    String.format(emailBody, group.getName(), user.getFirstName(), group.getInvCode(), group.getDescription()),
                     email);
             return true;
-        } catch (MessagingException e) {
+        } catch (MessagingException | IOException e) {
             e.printStackTrace();
             return false;
         }
     }
-
-    private static final String htmlEmailGoalComplete = "<h2>A Member Of %s Completed A Goal</h2 </br>" +
-            "<body>" +
-            "<p>%s has completed the goal <strong>%s</strong>!</p> </br>" +
-            "</body>";
 
     /**
      * Email a set of addresses of user in a group about a goal being added to the group
@@ -86,10 +80,21 @@ public class Email {
      */
     public static boolean emailGroupAboutGoalBeingMet(User user, Group group, String[] addresses){
         int numSent = 0;
+
+        String emailBody;
+
+        try {
+            emailBody = FileUtils.readFileToString(new File(System.getProperty("user.dir") +
+                    "/src/main/resources/EmailGoalComplete.html"), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            emailBody = "A user in the group %s completed the goal. %s completed one of the goal %s.";
+        }
+
         for(int i = 0; i < addresses.length; i++){
             try {
                 sendEmail(String.format("A Member Of %s Completed A Goal", group.getName()),
-                        String.format(htmlEmailGoalComplete, group.getName(), user.getFirstName(), "put goal here?"),
+                        String.format(emailBody, group.getName(), user.getFirstName(), "put goal here?"),
                         addresses[i]);
                 numSent++;
             } catch (MessagingException e) {
