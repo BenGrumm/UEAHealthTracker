@@ -28,3 +28,4 @@ UEAHealthServer/data/testdb.mv.db
 UEAHealthServer/data/testdb.trace.db
 HealthServerV2/data/testdb.mv.db
 HealthTrackerApp/src/main/resources/HealthTrackerDB.db
+HealthTrackerApp/src/main/resources/HealthTrackerDB.db
