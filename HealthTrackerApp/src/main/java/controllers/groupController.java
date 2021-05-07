@@ -391,6 +391,8 @@ public class groupController extends Controller implements Initializable{
 
     private void DupeGoal(int index){
         Goal goal = groupsGoals.get(index);
+        float tolose = goal.getTarget();
+        goal.setTarget((float) User.loggedIn.getWeightKG() - tolose);
         goalDBH.dupeGroupGoal(goal,currentUserID);
         SetUpGroupHomepage();
     }
@@ -460,9 +462,15 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal1Button.setVisible(true);
-            groupGoal1Label.setText(groupsGoals.get(0).getName() + " - " + groupsGoals.get(0).getTarget());
+            if(groupsGoals.get(0).getGoalType() == Goal.goal.WEIGHT) {
+                groupGoal1Label.setText(groupsGoals.get(0).getName() + " - lose " + groupsGoals.get(0).getTarget() + "kg");
+            }
+            else{
+                groupGoal1Label.setText(groupsGoals.get(0).getName() + " - do " + groupsGoals.get(0).getTarget() + "steps");
+            }
             goalComboBox.setVisible(true);
             removeGroupGoal.setVisible(true);
+
             if(goalDBH.userHasGoal(groupsGoals.get(0).getGoalID(),currentUserID)){
                 goal1Button.setDisable(true);
                 goal1Button.setText("Copied");
@@ -479,7 +487,12 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal2Button.setVisible(true);
-            groupGoal2Label.setText(groupsGoals.get(1).getName() + " - " + groupsGoals.get(1).getTarget());
+            if(groupsGoals.get(1).getGoalType() == Goal.goal.WEIGHT) {
+                groupGoal2Label.setText(groupsGoals.get(1).getName() + " - lose " + groupsGoals.get(1).getTarget() + "kg");
+            }
+            else{
+                groupGoal2Label.setText(groupsGoals.get(1).getName() + " - do " + groupsGoals.get(1).getTarget() + "steps");
+            }
             if(goalDBH.userHasGoal(groupsGoals.get(1).getGoalID(),currentUserID)){
                 goal2Button.setDisable(true);
                 goal2Button.setText("Copied");
@@ -497,7 +510,12 @@ public class groupController extends Controller implements Initializable{
         }
         else {
             goal3Button.setVisible(true);
-            groupGoal3Label.setText(groupsGoals.get(2).getName()+ " - " + groupsGoals.get(2).getTarget());
+            if(groupsGoals.get(2).getGoalType() == Goal.goal.WEIGHT) {
+                groupGoal3Label.setText(groupsGoals.get(2).getName() + " - lose " + groupsGoals.get(2).getTarget() + "kg");
+            }
+            else{
+                groupGoal3Label.setText(groupsGoals.get(2).getName() + " - do " + groupsGoals.get(2).getTarget() + "steps");
+            }
             addGroupGoal.setVisible(false);
             if(goalDBH.userHasGoal(groupsGoals.get(2).getGoalID(),currentUserID)){
                 goal3Button.setDisable(true);

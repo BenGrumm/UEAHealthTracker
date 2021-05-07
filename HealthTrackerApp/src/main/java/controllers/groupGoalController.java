@@ -32,7 +32,6 @@ public class groupGoalController extends Controller implements Initializable{
     private GoalDBHelper goalDBH = new GoalDBHelper();
     Group currentGroup;
     ArrayList<Goal> groupsGoals;
-
     //Add group goal - copied from george
 
     @FXML
@@ -62,7 +61,7 @@ public class groupGoalController extends Controller implements Initializable{
             goalDBH.addGroupGoal(nameInput.getText(),
                     Goal.goal.WEIGHT,
                     (float)User.loggedIn.getWeightKG(),
-                    Float.valueOf(targetInput.getText()),
+                    0.0f,
                     LocalDate.now(),
                     calendar.getValue(),
                     String.valueOf(currentGroup.getiD()),
@@ -94,7 +93,7 @@ public class groupGoalController extends Controller implements Initializable{
         calendar.setVisible(true);
         ObservableList<String> selections = FXCollections.observableArrayList("Weight", "Steps");
         goalTypeChoice.setItems(selections);
-        targetSubscript.setText("kg");
+        targetSubscript.setText("kg to lose");
         //startDate.setText(LocalDate.now().toString());
         startDate.setValue(LocalDate.now());
         startDate.setDisable(true);
@@ -122,7 +121,7 @@ public class groupGoalController extends Controller implements Initializable{
                 if(t1.equals("Weight")){
                     startDate.setVisible(true);
                     calendar.setVisible(true);
-                    targetSubscript.setText("kg");
+                    targetSubscript.setText("kg to lose");
                     nameInput.setDisable(false);
                 }else{
                     startDate.setVisible(true);
