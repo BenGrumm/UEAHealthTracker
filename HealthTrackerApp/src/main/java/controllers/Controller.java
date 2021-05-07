@@ -43,6 +43,17 @@ public class Controller {
         }
     }
 
+    public void successfulPasswordChange()
+    {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/successful_password_change.fxml"));
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void logged_in(){
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));

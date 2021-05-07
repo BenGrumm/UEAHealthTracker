@@ -189,6 +189,21 @@ public class UserDBHelper {
         return false;
     }
 
+    public boolean updatePassword(String password, int id){
+
+        String encryptedPassword = Security.encrypt(password);
+
+        String sql = "UPDATE USERS " +
+                "SET PASSWORD = " + "'" + encryptedPassword + "'" +
+                " WHERE __id= '" + id +  "'" + ";";
+        try {
+            System.out.println(sql);
+            db.updateTable(sql);
+            return true;
+        }catch (Exception ignored){}
+        return false;
+    }
+
 
 
     public User getUserViaUsername(String username) {

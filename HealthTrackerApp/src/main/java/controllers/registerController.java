@@ -137,7 +137,7 @@ public class registerController extends Controller implements Initializable {
                 changeErrorNotificationLabel("Error: Please enter valid email address (example@example.com)");
             }
             else if (!validPassword){
-                changeErrorNotificationLabel("Error: Please enter a valid password " +
+                changeErrorNotificationLabel("Error: Please enter a valid password \n" +
                         "(Hover over field for more info)");
             }
             else{
@@ -155,7 +155,7 @@ public class registerController extends Controller implements Initializable {
         return password.equals(passwordVerification);
     }
 
-    private boolean checkValidPassword(String password) {
+    public static boolean checkValidPassword(String password) {
         int minPasswordLength = 6;
         int maxPasswordLength = 16;
         if (password.length() > maxPasswordLength || password.length() < minPasswordLength){
