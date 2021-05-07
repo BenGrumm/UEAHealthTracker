@@ -37,6 +37,9 @@ public class Email {
                         5, 5, 5, "MALE"),
                 new Group(0, "test", "test d", 1, "135fr5"),
                 new String[]{"b.p.grummitt@gmail.com", "ben.grummitt3986@gmail.com"});
+
+        emailGroupAboutNewGoal(new Group(15, "Test Name", "This Group Does Stuff", 0, "13RFJ8"),
+                new String[]{"b.p.grummitt@gmail.com"});
     }
 
     /**
@@ -68,7 +71,30 @@ public class Email {
      * @return true if all emails sent successfully else false
      */
     public static boolean emailGroupAboutNewGoal(Group group, String[] addresses){
-        return false;
+        int numSent = 0;
+
+        String emailBody;
+
+        try {
+            emailBody = FileUtils.readFileToString(new File(System.getProperty("user.dir") +
+                    "/src/main/resources/NewGoalAddedToGroup.html"), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            emailBody = "";
+        }
+
+        for(int i = 0; i < addresses.length; i++){
+            try {
+                sendEmail("A New Group Added To " + group.getName(),
+                        String.format(emailBody, group.getName(), group.getName()),
+                        addresses[i]);
+                numSent++;
+            }catch (MessagingException e){
+                e.printStackTrace();
+            }
+        }
+
+        return numSent == addresses.length;
     }
 
     /**
