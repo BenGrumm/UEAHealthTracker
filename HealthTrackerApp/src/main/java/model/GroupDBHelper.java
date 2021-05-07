@@ -421,6 +421,27 @@ public class GroupDBHelper {
         }
         return sub;
     }
+
+
+
+    public ArrayList<Integer> getUserIDsSubbed(int groupID){
+        String getUsersSQL = "SELECT * FROM " + LUTABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + " AND " + LUCOLUMN_SUBSCRIBED + " = \"YES\";";
+        ArrayList<Integer> userIDs = new ArrayList<>();
+
+        try {
+            ResultSet results = db.selectQuery(getUsersSQL);
+            while (results.next()) {
+                int goalID = results.getInt(LUCOLUMN_USERID);
+                userIDs.add(goalID);
+                results.close();
+            }
+
+        }
+            catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userIDs;
+    }
 }
 
 

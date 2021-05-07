@@ -119,6 +119,14 @@ public class Goal {
         this.target = target;
     }
 
+    public int getCopiedID() {
+        return copiedID;
+    }
+
+    public void setCopiedID(int copiedID) {
+        this.copiedID = copiedID;
+    }
+
     public void renderGoal(Pane pane){
         GoalDBHelper goalDBHelper = new GoalDBHelper();
         VBox container = new VBox();
