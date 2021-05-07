@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.scene.image.ImageView;
@@ -20,6 +21,7 @@ public class dietController extends Controller implements Initializable {
     private ExerciseDBHelper exerciseDB = new ExerciseDBHelper();
     private FoodTypeDBHelper foodTypeDB = new FoodTypeDBHelper();
     private FoodDBHelper foodDB = new FoodDBHelper();
+    private GoalDBHelper goalDB = new GoalDBHelper();
     @FXML
     private TextField foodNameText, caloriesConsumedText, servingSizeText, dietSearchServingSizeText, exerciseNameText,
             durationText, caloriesBurnedText, exerciseSearchDurationText;
@@ -108,6 +110,19 @@ public class dietController extends Controller implements Initializable {
         }
         else{
             System.out.println("Exercise has been added successfully");
+            ArrayList<Goal> goals = goalDB.getGoalsByUserId(User.getLoggedIn().getID());
+            for(Goal goal: goals){
+                if(goal.getGoalType() == Goal.goal.DIET){
+                    float currentProgress = goal.getProgress();
+                    currentProgress -= caloriesBurned;
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+                if(goal.getGoalType() == Goal.goal.STEPS){
+                    float currentProgress = goal.getProgress();
+                    currentProgress += duration * 120;
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+            }
         }
     }
 
@@ -134,6 +149,19 @@ public class dietController extends Controller implements Initializable {
         }
         else{
             System.out.println("Exercise has been added successfully");
+            ArrayList<Goal> goals = goalDB.getGoalsByUserId(User.getLoggedIn().getID());
+            for(Goal goal: goals) {
+                if (goal.getGoalType() == Goal.goal.DIET) {
+                    float currentProgress = goal.getProgress();
+                    currentProgress -= caloriesBurned;
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+                if(goal.getGoalType() == Goal.goal.STEPS){
+                    float currentProgress = goal.getProgress();
+                    currentProgress += Float.parseFloat(durationText.getText()) * 120;
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+            }
         }
     }
 
@@ -283,6 +311,14 @@ public class dietController extends Controller implements Initializable {
         }
         else{
             System.out.println("Diet entry has been added successfully");
+            ArrayList<Goal> goals = goalDB.getGoalsByUserId(User.getLoggedIn().getID());
+            for(Goal goal: goals) {
+                if (goal.getGoalType() == Goal.goal.DIET) {
+                    float currentProgress = goal.getProgress();
+                    currentProgress += calories;
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+            }
         }
     }
 
@@ -301,13 +337,21 @@ public class dietController extends Controller implements Initializable {
         int foodId = foodDB.foodTableLength() +1;
         Food customFood = new Food(foodId, foodNameText.getText(), Double.parseDouble(caloriesConsumedText.getText()),
                 mealChoiceBox.getValue(), Double.parseDouble(servingSizeText.getText()), foodDatePicker.getValue(),
-                        type);
+                type);
         System.out.println(customFood.toString());
         if(!foodDB.addFoodToDB(customFood)){
             System.out.println("Food has NOT been added successfully");
         }
         else{
             System.out.println("Food has been added successfully");
+            ArrayList<Goal> goals = goalDB.getGoalsByUserId(User.getLoggedIn().getID());
+            for(Goal goal: goals) {
+                if (goal.getGoalType() == Goal.goal.DIET) {
+                    float currentProgress = goal.getProgress();
+                    currentProgress += Double.parseDouble(caloriesConsumedText.getText());
+                    goalDB.updateGoalProgress(goal.getGoalID(), currentProgress);
+                }
+            }
         }
     }
     /**
@@ -416,15 +460,3 @@ public class dietController extends Controller implements Initializable {
     private void changeExerciseWarning(String text){ exerciseWarningLabel.setText(text);}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
