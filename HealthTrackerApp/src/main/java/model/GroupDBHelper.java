@@ -433,7 +433,6 @@ public class GroupDBHelper {
             while (results.next()) {
                 int goalID = results.getInt(LUCOLUMN_USERID);
                 userIDs.add(goalID);
-                results.close();
             }
 
         }

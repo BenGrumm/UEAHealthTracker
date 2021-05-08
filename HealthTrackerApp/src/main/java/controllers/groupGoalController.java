@@ -30,6 +30,8 @@ import sample.GUI;
 public class groupGoalController extends Controller implements Initializable{
 
     private GoalDBHelper goalDBH = new GoalDBHelper();
+    private GroupDBHelper groupDBHelper = new GroupDBHelper();
+    private UserDBHelper userDBHelper = new UserDBHelper();
     Group currentGroup;
     ArrayList<Goal> groupsGoals;
     //Add group goal - copied from george
@@ -79,11 +81,28 @@ public class groupGoalController extends Controller implements Initializable{
             System.out.println("Something went wrong");
         }
         groupsGoals = goalDBH.getGoalsByGroupId(currentGroup.getiD());
+
+        ArrayList<Integer> userIds = groupDBHelper.getUserIDsSubbed(currentGroup.getiD());
+
+        ArrayList<String> usersEmails = new ArrayList<>();
+
+
+        for(int x=0;x<userIds.size();x++){
+            usersEmails.add(userDBHelper.getUserViaID(userIds.get(x)).getEmail());
+        }
+
+        String[] userAddresses = new String[usersEmails.size()];
+
+        for(int x=0;x<userIds.size();x++){
+            userAddresses[x] = usersEmails.get(x);
+            System.out.println(usersEmails);
+        }
+
+        Email.emailGroupAboutNewGoal(currentGroup,userAddresses);
+
         if(groupsGoals.size() == 3){
             goToGroupPage();
         }
-
-        //ADD SNED EMAIL FUNCTION
     }
 
     @Override

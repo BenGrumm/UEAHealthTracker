@@ -215,7 +215,10 @@ public class GoalDBHelper {
 
                 for(int x=0;x<userIds.size();x++){
                     userAddresses[x] = usersEmails.get(x);
+                    System.out.println(usersEmails);
                 }
+
+
                 Email.emailGroupAboutGoalBeingMet(User.getLoggedIn(),groupDBHelper.getGroup(groupID),userAddresses);
 
             }
@@ -529,7 +532,7 @@ public class GoalDBHelper {
         GDBH.dupeGroupGoal(g.get(2), 23);
         System.out.println("Group size: " + GDBH.getNumberOfGoalsForAGroup(1));
 */
-        //System.out.println(GDBH.updateGoalProgress(18,11.5F));
+        GDBH.updateGoalProgress(26,19.05088F);
 /*
         System.out.println("is " + GDBH.userHasGoal(3,23));
         System.out.println(GDBH.userHasGoal(3,24));
