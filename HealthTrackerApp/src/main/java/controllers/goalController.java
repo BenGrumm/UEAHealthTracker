@@ -52,15 +52,12 @@ public class goalController extends Controller{
     private ChoiceBox<String> goalTypeChoice;
 
     public void addGoal(){
-        //System.out.println("Target input: " + targetInput.getText());
-        //System.out.println("Date input: " + calendar.getValue());
+
         if(goalTypeChoice.getValue().equals("Calorie")){
-            //goalDBHelper.addGoal(nameInput.getText(), Goal.goal.valueOf(goalTypeChoice.getValue()), )
             for (Goal goal: goalDBHelper.getGoalsByUserId(User.loggedIn.getID())) {
                 if(goal.getGoalType() == Goal.goal.DIET){
                     goalDBHelper.removeGoal(goal.getGoalID());
                 }
-
             }
             User.dailyCalorieLimit = Integer.valueOf(targetInput.getText());
             goalDBHelper.addGoal("Daily calories",
@@ -96,14 +93,33 @@ public class goalController extends Controller{
     public void renderGoals(){
         goalsPane.getChildren().clear();
         for(Goal goal : goalDBHelper.getGoalsByUserId(User.loggedIn.getID())){
-            goal.renderGoal(goalsPane);
+            if(goal.getGoalType() == Goal.goal.WEIGHT){
+                if(goal.getProgress() <= goal.getTarget()){
+                    goal.renderGoalAsSuccess(goalsPane);
+                    goalDBHelper.removeGoal(goal.getGoalID());
+                }else{
+                    goal.renderGoal(goalsPane);
+                }
+            }else if(goal.getGoalType()== Goal.goal.DIET){
+                if(goal.getProgress() >= goal.getTarget()){
+                    goal.renderGoalAsSuccess(goalsPane);
+                    goalDBHelper.removeGoal(goal.getGoalID());
+                }else{
+                    goal.renderGoal(goalsPane);
+                }
+            }else if(goal.getGoalType()== Goal.goal.STEPS){
+                if(goal.getProgress() >= goal.getTarget()){
+                    goal.renderGoalAsSuccess(goalsPane);
+                    goalDBHelper.removeGoal(goal.getGoalID());
+                }else{
+                    goal.renderGoal(goalsPane);
+                }
+            }
         }
     }
 
     public void initialize() {
         goalDBHelper = new GoalDBHelper();
-        //goalDBHelper.getGoalByID(1).renderGoal(goalsPane);
-        //goalDBHelper.getGoalByID(2).renderGoal(goalsPane);
         renderGoals();
         addButton.setDisable(true);
 
@@ -112,11 +128,9 @@ public class goalController extends Controller{
         ObservableList<String> selections = FXCollections.observableArrayList("Weight", "Calorie", "Steps");
         goalTypeChoice.setItems(selections);
         targetSubscript.setText("kg");
-        //startDate.setText(LocalDate.now().toString());
         startDate.setValue(LocalDate.now());
         startDate.setDisable(true);
 
-        //System.out.println(User.dailyCalorieLimit);
 
         calendar.setDayCellFactory(datePicker -> new DateCell(){
             public void updateItem(LocalDate date, boolean empty) {
@@ -181,18 +195,6 @@ public class goalController extends Controller{
 
         currentWeight.setText(String.format("%.2fkg", User.loggedIn.getWeightKG()));
         currentHeight.setText(String.format("%.0fcm", User.loggedIn.getHeight()));
-
-        /*for(Goal goal : goalDBHelper.getGoalsByUserId(userDBHelper.getUserViaID(2))){
-            goal.renderGoal(goalsPane);
-        }*/
-        //fetch goals info from table
-
-        //Create goal objects from goal info
-
-        //Display goal objects in goals pane.
-
-
-        //THIS WILL BE DONE YES
 
     }
 }
