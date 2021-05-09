@@ -62,8 +62,8 @@ public class groupGoalController extends Controller implements Initializable{
         if(goalTypeChoice.getValue().equals("Weight")){
             goalDBH.addGroupGoal(nameInput.getText(),
                     Goal.goal.WEIGHT,
-                    (float)User.loggedIn.getWeightKG(),
                     0.0f,
+                    Float.valueOf(targetInput.getText()),
                     LocalDate.now(),
                     calendar.getValue(),
                     String.valueOf(currentGroup.getiD()),

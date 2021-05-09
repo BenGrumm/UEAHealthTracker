@@ -179,112 +179,6 @@ public class groupController extends Controller implements Initializable{
          */
     }
 
-    /*
-    //Based on george add goal
-    public void addGroupGoalButton(){
-        if(goalTypeChoice.getValue().equals("Weight")){
-            goalDBH.addGroupGoal(nameInput.getText(),
-                    Goal.goal.WEIGHT,
-                    (float)User.loggedIn.getWeightKG(),
-                    Float.valueOf(targetInput.getText()),
-                    LocalDate.now(),
-                    calendar.getValue(),
-                    String.valueOf(currentGroup.getiD()),
-                    0);
-        }else if(goalTypeChoice.getValue().equals("Steps")){
-            goalDBH.addGroupGoal(nameInput.getText(),
-                    Goal.goal.STEPS,
-                    0.0f,
-                    Float.valueOf(targetInput.getText()),
-                    LocalDate.now(),
-                    calendar.getValue(),
-                    String.valueOf(currentGroup.getiD()),
-                    0);
-        }else{
-            System.out.println("Something went wrong");
-        }
-        groupsGoals = goalDBH.getGoalsByGroupId(currentGroup.getiD());
-        if(groupsGoals.size() == 3){
-            goToGroupPage();
-        }
-    }
-
-
-    public void SetUpGroupGoals(){
-        addButton.setDisable(true);
-
-        goalTypeChoice.setValue("Weight");
-        startDate.setVisible(true);
-        calendar.setVisible(true);
-        ObservableList<String> selections = FXCollections.observableArrayList("Weight", "Steps");
-        goalTypeChoice.setItems(selections);
-        targetSubscript.setText("kg");
-        //startDate.setText(LocalDate.now().toString());
-        startDate.setValue(LocalDate.now());
-        startDate.setDisable(true);
-
-        //System.out.println(User.dailyCalorieLimit);
-
-        calendar.setDayCellFactory(datePicker -> new DateCell(){
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                setDisable(empty || date.compareTo(LocalDate.now()) < 0 );
-            }
-        });
-
-        calendar.valueProperty().addListener((observableValue, s, t1) -> {
-            if(t1.equals("") || targetInput.getText().equals("") || (calendar.getValue()== null && startDate.isVisible() == true && calendar.isVisible() == true)){
-                addButton.setDisable(true);
-            }else{
-                addButton.setDisable(false);
-            }
-        });
-
-        goalTypeChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if(t1.equals("Weight")){
-                    startDate.setVisible(true);
-                    calendar.setVisible(true);
-                    targetSubscript.setText("kg");
-                    nameInput.setDisable(false);
-                }else{
-                    startDate.setVisible(true);
-                    calendar.setVisible(true);
-                    targetSubscript.setText("Steps");
-                    nameInput.setDisable(false);
-                }
-            }
-        });
-
-        nameInput.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if(t1.equals("") || targetInput.getText().equals("") || (calendar.getValue()== null && startDate.isVisible() == true && calendar.isVisible() == true)){
-                    addButton.setDisable(true);
-                }else{
-                    addButton.setDisable(false);
-                }
-            }
-        });
-
-        targetInput.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if (!t1.matches("\\d*")) {
-                    targetInput.setText(t1.replaceAll("[^\\d]", ""));
-                }else if(t1.equals("") || nameInput.getText().equals("")|| (calendar.getValue()== null && startDate.isVisible() == true && calendar.isVisible() == true)){
-                    addButton.setDisable(true);
-                }else{
-                    addButton.setDisable(false);
-                }
-            }
-        });
-
-    }
-
-    */
-
     /**
      * Method used to generate an invite code
      * @return String of 6 characters.
@@ -392,6 +286,9 @@ public class groupController extends Controller implements Initializable{
     private void DupeGoal(int index){
         Goal goal = groupsGoals.get(index);
         float tolose = goal.getTarget();
+        if(goal.getGoalType() == Goal.goal.WEIGHT){
+            goal.setProgress((float)User.loggedIn.getWeightKG());
+        }
         goal.setTarget((float) User.loggedIn.getWeightKG() - tolose);
         goalDBH.dupeGroupGoal(goal,currentUserID);
         SetUpGroupHomepage();

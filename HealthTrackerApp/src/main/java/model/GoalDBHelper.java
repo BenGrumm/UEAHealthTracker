@@ -284,7 +284,7 @@ public class GoalDBHelper {
         }
 
 
-        boolean ret = true;
+        boolean ret = false;
 
         for(int x=0; x< goalIDs.size();x++){
             String getGoalIDSQL = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_GOALID + " = " + goalIDs.get(x) + " AND " + COLUMN_COPIEDFROM + " = " + goalID + ";";
