@@ -39,6 +39,7 @@ public class ViewFoodsController extends Controller{
                 setDisable(item.isAfter(LocalDate.now()));
             }
         };
+
         dateFrom.setDayCellFactory(cb);
         dateTo.setDayCellFactory(cb);
 
