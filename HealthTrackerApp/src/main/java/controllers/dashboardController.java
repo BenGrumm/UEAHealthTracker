@@ -60,6 +60,15 @@ public class dashboardController extends Controller implements Initializable {
                 User.getLoggedIn().setBMI(User.calculateBMI(User.loggedIn.getHeight(),
                         userWeight.getStones(), userWeight.getPounds()));
 
+                GoalDBHelper goalDBHelper = new GoalDBHelper();
+                ArrayList<Goal> goals = goalDBHelper.getGoalsByUserId(User.getLoggedIn().getID());
+                for(Goal goal: goals) {
+                    if (goal.getGoalType() == Goal.goal.WEIGHT) {
+                        //float currentProgress = goal.getProgress();
+                        goalDBHelper.updateGoalProgress(goal.getGoalID(), (float)User.loggedIn.getWeightKG());
+                    }
+                }
+
                 setBMI();
             }
             else{
@@ -133,7 +142,13 @@ public class dashboardController extends Controller implements Initializable {
 
         weightStoneSpinner.setValueFactory(weightStoneSVF);
         weightPoundsSpinner.setValueFactory(weightPoundsSVF);
-
+        ArrayList<Goal> goals = goalDBHelper.getGoalsByUserId(User.getLoggedIn().getID());
+        for(Goal goal: goals) {
+            if (goal.getGoalType() == Goal.goal.DIET) {
+                float currentProgress = goal.getProgress();
+                User.dailyCalories = (int)currentProgress;
+            }
+        }
         dailyCalories.setText(String.valueOf(User.dailyCalorieLimit - User.dailyCalories));
         //dailyCalories.setText(goalDBHelper.getGoal(__USERID__).getTarget()-goalDBHelper.getGoal(__USERID__).getProgress());
 

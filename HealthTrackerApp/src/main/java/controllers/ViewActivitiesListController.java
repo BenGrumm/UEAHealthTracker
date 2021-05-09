@@ -6,10 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.util.Callback;
 import model.Exercise;
 import model.ExerciseDBHelper;
 import model.ExerciseType;
@@ -31,6 +29,18 @@ public class ViewActivitiesListController extends Controller{
     private ObservableList<Exercise> observableList;
 
     public void initialize(){
+        // Set Selectable days to be from current day and before
+        Callback<DatePicker, DateCell> cb = d -> new DateCell(){
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        };
+
+        dateFrom.setDayCellFactory(cb);
+        dateTo.setDayCellFactory(cb);
+
         observableList = FXCollections.observableArrayList();
 
         if(Main.debug){
@@ -47,7 +57,7 @@ public class ViewActivitiesListController extends Controller{
 
     public void changeDateRange(ActionEvent actionEvent) {
         if(dateFrom.getValue() != null && dateTo.getValue() != null && !dateTo.getValue().isBefore(dateFrom.getValue())){
-            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
+            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue(), ExerciseDBHelper.Order.DESC);
             System.out.println(exercises.length);
             observableList.clear();
             observableList.addAll(exercises);

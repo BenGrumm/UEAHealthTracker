@@ -63,7 +63,7 @@ public class ViewActivitiesController extends Controller{
         System.out.println("Yes Clicked Here");
 
         if(dateFrom.getValue() != null && dateTo.getValue() != null && !dateTo.getValue().isBefore(dateFrom.getValue())){
-            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue());
+            Exercise[] exercises = new ExerciseDBHelper().getExercisesWithinRange(dateFrom.getValue(), dateTo.getValue(), ExerciseDBHelper.Order.ASC);
             System.out.println(exercises.length);
             if(exercises.length != 0) {
                 populateGraphWithRange(exercises, dateFrom.getValue(), dateTo.getValue());

@@ -6,6 +6,9 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class Goal {
     public enum goal{
@@ -143,18 +146,13 @@ public class Goal {
                 "-fx-border-width: 1;\n" +
                 "-fx-border-style: solid;\n" +
                 "-fx-padding: 3;\n");
+        goalName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         container.getChildren().add(goalName);
         container.getChildren().add(new Label(goalType.toString()));
-        //container.getChildren().add(new Label("Status: " + Float.toString(progress)));
         container.getChildren().add(new Label(String.format("Status: %.2f", progress)));
-        //container.getChildren().add(new Label("Target: " + Float.toString(target)));
         container.getChildren().add(new Label(String.format("Target: %.2f", target)));
 
-
-
         if(goalType != goal.DIET){
-
-            //System.out.println(name + " : " + dateEnd);
             container.getChildren().add(new Label(String.format("Start date: %s", dateStart.toString())));
             container.getChildren().add(new Label(String.format("End date: %s", dateEnd.toString())));
             Button deleteButton = new Button();
@@ -162,7 +160,6 @@ public class Goal {
             deleteButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    System.out.println("test");
                     goalDBHelper.removeGoal(goalID);
                     container.getChildren().clear();
                     container.setStyle(null);
@@ -170,6 +167,39 @@ public class Goal {
             });
 
             container.getChildren().add(deleteButton);
+        }
+
+        pane.getChildren().add(container);
+    }
+
+    public void renderGoalAsSuccess(Pane pane){
+        GoalDBHelper goalDBHelper = new GoalDBHelper();
+        VBox container = new VBox();
+        Label goalName = new Label(name);
+        container.setStyle("-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 2;\n" +
+                "-fx-border-radius: 4;\n" +
+                "-fx-border-style: solid;\n" +
+                "-fx-padding: 3;\n" +
+                "-fx-alignment: center;\n");
+        goalName.setStyle("-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 1;\n" +
+                "-fx-border-style: solid;\n" +
+                "-fx-padding: 3;\n");
+        goalName.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        Label success = new Label("Completed!");
+        success.setStyle("-fx-background-color: chartreuse");
+        container.getChildren().add(success);
+        container.getChildren().add(goalName);
+        container.getChildren().add(new Label(goalType.toString()));
+        container.getChildren().add(new Label(String.format("Status: %.2f", progress)));
+        container.getChildren().add(new Label(String.format("Target: %.2f", target)));
+
+        if(goalType != goal.DIET){
+            container.getChildren().add(new Label(String.format("Start date: %s", dateStart.toString())));
+            container.getChildren().add(new Label(String.format("End date: %s", dateEnd.toString())));
         }
 
         pane.getChildren().add(container);

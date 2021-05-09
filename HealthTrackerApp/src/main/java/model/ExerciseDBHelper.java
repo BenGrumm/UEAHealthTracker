@@ -74,19 +74,24 @@ public class ExerciseDBHelper {
         }
     }
 
+    public enum Order{
+        ASC,
+        DESC
+    }
+
     private static final String withinRangeSQL = "SELECT * FROM " + TABLE_NAME +
             " WHERE " + COLUMN_DATE +
             " BETWEEN '%s' AND '%s' AND " + COLUMN_USER_ID + " = %s" +
-            " ORDER BY " + COLUMN_DATE + " ASC;";
+            " ORDER BY " + COLUMN_DATE + " %s;";
     /**
      * Inclusive dates
      * @param from
      * @param to
      * @return
      */
-    public Exercise[] getExercisesWithinRange(LocalDate from, LocalDate to){
+    public Exercise[] getExercisesWithinRange(LocalDate from, LocalDate to, Order order){
         try {
-            String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID());
+            String sql = String.format(withinRangeSQL, from.toString(), to.toString(), User.getLoggedIn().getID(), order.toString());
             System.out.println(sql);
             ResultSet rs = db.selectQuery(sql);
 
@@ -199,6 +204,6 @@ public class ExerciseDBHelper {
         edbh.addExerciseToDB(testExercise);
         edbh.getAllExercises();
         edbh.exerciseTableLength();
-        edbh.getExercisesWithinRange(LocalDate.now().minusDays(100), LocalDate.now());
+        edbh.getExercisesWithinRange(LocalDate.now().minusDays(100), LocalDate.now(), Order.ASC);
     }
 }

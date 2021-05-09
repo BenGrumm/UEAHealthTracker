@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.logInController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.logInController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -34,7 +35,7 @@
                               <VBox prefHeight="158.0" prefWidth="155.0" />
                               <ImageView fitHeight="172.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@icons/baseline_directions_run_black_48dp.png" />
+                                    <Image url="@icons/padlock.png" />
                                  </image>
                               </ImageView>
                               <VBox prefHeight="200.0" prefWidth="100.0" />
@@ -50,7 +51,10 @@
                   <HBox prefHeight="62.0" prefWidth="343.0" />
                   <HBox prefHeight="31.0" prefWidth="343.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="505.0" text="username / email:" />
+                        <Label prefHeight="17.0" prefWidth="505.0" text="Username / email:">
+                           <font>
+                              <Font name="Myanmar Text" size="17.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="10.0" prefHeight="75.0" prefWidth="343.0">
@@ -60,7 +64,10 @@
                   </HBox>
                   <HBox layoutX="10.0" layoutY="103.0" prefHeight="35.0" prefWidth="343.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="507.0" text="password:" />
+                        <Label prefHeight="17.0" prefWidth="507.0" text="Password:">
+                           <font>
+                              <Font name="Myanmar Text" size="17.0" />
+                           </font></Label>
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="294.0" prefHeight="37.0" prefWidth="343.0">
