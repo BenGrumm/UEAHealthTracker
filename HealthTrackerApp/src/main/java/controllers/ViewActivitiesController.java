@@ -48,7 +48,7 @@ public class ViewActivitiesController extends Controller{
             ExerciseDBTesting.populateExercisesWithTestData();
         }
 
-        Exercise[] allExercises = new ExerciseDBHelper().getAllExercises();
+        Exercise[] allExercises = new ExerciseDBHelper().getAllExercises(ExerciseDBHelper.Order.ASC);
 
         if(allExercises.length > 0) {
             populateGraphWithRange(allExercises, allExercises[0].getDate(), allExercises[allExercises.length - 1].getDate());

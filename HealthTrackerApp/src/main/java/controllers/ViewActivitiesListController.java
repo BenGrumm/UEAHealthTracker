@@ -47,7 +47,7 @@ public class ViewActivitiesListController extends Controller{
             ExerciseDBTesting.populateExercisesWithTestData();
         }
 
-        Exercise[] exercises = new ExerciseDBHelper().getAllExercises();
+        Exercise[] exercises = new ExerciseDBHelper().getAllExercises(ExerciseDBHelper.Order.DESC);
 
         observableList.addAll(exercises);
 

@@ -103,19 +103,19 @@ public class ExerciseDBHelper {
 
     private static final String getAllExercises = "SELECT * FROM " + TABLE_NAME +
             " WHERE " + COLUMN_USER_ID + " = %d" +
-            " ORDER BY " + COLUMN_DATE + " ASC";
+            " ORDER BY " + COLUMN_DATE + " %s";
 
     /**
      * Function that uses a final string containing a select everything from statement to select everything from
      * the users exercises table
      * @return Exercise[] - return everything from the users exercises table in an array
      */
-    public Exercise[] getAllExercises(){
+    public Exercise[] getAllExercises(Order order){
         try {
             System.out.println(User.loggedIn.getID());
-            String sql = String.format(getAllExercises, User.getLoggedIn().getID());
+            String sql = String.format(getAllExercises, User.getLoggedIn().getID(), order.toString());
             System.out.println(sql);
-            ResultSet rs = db.selectQuery(String.format(getAllExercises, User.getLoggedIn().getID()));
+            ResultSet rs = db.selectQuery(sql);
             return convertResultSetToExercise(rs);
         }catch (SQLException error){
             error.printStackTrace();
@@ -202,7 +202,7 @@ public class ExerciseDBHelper {
         ExerciseType testExerciseType = new ExerciseType(1, "Run", 30);
         Exercise testExercise = new Exercise(1, 60, 90, testExerciseType, LocalDate.now());
         edbh.addExerciseToDB(testExercise);
-        edbh.getAllExercises();
+        edbh.getAllExercises(Order.ASC);
         edbh.exerciseTableLength();
         edbh.getExercisesWithinRange(LocalDate.now().minusDays(100), LocalDate.now(), Order.ASC);
     }

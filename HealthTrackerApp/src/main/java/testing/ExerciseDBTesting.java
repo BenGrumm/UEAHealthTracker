@@ -13,7 +13,7 @@ public class ExerciseDBTesting {
 
     public static void main(String[] args) {
         Exercise[] exercisesAdded = populateExercisesWithTestData();
-        Exercise[] exercisesFromDB = exDbh.getAllExercises();
+        Exercise[] exercisesFromDB = exDbh.getAllExercises(ExerciseDBHelper.Order.ASC);
 
         for(int i = 0; i < exercisesFromDB.length; i++){
             System.out.println(exercisesFromDB[i]);

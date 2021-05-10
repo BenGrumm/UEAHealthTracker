@@ -120,7 +120,7 @@ public class Email {
         for(int i = 0; i < addresses.length; i++){
             try {
                 sendEmail(String.format("A Member Of %s Completed A Goal", group.getName()),
-                        String.format(emailBody, group.getName(), user.getFirstName(), "put goal here?"),
+                        String.format(emailBody, group.getName(), user.getFirstName(), group.getName()),
                         addresses[i]);
                 numSent++;
             } catch (MessagingException e) {
