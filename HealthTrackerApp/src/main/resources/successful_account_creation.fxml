@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.successfulPasswordChangeController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.successfulCreateAccount">
    <children>
       <GridPane>
         <columnConstraints>
@@ -35,7 +35,7 @@
                               <VBox prefHeight="158.0" prefWidth="155.0" />
                               <ImageView fitHeight="172.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@icons/padlock.png" />
+                                    <Image url="@icons/baseline_directions_run_black_48dp.png" />
                                  </image>
                               </ImageView>
                               <VBox prefHeight="200.0" prefWidth="100.0" />
@@ -51,7 +51,7 @@
                   <HBox prefHeight="111.0" prefWidth="343.0" />
                   <HBox prefHeight="96.0" prefWidth="343.0">
                      <children>
-                        <Label prefHeight="101.0" prefWidth="336.0" style="-fx-font-weight: bold;" text="SUCCESSFULLY UPDATED PASSWORD" wrapText="true">
+                        <Label prefHeight="101.0" prefWidth="336.0" style="-fx-font-weight: bold;" text="SUCCESSFULLY CREATED AN ACCOUNT" wrapText="true">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -60,7 +60,7 @@
                   </HBox>
                   <HBox layoutX="10.0" layoutY="322.0" prefHeight="39.0" prefWidth="343.0">
                      <children>
-                        <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" prefHeight="25.0" prefWidth="247.0" text="Return to log in" />
+                        <Button fx:id="log_in" mnemonicParsing="false" onAction="#navigatePage" prefHeight="25.0" prefWidth="247.0" text="Log in" />
                      </children>
                   </HBox>
                </children></VBox>

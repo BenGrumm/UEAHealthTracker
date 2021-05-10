@@ -3,29 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UserDBHelper {
-
-    public static void main(String[] args) throws SQLException {
-        UserDBHelper userDBHelper = new UserDBHelper();
-
-        addTest(userDBHelper);
-
-        System.out.println(Arrays.toString(userDBHelper.getAllUsers()));
-
-        for(User user : userDBHelper.getAllUsers()){
-            System.out.println(user);
-        }
-    }
-
-    public static void addTest(UserDBHelper userDBHelper) throws SQLException {
-        //userDBHelper.addDBUser("John", "Smith", "jsmith1", "JSmith@uea.ac.uk",
-        //        "jsmith1!", 172.5, 10, 1, "male");
-
-        //userDBHelper.addDBUser("Johnny", "boolh", "jbole", "pppond@yk.ac.uk",
-        //        "jbol1!", 134.5, 50, 3, "female");
-    }
 
     private static final String TABLE_NAME = "USERS";
     private static final String COLUMN_ID = "__id";
@@ -172,7 +151,7 @@ public class UserDBHelper {
     }
 
 
-    public boolean updateWeight(int stone, int pounds){
+    public void updateWeight(int stone, int pounds){
 
         double newBmi = User.calculateBMI(User.loggedIn.getHeight(), stone, pounds);
 
@@ -184,12 +163,10 @@ public class UserDBHelper {
         try {
             System.out.println(sql);
             db.updateTable(sql);
-            return true;
         }catch (Exception ignored){}
-        return false;
     }
 
-    public boolean updatePassword(String password, int id){
+    public void updatePassword(String password, int id){
 
         String encryptedPassword = Security.encrypt(password);
 
@@ -199,9 +176,7 @@ public class UserDBHelper {
         try {
             System.out.println(sql);
             db.updateTable(sql);
-            return true;
         }catch (Exception ignored){}
-        return false;
     }
 
 

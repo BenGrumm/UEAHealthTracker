@@ -108,6 +108,9 @@ public class registerController extends Controller implements Initializable {
                             changeErrorNotificationLabel("Error: Username already in use!");
                         }
                     }
+                    else{
+                        accountCreated();
+                    }
 
                     //George code for goals stuff... :)
                     //Generate weight goal based off information entered.

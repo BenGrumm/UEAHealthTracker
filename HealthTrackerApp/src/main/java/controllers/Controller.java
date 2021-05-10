@@ -65,6 +65,17 @@ public class Controller {
         }
     }
 
+    public void accountCreated(){
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/successful_account_creation.fxml"));
+        try {
+            Parent root = loader.load();
+            GUI.changeScene(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Method used to load group section. Uses logged in users information to load the relevent scene.
      */
