@@ -385,8 +385,18 @@ public class GroupDBHelper {
         }
     }
 
+    public void DeleteAllAssociatedGoals(int groupID) {
+        String deleteAllMembersSQL = "DELETE FROM GROUP_GOALS WHERE GROUPID = " + groupID + ";";
+        try {
+            db.deleteData(deleteAllMembersSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void DeleteGroup(int groupID) {
         DeleteAllMembersOfGroup(groupID);
+        DeleteAllAssociatedGoals(groupID);
         String deleteAllMembersSQL = "DELETE FROM " + TABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + ";";
         try {
             db.deleteData(deleteAllMembersSQL);
