@@ -397,7 +397,7 @@ public class GroupDBHelper {
     public void DeleteGroup(int groupID) {
         DeleteAllMembersOfGroup(groupID);
         DeleteAllAssociatedGoals(groupID);
-        String deleteAllMembersSQL = "DELETE FROM " + TABLE_NAME + " WHERE " + LUCOLUMN_GROUPID + " = " + groupID + ";";
+        String deleteAllMembersSQL = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = " + groupID + ";";
         try {
             db.deleteData(deleteAllMembersSQL);
         } catch (SQLException e) {
