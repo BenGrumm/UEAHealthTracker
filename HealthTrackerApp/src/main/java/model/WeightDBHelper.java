@@ -44,11 +44,11 @@ public class WeightDBHelper {
     //Add weight, pass USERweight
 
     public void addWeight(UserWeight uw, int userID) {
-
+        System.out.println("USer weight stones: " + uw.getStones());
         if(checkDate(uw.getDateRecorded(),userID))
         {
             try {
-                String updateWeightSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_WEIGHTSTONE + " = " + uw.getStones() + " AND "+ COLUMN_WEIGHTPOUNDS + " = " + uw.getPounds() + " WHERE " + COLUMN_USERID + " = " + userID + " AND " + COLUMN_DATE + " = \"" + uw.getDateRecorded() + "\";";
+                String updateWeightSQL = "UPDATE " + TABLE_NAME + " SET " + COLUMN_WEIGHTSTONE + " = " + uw.getStones() + " , "+ COLUMN_WEIGHTPOUNDS + " = " + uw.getPounds() + " WHERE " + COLUMN_USERID + " = " + userID + " AND " + COLUMN_DATE + " = \"" + uw.getDateRecorded() + "\";";
                 System.out.println(updateWeightSQL);
                 db.updateTable(updateWeightSQL);
             } catch(SQLException e){
