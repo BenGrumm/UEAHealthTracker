@@ -175,7 +175,7 @@ public class Email {
      */
     public static Session initSession(){
         Properties prop= configureProperties();
-        String username = "";
+        String username = "UEAHealthApp@gmail.com";
         String password = "";
 
         return Session.getInstance(prop, new Authenticator() {

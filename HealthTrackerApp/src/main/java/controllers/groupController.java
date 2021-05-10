@@ -459,6 +459,10 @@ public class groupController extends Controller implements Initializable{
         int groupID= GDBH.GetGroupID(invCode) ;
         if(GDBH.doesMemberAlreadyExistInGroup(groupID,currentUserID)){
             System.out.println("Already in group");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Cannot Join Group!");
+            alert.setContentText("Already in Group!");
+            alert.showAndWait();
         }
         else {
             GDBH.AddMember(groupID, currentUserID);
