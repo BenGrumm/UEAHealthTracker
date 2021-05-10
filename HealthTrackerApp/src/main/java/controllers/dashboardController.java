@@ -46,6 +46,7 @@ public class dashboardController extends Controller implements Initializable {
         LocalDate tomorrow = LocalDate.now().plus(1, ChronoUnit.DAYS);
         if (!(weightPoundsSpinner.getValue() == 0 && weightStoneSpinner.getValue() == 0)) {
             if (datePicker.getValue() != null && datePicker.getValue().isBefore(tomorrow)) {
+
                 UserWeight userWeight = new UserWeight(weightStoneSpinner.getValue(), weightPoundsSpinner.getValue(), datePicker.getValue());
                 WeightDBHelper weightDBHelper = new WeightDBHelper();
                 UserDBHelper userDBHelper = new UserDBHelper();
@@ -54,11 +55,15 @@ public class dashboardController extends Controller implements Initializable {
 
                 userDBHelper.updateWeight(userWeight.getStones(), userWeight.getPounds());
 
-                User.getLoggedIn().setWeightStone(userWeight.getStones());
-                User.getLoggedIn().setWeightPounds(userWeight.getPounds());
+                System.out.println(LocalDate.now());
+                System.out.println(datePicker.getValue());
+                if ((datePicker.getValue().isEqual(LocalDate.now()))){
+                    User.getLoggedIn().setWeightStone(userWeight.getStones());
+                    User.getLoggedIn().setWeightPounds(userWeight.getPounds());
 
-                User.getLoggedIn().setBMI(User.calculateBMI(User.loggedIn.getHeight(),
-                        userWeight.getStones(), userWeight.getPounds()));
+                    User.getLoggedIn().setBMI(User.calculateBMI(User.loggedIn.getHeight(),
+                            userWeight.getStones(), userWeight.getPounds()));
+                }
 
                 GoalDBHelper goalDBHelper = new GoalDBHelper();
                 ArrayList<Goal> goals = goalDBHelper.getGoalsByUserId(User.getLoggedIn().getID());
