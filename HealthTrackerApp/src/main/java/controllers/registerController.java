@@ -8,9 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import model.Goal;
-import model.UserDBHelper;
-import model.GoalDBHelper;
+import model.*;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -110,6 +108,9 @@ public class registerController extends Controller implements Initializable {
                     }
                     else{
                         accountCreated();
+                        WeightDBHelper weightDBHelper = new WeightDBHelper();
+                        UserWeight userWeight = new UserWeight(stone, pounds);
+                        weightDBHelper.addWeight(userWeight, userDBHelper.getUserViaEmail(email).getID());
                     }
 
                     //George code for goals stuff... :)
